@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+
+  age_service:
+    image: sentences
+    command: --mode age --server-address 0.0.0.0:8888
+
+  name_service:
+    image: sentences
+    command: --mode name --server-address 0.0.0.0:8889
+
+  sentence_service:
+    image: sentences
+    command: --mode sentence --age-service http://age_service:8888 --name-service http://name_service:8889
+    ports:
+      - 8890:5000
