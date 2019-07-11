@@ -61,8 +61,12 @@ kubectl exec -it <pod name> -- bash
 and run a load generator (Apache Bench):
 
 ```shell
-ab -n 100000000 -c 20 http://sentences:5000/
+ab -n 100000000 -c 10 http://sentences:5000/
 ```
+
+> A single load generator should be sufficient for this exercise, however,
+> additional load generators can be created by scaling the multitool deployment
+> and running more `ab` commands.
 
 All three of the microservices PODs have CPU `requests` and `limits` set to 0.5
 CPUs, i.e. we now see the main microservice max-out around 0.5 CPU while the
@@ -109,4 +113,15 @@ NAME        REFERENCE              TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
 sentences   Deployment/sentences   100%/80%   1         5         1          27s
 ```
 
-After 
+After a short while, the horisontal POD autoscaler will have scaled the
+`sentences` deployment to five pods.
+
+When stopping the load generator, the horisontal POD autoscaler will slowly
+scale the deployment down to 1 POD again.
+
+# Cleanup
+
+```shell
+kubectl delete -f sentences-app/deploy/kubernetes/hpa.yaml
+kubectl delete -f sentences-app/deploy/kubernetes/sentences-app.yaml
+```
