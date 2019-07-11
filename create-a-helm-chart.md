@@ -82,3 +82,9 @@ sentence-age   ClusterIP  10.96.119.239   <none>       5000/TCP  0s
 sentence-name  ClusterIP  10.110.60.80    <none>       5000/TCP  0s
 sentences      ClusterIP  10.103.227.249  <none>       5000/TCP  0s
 ```
+
+Finally, to delete the application installed with Helm:
+
+```shell
+$ helm delete sentences --purge
+```
