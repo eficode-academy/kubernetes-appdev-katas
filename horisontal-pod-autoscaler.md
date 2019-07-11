@@ -10,7 +10,7 @@ main service will be the initial bottleneck, which we will see shortly.
 First, ensure that the sentences application is deployed:
 
 ```shell
-kubectl apply -f sentences-app/deploy/kubernetes/sentences-app.yaml
+kubectl apply -f sentences-app/deploy/kubernetes/
 ```
 
 Next, in a separate shell, run the following to monitor the running PODs:
@@ -94,7 +94,7 @@ such that the average CPU load of the PODs are 80% of their requested CPU
 allocation:
 
 ```shell
-kubectl apply -f sentences-app/deploy/kubernetes/hpa.yaml
+kubectl apply -f sentences-app/deploy/hpa.yaml
 ```
 
 Next, in a separate shell, run the following to monitor the status of the
@@ -124,5 +124,5 @@ scale the deployment down to 1 POD again.
 ```shell
 kubectl delete deployment multitool
 kubectl delete -f sentences-app/deploy/kubernetes/hpa.yaml
-kubectl delete -f sentences-app/deploy/kubernetes/sentences-app.yaml
+kubectl delete -f sentences-app/deploy/kubernetes/
 ```

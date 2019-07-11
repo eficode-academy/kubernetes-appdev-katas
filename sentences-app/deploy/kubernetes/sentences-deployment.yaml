@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sentences
+  name: sentences
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sentences
+  template:
+    metadata:
+      labels:
+        app: sentences
+    spec:
+      containers:
+      - image: praqma/sentences-app:latest
+        imagePullPolicy: IfNotPresent
+        name: sentences
+        args: ['--mode', 'sentence',
+          '--age-service', 'http://sentence-age:5000',
+          '--name-service', 'http://sentence-name:5000'
+	]
+        resources:
+          requests:
+            cpu: 0.5
+          limits:
+            cpu: 0.5
