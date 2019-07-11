@@ -122,6 +122,7 @@ scale the deployment down to 1 POD again.
 # Cleanup
 
 ```shell
+kubectl delete deployment multitool
 kubectl delete -f sentences-app/deploy/kubernetes/hpa.yaml
 kubectl delete -f sentences-app/deploy/kubernetes/sentences-app.yaml
 ```
