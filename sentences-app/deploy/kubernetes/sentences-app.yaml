@@ -15,7 +15,7 @@ spec:
         app: sentences
     spec:
       containers:
-      - image: sentences:latest
+      - image: praqma/sentences-app:latest
         imagePullPolicy: IfNotPresent
         name: sentences
         args: ['--mode', 'sentence',
@@ -60,7 +60,7 @@ spec:
         app: sentence-name
     spec:
       containers:
-      - image: sentences:latest
+      - image: praqma/sentences-app:latest
         imagePullPolicy: IfNotPresent
         name: sentences
         args: ['--mode', 'name']
@@ -102,7 +102,7 @@ spec:
         app: sentence-age
     spec:
       containers:
-      - image: sentences:latest
+      - image: praqma/sentences-app:latest
         imagePullPolicy: IfNotPresent
         name: sentences
         args: ['--mode', 'age']
