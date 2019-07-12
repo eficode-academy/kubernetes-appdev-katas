@@ -226,21 +226,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate (container_cpu_usage_seconds_total{pod=~\"sentence-age.*\"}[3m]))",
+          "expr": "sum(rate (container_cpu_usage_seconds_total{pod=~\"sentence-age.*\", image!=\"\"}[3m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "age",
           "refId": "B"
         },
         {
-          "expr": "sum(rate (container_cpu_usage_seconds_total{pod=~\"sentence-name.*\"}[3m]))",
+          "expr": "sum(rate (container_cpu_usage_seconds_total{pod=~\"sentence-name.*\", image!=\"\"}[3m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "name",
           "refId": "A"
         },
         {
-          "expr": "sum(rate (container_cpu_usage_seconds_total{pod=~\"sentences.*\"}[3m]))",
+          "expr": "sum(rate (container_cpu_usage_seconds_total{pod=~\"sentences.*\", image!=\"\"}[3m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "sentence",
@@ -297,7 +297,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
