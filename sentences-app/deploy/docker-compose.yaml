@@ -5,13 +5,22 @@ services:
   age_service:
     image: sentences
     command: --mode age --server-address 0.0.0.0:8888
+    ports:
+      # The metrics port for the age service
+      - 8892:8000
 
   name_service:
     image: sentences
     command: --mode name --server-address 0.0.0.0:8889
+    ports:
+      # The metrics port for the name service
+      - 8893:8000
 
   sentence_service:
     image: sentences
     command: --mode sentence --age-service http://age_service:8888 --name-service http://name_service:8889
     ports:
+      # The main application port
       - 8890:5000
+      # The metrics port for the main service
+      - 8891:8000
