@@ -2,17 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: sentence-age
+    app: sentences
+    component: age
   name: sentence-age
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sentence-age
+      app: sentences
+      component: age
   template:
     metadata:
       labels:
-        app: sentence-age
+        app: sentences
+        component: age
     spec:
       containers:
       - image: praqma/sentences-app:latest

@@ -3,16 +3,19 @@ kind: Deployment
 metadata:
   labels:
     app: sentences
+    component: main
   name: sentences
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: sentences
+      component: main
   template:
     metadata:
       labels:
         app: sentences
+        component: main
     spec:
       containers:
       - image: praqma/sentences-app:latest

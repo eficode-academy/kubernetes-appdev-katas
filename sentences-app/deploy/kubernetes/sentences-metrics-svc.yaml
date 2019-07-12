@@ -3,14 +3,14 @@ kind: Service
 metadata:
   labels:
     app: sentences
-    component: main
-  name: sentences
+  name: sentences-metrics
+  annotations:
+    prometheus.io/scrape: 'true'
 spec:
   ports:
-  - port: 5000
+  - port: 8000
     protocol: TCP
-    targetPort: 5000
+    targetPort: 8000
   selector:
     app: sentences
-    component: main
   type: ClusterIP

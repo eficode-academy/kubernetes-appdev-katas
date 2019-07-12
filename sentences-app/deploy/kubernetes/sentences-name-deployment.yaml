@@ -2,17 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: sentence-name
+    app: sentences
+    component: name
   name: sentence-name
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sentence-name
+      app: sentences
+      component: name
   template:
     metadata:
       labels:
-        app: sentence-name
+        app: sentences
+        component: name
     spec:
       containers:
       - image: praqma/sentences-app:latest
