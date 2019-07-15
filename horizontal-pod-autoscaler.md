@@ -1,6 +1,6 @@
-# Horisontal POD Autoscaling
+# Horizontal POD Autoscaling
 
-This exercise will demonstrate horisontal POD autoscaling using the sentences
+This exercise will demonstrate horizontal POD autoscaling using the sentences
 application.
 
 The sentences application have three microservices; A main service that builds a
@@ -87,9 +87,9 @@ kubectl scale --replicas 4 deployment sentences
 
 However, this would obviously be a manual process. If we want Kubernetes
 automatically to adjust the number of replicas based on e.g. the CPU load of the
-PODs in a deployment, we could use the HorisontalPODAutoscaler.
+PODs in a deployment, we could use the HorizontalPODAutoscaler.
 
-Lets create a HorisontalPODAutoscaler resource that adjusts the number of PODs
+Lets create a HorizontalPODAutoscaler resource that adjusts the number of PODs
 such that the average CPU load of the PODs are 80% of their requested CPU
 allocation:
 
@@ -98,8 +98,8 @@ kubectl apply -f sentences-app/deploy/hpa.yaml
 ```
 
 Next, in a separate shell, run the following to monitor the status of the
-HorisontalPODAutoscaler (using the abbreviation 'hpa' for
-HorisontalPODAutoscaler):
+HorizontalPODAutoscaler (using the abbreviation 'hpa' for
+HorizontalPODAutoscaler):
 
 ```shell
 watch kubectl get hpa sentences
@@ -113,10 +113,10 @@ NAME        REFERENCE              TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
 sentences   Deployment/sentences   100%/80%   1         5         1          27s
 ```
 
-After a short while, the horisontal POD autoscaler will have scaled the
+After a short while, the horizontal POD autoscaler will have scaled the
 `sentences` deployment to five pods.
 
-When stopping the load generator, the horisontal POD autoscaler will slowly
+When stopping the load generator, the horizontal POD autoscaler will slowly
 scale the deployment down to 1 POD again.
 
 # Cleanup
