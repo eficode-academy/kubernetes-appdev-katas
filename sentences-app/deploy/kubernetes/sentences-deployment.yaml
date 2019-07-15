@@ -17,6 +17,7 @@ spec:
         app: sentences
         component: main
     spec:
+      #priorityClassName: medium-priority
       containers:
       - image: praqma/sentences-app:latest
         imagePullPolicy: IfNotPresent
