@@ -1,6 +1,6 @@
-# Horisontal POD Autoscaling with POD Preemption
+# Horizontal POD Autoscaling with POD Preemption
 
-This exercise will demonstrate horisontal POD autoscaling using the sentences
+This exercise will demonstrate horizontal POD autoscaling using the sentences
 application and with preemption of lower priority PODs. Preempting PODs
 (stopping and deleting from the cluster) is necessary when we do not want to add
 additional nodes to our cluster but instead want to change how we used the
@@ -91,14 +91,14 @@ ab -n 100000000 -c 10 http://sentences:5000/
 > additional load generators can be created by scaling the multitool deployment
 > and running more `ab` commands.
 
-Create a HorisontalPODAutoscaler object to automatically scale the sentence
+Create a HorizontalPODAutoscaler object to automatically scale the sentence
 application:
 
 ```shell
 kubectl apply -f sentences-app/deploy/hpa.yaml
 ```
 
-With load being applied to the sentence application, the HorisontalPODAutoscaler
+With load being applied to the sentence application, the HorizontalPODAutoscaler
 will increase the replica count, however, the newly created `sentence` POD will
 remain in `Pending` as shown below in the POD listing:
 
@@ -125,12 +125,40 @@ kubectl get pods -o=jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.qo
 
 This will show that all our PODs have a priority of zero.
 
+To ensure that the sentence application is able to evict the PODs from the nginx
+deployment, we need to increase the POD priority of the sentence application.
 
+> The following assumes some pre-deployed priority classes. If you are running this on a self-managed Kubernetes cluster, you might need to deploy `resources/priority-classes.yaml` yourself.
 
+To see which PriorityClasses we have available, use the following command:
 
+```shell
+kubectl get priorityclasses
+```
 
+This will show, that we have a `medium-priority` class with a priority value of
+`100`. Next change the sentence application deployment and redeploy the sentence
+application:
 
+**Note**: The sentence application consist of three deployment, and its the one
+named `sentences` in the file
+`sentences-app/deploy/kubernetes/sentences-deployment.yaml` file which is not
+able to scale. *Will it be sufficient to add a priority to this main
+microservice?* When the Kubernetes scheduler evicts a POD to make room for
+another main sentence POD, it will choose one of the other PODs with a lower
+priority. This could be one of the other microservices in the sentence
+application, and since the main microservice depends on these, we are basically
+breaking the whole application in our effort to scale it!  *We need to add
+priority to the other dependent deployments in the sentence application.*
 
+When priority have been added to the sentence application, redeploy it:
+
+```shell
+kubectl apply -f sentences-app/deploy/kubernetes/
+```
+
+The effect should be eviction of some of the nginx PODs and multiple `sentences`
+PODs.
 
 # Cleanup
 
