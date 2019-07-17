@@ -56,15 +56,15 @@ kubectl apply -f resources/load-generator.yaml
 > additional load generators can be created by scaling the multitool deployment
 > and running more `ab` commands.
 
-All three of the microservices PODs have CPU `requests` and `limits` set to 0.5
-CPUs, i.e. we now see the main microservice max-out around 0.5 CPU while the
+All three of the microservices PODs have CPU `requests` and `limits` set to 0.25
+CPUs, i.e. we now see the main microservice max-out around 0.25 CPU while the
 other two microservices use much less:
 
 ```
 NAME                               CPU(cores)   MEMORY(bytes)
-sentence-age-f747b9d95-tw4ff       107m         21Mi            
-sentence-name-8448ccfd89-vsv7v     106m         20Mi            
-sentences-66fb575cf8-cg7c8         500m         33Mi
+sentence-age-f747b9d95-tw4ff       52m          21Mi
+sentence-name-8448ccfd89-vsv7v     53m          20Mi
+sentences-66fb575cf8-cg7c8         250m         33Mi
 ```
 
 If we want to scale the main microservice, we could do it manually with:
