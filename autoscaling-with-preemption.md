@@ -68,28 +68,16 @@ of replicas to suit your allowed CPU quota:
 kubectl scale --replicas 3 deployment nginx-guaranteed
 ```
 
-Next we apply some load to the sentence application, first create a multitool
-POD in which we can run the load generator tool:
+Next we apply some load to the sentence application, start a load generator as
+follows (ApacheBench - see YAML file for details):
 
 ```shell
-kubectl create deployment multitool --image praqma/network-multitool
-```
-
-Start a shell in the multitool container:
-
-```shell
-kubectl exec -it <pod name> -- bash
-```
-
-and run a load generator (Apache Bench):
-
-```shell
-ab -n 100000000 -c 10 http://sentences:5000/
+kubectl apply -f resources/load-generator.yaml
 ```
 
 > A single load generator should be sufficient for this exercise, however,
-> additional load generators can be created by scaling the multitool deployment
-> and running more `ab` commands.
+> additional load generators can be created by scaling the load generator
+> deployment.
 
 Create a HorizontalPODAutoscaler object to automatically scale the sentence
 application:

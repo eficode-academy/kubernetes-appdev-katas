@@ -45,23 +45,11 @@ sentence-name-8448ccfd89-vsv7v     1m           21Mi
 sentences-66fb575cf8-2sdw2         1m           21Mi 
 ```
 
-Next we apply some load to the sentence application, first create a multitool
-POD in which we can run the load generator tool:
+Next we apply some load to the sentence application, start a load generator as
+follows (ApacheBench - see YAML file for details):
 
 ```shell
-kubectl create deployment multitool --image praqma/network-multitool
-```
-
-Start a shell in the multitool container:
-
-```shell
-kubectl exec -it <pod name> -- bash
-```
-
-and run a load generator (Apache Bench):
-
-```shell
-ab -n 100000000 -c 10 http://sentences:5000/
+kubectl apply -f resources/load-generator.yaml
 ```
 
 > A single load generator should be sufficient for this exercise, however,
@@ -76,7 +64,7 @@ other two microservices use much less:
 NAME                               CPU(cores)   MEMORY(bytes)
 sentence-age-f747b9d95-tw4ff       107m         21Mi            
 sentence-name-8448ccfd89-vsv7v     106m         20Mi            
-sentences-66fb575cf8-cg7c8         501m         33Mi
+sentences-66fb575cf8-cg7c8         500m         33Mi
 ```
 
 If we want to scale the main microservice, we could do it manually with:
