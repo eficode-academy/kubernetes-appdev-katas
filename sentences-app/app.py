@@ -21,8 +21,8 @@ def get_name():
 
 @sentence_app.route('/')
 def get_sentence():
-    age = requests.get(sentence_app.config['age-service']).text
-    name = requests.get(sentence_app.config['name-service']).text
+    age = requests.get(sentence_app.config['age-service'], timeout=1).text
+    name = requests.get(sentence_app.config['name-service'], timeout=1).text
     m_requests.labels('sentence').inc()
     return '{} is {} years'.format(name, age)
 
