@@ -17,7 +17,7 @@ spec:
       containers:
       - image: praqma/network-multitool
         name: multitool
-        command: ['ab', '-n', '100000000', '-c', '10', 'http://sentences:5000/']
+        command: ['ab', '-n', '100000000', '-c', '10', '-s', '9999', 'http://sentences:5000/']
         resources:
           limits:
             cpu: 0.5
