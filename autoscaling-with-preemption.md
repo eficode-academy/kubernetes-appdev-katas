@@ -137,7 +137,7 @@ To ensure that our appliction is able to make CPU resources available by
 evicting nginx POD, we change the priority of the sentence application by adding
 a `priorityClassName` statement to the sentence application deployment YAML:
 
-...
+```
 spec:
   ...
   template:
