@@ -16,6 +16,9 @@ spec:
       labels:
         app: sentences
         component: name
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8000'
     spec:
       #priorityClassName: medium-priority
       containers:
