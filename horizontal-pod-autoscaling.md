@@ -102,15 +102,35 @@ sentences   Deployment/sentences   100%/80%   1         5         1          27s
 ```
 
 After a short while, the horizontal POD autoscaler will have scaled the
-`sentences` deployment to five pods.
+`sentences` deployment to five pods (or at least more then one):
+
+```
+NAME                              CPU(cores)   MEMORY(bytes)
+loadgen-5fff765cc-b8ntf           24m          1Mi
+sentence-age-f747b9d95-tw4ff      142m         27Mi
+sentence-name-8448ccfd89-vsv7v    145m         25Mi
+sentences-66fb575cf8-4kkcl        209m         28Mi
+sentences-66fb575cf8-6w2lr        161m         27Mi
+sentences-66fb575cf8-cgcxl        167m         26Mi
+sentences-66fb575cf8-wtqcc        121m         27Mi
+sentences-66fb575cf8-xds6f        140m         26Mi
+```
+
+Now delete the load generator:
+
+```shell
+kubectl delete -f resources/load-generator.yaml
+```
 
 When stopping the load generator, the horizontal POD autoscaler will slowly
 scale the deployment down to 1 POD again.
 
 # Cleanup
 
+Note that the load generator might have been deleted above.
+
 ```shell
-kubectl delete deployment multitool
+kubectl delete -f resources/load-generator.yaml
 kubectl delete -f sentences-app/deploy/kubernetes/hpa.yaml
 kubectl delete -f sentences-app/deploy/kubernetes/
 ```

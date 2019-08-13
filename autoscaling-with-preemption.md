@@ -169,8 +169,8 @@ PODs.
 # Cleanup
 
 ```shell
-kubectl delete deployment multitool
-kubectl delete deployment nginx-guaranteed
+kubectl delete -f resources/load-generator.yaml
+kubectl delete -f resources/nginx-deplyment.yaml
 kubectl delete -f sentences-app/deploy/kubernetes/hpa.yaml
 kubectl delete -f sentences-app/deploy/kubernetes/
 ```
