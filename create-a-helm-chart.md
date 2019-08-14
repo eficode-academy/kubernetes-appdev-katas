@@ -1,10 +1,12 @@
 # Create an Helm Chart
 
-This exercise will create a simple Helm chart for the sentence application.
+This exercise will create a simple Helm chart for the sentence application.  The
+chart will be 'simple' in the sense that it will not provide support for
+customizing application parameters.
 
 In the `sentences-app/deploy/kubernetes/` folder we have Kubernetes YAML
 definitions for the three microservices that make up the sentence application
-(tree Deployment and tree Services):
+(tree Deployments and tree Services):
 
 ```shell
 $ ls -la sentences-app/deploy/kubernetes/
@@ -16,25 +18,33 @@ sentences-name-svc.yaml
 sentences-svc.yaml
 ```
 
-To create a simple Helm chart
+To create a simple Helm chart we can use `helm create` to create a template chart:
 
 
 ```shell
 $ mkdir helm-chart
 $ cd helm-chart
 $ helm create sentence-app
-$ rm -rf sentence-app/templates/*
 ```
 
-This create a skeleton chart without any template files. Next, we copy the
-original Kubernetes YAML files to the template folder:
+Since we will use the sentence application YAML as templates for the chart we
+delete the ones created by `helm create`:
+
+```
+$ rm -rf sentence-app/templates/*
+$ echo "" > sentence-app/values.yaml
+```
+
+This provides us with skeleton chart without any template files. Next, we copy
+the original Kubernetes YAML files to the template folder:
 
 ```shell
 $ cp -v ../sentences-app/deploy/kubernetes/*.yaml sentence-app/templates/
 ```
 
-This way we have a very simple Helm chart for our sentences application - it has
-no configurable values, but it will use the correct Kubernetes YAML
+Now we have a Helm chart for our sentences application - it is simple in the
+sense that it has no configurable values, but it is a complete installable chart
+and it will use the correct sentence application Kubernetes YAML definitions.
 
 Before deploying the chart, we run a static validation of the chart:
 
@@ -46,9 +56,9 @@ $ helm lint sentence-app/
 1 chart(s) linted, no failures
 ```
 
-Normally a chart is fetched from a chart registry when deployed, however, a
-chart stored locally can also be deployed with Helm. To deploy the chart from
-the newly created chart run the following:
+Normally a chart is fetched from a chart registry (like a container registry),
+however, a chart stored locally can also be deployed with Helm. To deploy the
+chart from the newly created chart run the following:
 
 ```shell
 $ helm install --name sentences sentence-app/
@@ -83,7 +93,26 @@ sentence-name  ClusterIP  10.110.60.80    <none>       5000/TCP  0s
 sentences      ClusterIP  10.103.227.249  <none>       5000/TCP  0s
 ```
 
-Finally, to delete the application installed with Helm:
+To see the applications installed with Helm use the `helm ls` operation:
+
+```shell
+$ helm ls
+NAME         REVISION   UPDATED                    STATUS     CHART                APP VERSION   NAMESPACE   
+sentences    1          Wed Aug 14 08:44:55 2019   DEPLOYED   sentence-app-0.1.0   1.0           default
+```
+
+To see the Kubernetes YAML which Helm used to install the application use the `helm get` operation:
+
+```shell
+$ helm get sentences
+```
+
+In our case this will be identical to the YAML files we copied previously since
+we haven't provided any means of customizing the application installation.
+
+# Cleanup
+
+Delete the application installed with Helm:
 
 ```shell
 $ helm delete sentences --purge
