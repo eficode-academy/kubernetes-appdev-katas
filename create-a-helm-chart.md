@@ -110,6 +110,12 @@ $ helm get sentences
 In our case this will be identical to the YAML files we copied previously since
 we haven't provided any means of customizing the application installation.
 
+# Food for Thought
+
+In this exercise we created a single Helm chart for the complete application
+even though its based on three microservices. When would it make sense to have a
+Helm chart for each microservice?
+
 # Cleanup
 
 Delete the application installed with Helm:
