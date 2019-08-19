@@ -100,10 +100,39 @@ Helm function and pipeline as follows:
 ...
 ```
 
-As before, validate the resource setting with:
+As before, validate the resource setting with the following command. Pay
+particularly attention to indentation on the rendered YAML.
 
 ```shell
 $ helm template sentence-app/ --set sentences.resources.requests.cpu=0.25 -x templates/sentences-deployment.yaml
+```
+
+## Adding Conditional Rendering of Template
+
+Kubernetes allows us to definee which port to use for services of type
+NodePort. I.e. we will customize the Kubernetes YAMl for this scenario.
+
+In the `sentences-svc.yaml` file, locate the specification of the service type:
+
+```
+  type: NodePort
+```
+
+Change this line and add nodeport specification as follows:
+
+```
+  type: {{ .Values.sentences.service.type }}
+  {{ if and (eq .Values.sentences.service.type "NodePort") .Values.sentences.service.nodePort -}}
+  NodePort: {{ .Values.sentences.service.nodePort }}
+  {{- end -}}
+```
+
+Test the rendering of the service with:
+
+```shell
+$ helm template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.type=NodePort
+$ helm template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=NodePort
+$ helm template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=ClusterIP
 ```
 
 ## Values Files
