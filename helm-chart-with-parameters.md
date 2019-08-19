@@ -76,10 +76,8 @@ spec:
 and change it to:
 
 ```
-...
 spec:
   replicas: {{ .Values.sentences.replicas }}
-...
 ```
 
 Verify the rendering as follows:
@@ -99,17 +97,13 @@ $ helm template sentence-app/ -x templates/sentences-deployment.yaml --set sente
 Similarly, change the container image specification as follows:
 
 ```
-...
       - image: {{ .Values.sentences.image.repository }}:{{ .Values.sentences.image.tag }}
-...
 ```
 
 and change the Deployment name as follows:
 
 ```
-...
   name: {{ .Release.Name }}-sentences
-...
 ```
 
 The resource section is slightly different since this is not a single value but
@@ -121,10 +115,8 @@ Instead we simply insert the full YAML as given by the user. To do this we use a
 Helm function and pipeline as follows:
 
 ```
-...
         resources:
 {{ toYaml .Values.sentences.resources | indent 10 }}
-...
 ```
 
 As before, validate the resource setting with the following command. Pay
@@ -142,7 +134,9 @@ NodePort. I.e. we will customize the Kubernetes YAMl for this scenario.
 In the `sentences-svc.yaml` file, locate the specification of the service type:
 
 ```
+...
   type: NodePort
+...
 ```
 
 Change this line and add nodeport specification as follows:
