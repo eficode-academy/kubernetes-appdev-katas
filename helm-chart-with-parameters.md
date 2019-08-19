@@ -6,6 +6,19 @@ customization of the installed application.
 This exercise extends the Helm chart created in the
 [create-a-helm-chart](create-a-helm-chart.md) exercise.
 
+> Helm comes in two different major version - 2 and 3. In the following we will
+> provide command-lines for both and indicate with the command name which
+> version of Helm the command refers to, e.g. for Helm v2 we will use:
+> ```shell
+> $ helm2 ...
+>```
+> and for Helm v3 we will use:
+> ```shell
+> $ helm3 ...
+>```
+> The numbers should obviously be removed before running the command since the
+> Helm command will be `helm` irrespective of the Helm version installed.
+
 We will add the following options for customization:
 
 - Configurable resource naming (using Helm built-in values)
@@ -160,7 +173,8 @@ Validate the chart and install the sentences application using the new chart:
 
 ```shell
 $ helm lint sentence-app/
-$ helm install --name sentences sentence-app/
+$ helm2 install --name sentences sentence-app/
+$ helm3 install sentences sentence-app/
 ```
 
 This will install the chart with the default values. Try upgrading the chart
@@ -184,5 +198,6 @@ Note that the `get` operation show the used values in the beginning.
 Delete the application installed with Helm:
 
 ```shell
-$ helm delete sentences --purge
+$ helm2 delete sentences --purge
+$ helm3 delete sentences
 ```
