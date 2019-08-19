@@ -4,6 +4,19 @@ This exercise will create a simple Helm chart for the sentence application.  The
 chart will be 'simple' in the sense that it will not provide support for
 customizing application parameters.
 
+> Helm comes in two different major version - 2 and 3. In the following we will
+> provide command-lines for both and indicate with the command name which
+> version of Helm the command refers to, e.g. for Helm v2 we will use:
+> ```shell
+> $ helm2 ...
+>```
+> and for Helm v3 we will use:
+> ```shell
+> $ helm3 ...
+>```
+> The numbers should obviously be removed before running the command since the
+> Helm command will be `helm` irrespective of the Helm version installed.
+
 In the `sentences-app/deploy/kubernetes/` folder we have Kubernetes YAML
 definitions for the three microservices that make up the sentence application
 (tree Deployments and tree Services):
@@ -61,7 +74,8 @@ however, a chart stored locally can also be deployed with Helm. To deploy the
 chart from the newly created chart run the following:
 
 ```shell
-$ helm install --name sentences sentence-app/
+$ helm2 install --name sentences sentence-app/
+$ helm3 install sentences sentence-app/
 ```
 
 Running this command produce the following output, which specify which resources
@@ -121,5 +135,6 @@ Helm chart for each microservice?
 Delete the application installed with Helm:
 
 ```shell
-$ helm delete sentences --purge
+$ helm2 delete sentences --purge
+$ helm3 delete sentences
 ```
