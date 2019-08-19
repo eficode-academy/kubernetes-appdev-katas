@@ -26,11 +26,25 @@ We will add the following options for customization:
 - Configurable resource settings (using list-type value parameters)
 - Optional definitions (using if/else constructs)
 
-when we initially created the Hel chart we did it with an empty values.yaml
+when we initially created the Helm chart we did it with an empty values.yaml
 file.  Now replace the values.yaml with the following content:
 
 ```
-
+## sentence configured the main sentences micro-service
+sentences:
+  ## replicas is the number of POD replicas
+  replicas: 1
+  ## image contains the POD container image parameters
+  image:
+    repository: praqma/sentences-app
+    tag: latest
+  ## resource requests and limits
+  resources: {}
+  service:
+    ## type is the type of the service fronting the sentence application
+    type: NodePort
+    ## nodePort is the actual port used for NodePort-type services
+    #nodePort:
 ```
 
 > Note that the Helm best practices suggests using a flat values file vs. a
@@ -40,9 +54,9 @@ file.  Now replace the values.yaml with the following content:
 This values.yaml file shows:
 
 - Using double `##` for documentation comments and single `#` for commented-out fields. This is not an official Helm standard but a very common approach.
-- Image name and tag are separately configurable. This is a common pattern because e.g. the tag typically is configured independently from the image name.
-- Resources are not defaulted in values.yaml. We cannot know the proper settings and instead we provide an empty map and allows users to set appropriate resource requests.
-- Node-port (which is only relevant in case the Kubernetes service is of type `NodePort`) has no default. Again, we cannot know the proper default but instead indicate in the values.yaml file that there is a parameter that can be configured. Another typically used alternative for string-type values is to leave them as empty strings.
+- Image name and tag are separately configurable. This is a common pattern because the tag typically is configured independently from the image name.
+- POD resource settings are not defaulted in values.yaml. We cannot know the proper settings and instead we provide an empty map and allows users to set appropriate resource requests.
+- The `nodePort` parameter (which is only relevant in case the Kubernetes service is of type `NodePort`) has no default. Again, we cannot know the proper default but instead indicate in the values.yaml file that there is a parameter that can be configured. Another typically used alternative for string-type values with no good default is to leave them as empty strings.
 
 ## Adding Parameters to the Chart
 
