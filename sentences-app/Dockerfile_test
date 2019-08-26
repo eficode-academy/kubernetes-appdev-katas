@@ -1,0 +1,16 @@
+# The base image
+FROM ubuntu:latest
+
+# Install python and pip
+RUN apt-get update -y
+RUN apt-get install -y python-pip python-dev build-essential
+
+# Install Python modules needed by the Python app
+COPY test_requirements.txt /usr/src/app/
+RUN pip install --no-cache-dir -r /usr/src/app/test_requirements.txt
+
+# Copy files required for the app to run
+COPY tests/*.py /usr/src/app/tests/
+
+# Run the application
+CMD ["python", "/usr/src/app/tests/test_service.py"]
