@@ -13,4 +13,5 @@ RUN pip install --no-cache-dir -r /usr/src/app/test_requirements.txt
 COPY tests/*.py /usr/src/app/tests/
 
 # Run the application
-CMD ["python", "/usr/src/app/tests/test_service.py"]
+ENTRYPOINT ["python"]
+CMD ["/usr/src/app/tests/test_service.py"]
