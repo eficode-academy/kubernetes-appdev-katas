@@ -1,23 +1,26 @@
+#!/usr/bin/env python
 
 import argparse
 import flask
-import random
 import requests
 import prometheus_client
+
+from utils import *
 
 age_app = flask.Flask('age')
 name_app = flask.Flask('name')
 sentence_app = flask.Flask('sentence')
 
+
 @age_app.route('/')
 def get_age():
     m_requests.labels('age').inc()
-    return str(random.randint(0,100))
+    return get_random_age()
 
 @name_app.route('/')
 def get_name():
     m_requests.labels('name').inc()
-    return random.choice(['Graham', 'John', 'Terry', 'Eric', 'Michael'])
+    return get_random_name()
 
 @sentence_app.route('/')
 def get_sentence():
