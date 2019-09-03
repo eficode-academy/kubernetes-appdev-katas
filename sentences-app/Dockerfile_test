@@ -9,8 +9,9 @@ RUN apt-get install -y python-pip python-dev build-essential
 COPY test_requirements.txt /usr/src/app/
 RUN pip install --no-cache-dir -r /usr/src/app/test_requirements.txt
 
-# Copy files required for the app to run
+# Copy tests
 COPY tests/*.py /usr/src/app/tests/
+COPY unit_tests/*.py /usr/src/app/unit_tests/
 
 # Run the application
 ENTRYPOINT ["python"]
