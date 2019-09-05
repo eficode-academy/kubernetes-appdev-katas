@@ -1,11 +1,18 @@
 # kubernetes-appdev-katas
 Exercises for Kubernetes application development
 
+Introducing the example sentences application:
+
+- [hello-sentences-app](hello-sentences-app.md)
+
 # CI/CD for Kubernetes
+
+- [testing-with-containers](testing-with-containers.md)
 
 # Application Packaging with Helm
 
 - [create-a-helm-chart](create-a-helm-chart.md)
+- [helm-chart-with-parameters](helm-chart-with-parameters.md)
 
 # Application Monitoring
 
