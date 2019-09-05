@@ -1,12 +1,19 @@
 # Testing with Containers
 
 This exercise will demonstrate unit and component testing of applications using
-containers.  It will use the application container built in the TBD exercise.
+containers.  It will use the application container built in the
+[hello-sentences-app](hello-sentences-app.md) exercise.
+
+The following exercise assumes commands are being run from the sentences-app
+folder:
+
+```shell
+$ cd sentences-app
+```
 
 ## Running Unit Tests
 
 ```shell
-$ cd sentences-app
 $ python -m unittest discover unit_tests/
 ```
 
@@ -56,7 +63,6 @@ which we can use to build a testing container. Use the following command to
 build the testing container:
 
 ```shell
-$ cd sentences-app
 $ docker build -t sentences-test:v1 -f Dockerfile_test .
 ```
 
@@ -86,5 +92,52 @@ $ docker run --rm -v $PWD:/src:ro -v $PWD/unit_tests:/unit_tests:ro -w /src sent
 > now try the two commands from above, you will see a different number of unit
 > tests being executed.
 
-
 ## Running Component Tests
+
+Running component tests means that we run a microservice and then test it by
+making requests to it and validate the responses.
+
+First, run the `name` microservice using docker:
+
+```shell
+$ docker run --rm -p8889:5000 sentences:v1 --mode name
+```
+
+This will start the `name` service on the local host (IP address 127.0.0.1, port 8889).
+
+The docker container will hold onto the terminal for debug output, i.e. run the
+following command in another shell (remember to change to the `sentences-app`
+folder).
+
+To run tests against this service, pass the URL to the name service to the tests
+inside the testing container using an environment variable and run the
+name-servce tests with the following command:
+
+```shell
+$ docker run --rm --net host -e SERVICE_URL='http://127.0.0.1:8889' sentences-test:v1 /usr/src/app/tests/test_name_service.py
+```
+
+Running tests against the main sentences service (which relies on the `name` and
+`age` services), we need to start all three microservices. We can do this with
+docker-compose with the following command:
+
+```shell
+$ docker-compose -f deploy/docker-compose.yaml up
+```
+
+Run tests again the main sentences service with the following command:
+
+```shell
+$ docker run --rm --net host sentences-test:v1
+```
+
+> When running tests against the main sentences service we didn't specify any
+> URL or test suite. How does this work?
+
+> Running component tests from locally stored tests are left as an exercise to
+> the reader.
+
+
+## Cleanup
+
+Stop any running containers and docker-compose deployments by pressing Ctrl-C.
