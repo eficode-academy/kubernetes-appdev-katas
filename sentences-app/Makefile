@@ -51,3 +51,8 @@ run-name-service-test:
 .PHONY: run-unit-test
 run-unit-test:
 	docker run --rm -v $(shell pwd):/src:ro -w /src sentences-test:$(VERSION) -m unittest discover -s /usr/src/app/unit_tests
+
+# Run unit test - mapping local folder with app code AND unit tests into container
+.PHONY: run-unit-test-local-tests
+run-unit-test-local-tests:
+	docker run --rm -v $(shell pwd):/src:ro -v $(shell pwd)/unit_tests:/unit_tests:ro -w /src sentences-test:$(VERSION) -m unittest discover -s /unit_tests

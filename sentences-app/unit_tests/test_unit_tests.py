@@ -28,5 +28,14 @@ class TestNameUnittest(unittest.TestCase):
         self.assertTrue(len(got_name.keys()) > 0) # Expect between 1 and 5 names
         self.assertTrue(len(got_name.keys()) < 6)
 
+    # This test is intentionally commented out. It will experimentally be enabled
+    # during exercise 'testing-with-containers'
+    # def test_names_not_present(self):
+    #     random.seed(0)
+    #     band = ['Joe', 'Mick', 'Paul', 'Topper']
+    #     for attempt in range(10):
+    #         name = app.get_random_name()
+    #         self.assertFalse(set([name]).intersection(band))
+
 if __name__ == '__main__':
     unittest.main()
