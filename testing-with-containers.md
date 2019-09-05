@@ -32,7 +32,7 @@ containers).
 ### Running Tests with a Container
 
 The unit test Python requirements are defined in the
-[test_requirements.txt](test_requirements.txt) file. When we build a container
+[test_requirements.txt](sentence_app/test_requirements.txt) file. When we build a container
 to run the tests, we can add these requirements with the following lines in the
 Dockerfile we use to build the container (`pip` is the python package
 installer).:
@@ -51,7 +51,7 @@ COPY unit_tests/*.py /usr/src/app/unit_tests/
 ```
 
 Together with the application source code there is also a
-[Dockerfile_test](Dockerfile_test) which contain the lines mentioned above and
+[Dockerfile_test](sentence_app/Dockerfile_test) which contain the lines mentioned above and
 which we can use to build a testing container. Use the following command to
 build the testing container:
 
@@ -82,7 +82,7 @@ $ docker run --rm -v $PWD:/src:ro -v $PWD/unit_tests:/unit_tests:ro -w /src sent
 ```
 
 > To see the effect of changing the unit tests try enabling the commented-out
-> test in the file [test_unit_tests.py](unit_tests/test_unit_tests.py). If you
+> test in the file [test_unit_tests.py](sentence_app/unit_tests/test_unit_tests.py). If you
 > now try the two commands from above, you will see a different number of unit
 > tests being executed.
 
