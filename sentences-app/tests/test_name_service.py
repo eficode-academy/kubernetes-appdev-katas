@@ -12,7 +12,7 @@ class TestName(unittest.TestCase):
         response = requests.get(self.url, timeout=1)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.encoding, 'utf-8')
-        self.assertTrue(re.match('^\w+$', response.text))
+        self.assertTrue(re.match('^[A-Z]{1}[a-z]+$', response.text))
 
 if __name__ == '__main__':
     unittest.main()
