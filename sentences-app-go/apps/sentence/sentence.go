@@ -8,8 +8,8 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-    name := makeRequest("http://name_service:8080")
-    age := makeRequest("http://age_service:8080")
+    name := makeRequest("http://name:8080")
+    age := makeRequest("http://age:8080")
     fmt.Fprintf(w, "%s is %s years", name, age)
 }
 
