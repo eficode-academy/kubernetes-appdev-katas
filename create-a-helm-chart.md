@@ -43,7 +43,7 @@ $ helm create sentence-app
 Since we will use the sentence application YAML as templates for the chart we
 delete the ones created by `helm create`:
 
-```
+```shell
 $ rm -rf sentence-app/templates/*
 $ echo "" > sentence-app/values.yaml
 ```
