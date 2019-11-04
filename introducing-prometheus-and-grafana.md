@@ -4,22 +4,27 @@ This exercise will demonstrate ...
 
 ## Deploying Prometheus and Grafana
 
-First we will install Prometheus and Grafana using Helm. We will install thse
+First we will install Prometheus and Grafana using Helm. We will install them
 from the `stable` repository. To see available repositories use:
+
+First add a repository to your Helm installation:
+
+```shell
+$ helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+```
+
+Next, you can inspect your Helm repositories with `helm repo list`:
 
 ```shell
 $ helm repo list
 stable  https://kubernetes-charts.storage.googleapis.com
 ```
 
-The `stable` repository is configured when running `helm init` which we did in a
-previous exercise. If you didn't do those exercises you might have to run `helm
-init` now.
-
 To look for available Helm chart you can use the `helm search` feature, e.g.:
 
 ```shell
-$ helm search prometheus
+$ helm2 search prometheus
+$ helm3 search repo prometheus
 stable/prometheus                       9.2.0           2.13.1          Prometheus is a monitoring system and time seri...
 ```
 
