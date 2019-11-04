@@ -1,0 +1,14 @@
+rbac:
+  create: false
+alertmanager:
+  enabled: false
+pushgateway:
+  enabled: false
+networkPolicy:
+  enabled: false
+nodeExporter:
+  enabled: false
+kubeStateMetrics:
+  enabled: false
+server:
+  retention: '1d'
