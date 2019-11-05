@@ -1,5 +1,9 @@
 rbac:
   create: false
+serviceAccounts:
+  server:
+    create: false
+    name: user-x-sa
 alertmanager:
   enabled: false
 pushgateway:
@@ -19,3 +23,5 @@ server:
     requests:
       cpu: 250m
       memory: 256Mi
+  service:
+    type: NodePort
