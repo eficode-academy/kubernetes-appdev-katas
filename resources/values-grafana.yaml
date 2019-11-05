@@ -12,8 +12,8 @@ datasources:
       isDefault: true
       editable: false
 service:
-  type: LoadBalancer
-  port: 80
+  type: NodePort
+  #type: LoadBalancer
 rbac:
   namespaced: true
   pspEnabled: false
