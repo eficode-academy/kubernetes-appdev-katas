@@ -1,6 +1,8 @@
 # Introducinc Prometheus and Grafana
 
-This exercise will demonstrate ...
+This exercise will demonstrate deploying the Prometheus and Grafana applications using Helm.
+
+... TODO
 
 ## Deploying Prometheus and Grafana
 
@@ -10,7 +12,7 @@ from the `stable` repository. To see available repositories use:
 First add a repository to your Helm installation:
 
 ```shell
-$ helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+$ helm3 repo add stable https://kubernetes-charts.storage.googleapis.com/
 ```
 
 Next, you can inspect your Helm repositories with `helm repo list`:
@@ -36,8 +38,8 @@ To install Prometheus and Grafana with settings suitable for the following
 exercises use the following commands:
 
 ```shell
-helm3 install prometheus stable/prometheus --version 9.2.0 -f kubernetes-appdev-katas/resources/values-prometheus.yaml
-helm3 install grafana stable/grafana --version 4.0.1 -f kubernetes-appdev-katas/resources/values-grafana.yaml
+helm3 install prometheus stable/prometheus --version 9.2.0 -f resources/values-prometheus.yaml
+helm3 install grafana stable/grafana --version 4.0.1 -f resources/values-grafana.yaml
 ```
 
 After running these command you can inspect the installed Helm-based
@@ -57,13 +59,78 @@ grafana-5c7b9b967f-pnkd2             2/2     Running   0          71s
 prometheus-server-868b8cdb59-d7gpq   2/2     Running   0          48s
 ```
 
-Grafana is deployed **without TLS** and as such this is not a deployment that is
-suitable for production use. Grafana is exposed with a Kubernetes service of
-type `LoadBalancer`. Use the following commands to get the external IP address
-and the Grafana admin password:
+Note that Grafana is deployed **without TLS** and as such this is not a
+deployment that is suitable for production use.
+
+Grafana is exposed with a Kubernetes service of type `LoadBalancer`. Use the
+following commands to get the external IP address/port and the Grafana `admin`
+user password:
 
 ```shell
-$ kubectl get svc grafana -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+$ kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services grafana
+$ kubectl get nodes -o jsonpath="{.items[0].status.addresses[1].address}"
 $ kubectl get secret grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
+## Deploying the Application
+
+The sentences application can be deployed with the following command. If you
+created a Helm chart for the application in a previous exercise feel free to use
+that chart for deploying the sentences application.
+
+```shell
+$ kubectl apply -f sentences-app/deploy/kubernetes/
+```
+
+After this, we should have 5 PODs running (Prometheus, Grafana and three PODs for the sentences application).
+
+## Debugging Metrics
+
+### Debugging Metrics From PODs
+
+```shell
+$ kubectl expose deploy sentences --name sentences-metrics --port 8000 --target-port 8000 --type NodePort
+```
+
+```shell
+$ curl -s 34.76.215.187:<PORT>/metrics | egrep '^sentence'
+```
+
+```
+sentence_requests_total{type="sentence"} 6.0
+```
+
+
+### Debugging Prometheus Metrics Scraping
+
+```shell
+$ kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services prometheus-server
+```
+
+![prometheus-scrape-targets](images/prometheus-scrape-targets.png)
+
+![prometheus-scrape-targets](images/prometheus-graph.png)
+
+## Explore Metrics in Grafana
+
+![prometheus-scrape-targets](images/grafana-explore.png)
+
+## Deploying a Dashboard
+
+```shell
+$ kubectl create configmap dashboard --from-file sentences-app/dashboard.json
+$ kubectl label configmap dashboard grafana_dashboard='1'
+```
+
+
+
+# Cleanup
+
+Delete the applications and additional services with the following commands:
+
+```shell
+$ kubectl delete -f sentences-app/deploy/kubernetes/
+$ helm3 delete grafana
+$ helm3 delete prometheus
+$ kubectl delete svc sentences-metrics
+```
