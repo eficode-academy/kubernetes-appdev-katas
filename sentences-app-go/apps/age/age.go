@@ -16,8 +16,9 @@ func GetAge(min int, max int)(int) {
 func handler(w http.ResponseWriter, r *http.Request) {
     min := 0
     max := 100
-    
-	fmt.Fprintf(w, "%d", GetAge(min, max))
+    age := GetAge(min, max)
+
+	fmt.Fprintf(w, "%d", age)
 }
 
 func main() {

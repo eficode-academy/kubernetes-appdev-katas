@@ -8,8 +8,8 @@ func TestAgeIntegerShouldBeBetween(t *testing.T) {
 	result := GetAge(min, max)
 
 	if(result >= min) && (result <= max) {
-		t.Logf("GetAge(%v, %v) PASSED, expected %d to be between %v and %v", min, max, result, min, max)
+		t.Logf("GetAge(%d, %d) PASSED, expected %d to be between %d and %d", min, max, result, min, max)
 	} else {
-		t.Errorf("GetAge(%v, %v) Failed, expected %d to be between %v and %v", min, max, result, min, max)
+		t.Errorf("GetAge(%d, %d) Failed, expected %d to be between %d and %d", min, max, result, min, max)
 	}
 }
