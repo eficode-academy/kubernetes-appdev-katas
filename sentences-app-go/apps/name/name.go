@@ -8,12 +8,17 @@ import (
 	"time"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func GetName() (string) {
 	names := [5]string{"Graham", "John", "Terry", "Eric", "Michael"}
 
 	rand.Seed(time.Now().UnixNano())
+	return names[rand.Intn(len(names))]
+}
 
-	fmt.Fprintf(w, "%s", names[rand.Intn(len(names))])
+func handler(w http.ResponseWriter, r *http.Request) {
+	name := GetName()
+
+	fmt.Fprintf(w, "%s", name)
 }
 
 func main() {
