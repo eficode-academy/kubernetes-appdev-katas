@@ -4,15 +4,20 @@ import (
     "fmt"
     "log"
 	"net/http"
-	"math/rand"
+    "math/rand"
+    "time"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	min := 0
-    max := 100
-    fmt.Println(rand.Intn(max - min) + min)
+func GetAge(min int, max int)(int) {
+    rand.Seed(time.Now().UnixNano())
+	return rand.Intn(max - min) + min
+}
 
-	fmt.Fprintf(w, "%d", rand.Intn(max - min) + min)
+func handler(w http.ResponseWriter, r *http.Request) {
+    min := 0
+    max := 100
+    
+	fmt.Fprintf(w, "%d", GetAge(min, max))
 }
 
 func main() {
