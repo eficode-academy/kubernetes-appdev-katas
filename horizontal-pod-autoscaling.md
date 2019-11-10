@@ -10,13 +10,13 @@ main service will be the initial bottleneck, which we will see shortly.
 First, ensure that the sentences application is deployed:
 
 ```shell
-kubectl apply -f sentences-app/deploy/kubernetes/
+$ kubectl apply -f sentences-app/deploy/kubernetes/
 ```
 
 Next, in a separate shell, run the following to monitor the running PODs:
 
 ```shell
-watch kubectl get pods
+$ watch kubectl get pods
 ```
 
 You should see one POD of each of the microservices:
@@ -31,7 +31,7 @@ In another shell run the following command to monitor the resource consumption
 of each of the runnung PODs:
 
 ```shell
-watch kubectl top pods
+$ watch kubectl top pods
 ```
 
 Since there is no load on the microservices, you should see a low CPU
@@ -49,7 +49,7 @@ Next we apply some load to the sentence application, start a load generator as
 follows (ApacheBench - see YAML file for details):
 
 ```shell
-kubectl apply -f resources/load-generator.yaml
+$ kubectl apply -f resources/load-generator.yaml
 ```
 
 > A single load generator should be sufficient for this exercise, however,
@@ -70,7 +70,7 @@ sentences-66fb575cf8-cg7c8         250m         33Mi
 If we want to scale the main microservice, we could do it manually with:
 
 ```shell
-kubectl scale --replicas 4 deployment sentences
+$ kubectl scale --replicas 4 deployment sentences
 ```
 
 However, this would obviously be a manual process. If we want Kubernetes
@@ -82,7 +82,7 @@ such that the average CPU load of the PODs are 80% of their requested CPU
 allocation:
 
 ```shell
-kubectl apply -f sentences-app/deploy/hpa.yaml
+$ kubectl apply -f sentences-app/deploy/hpa.yaml
 ```
 
 Next, in a separate shell, run the following to monitor the status of the
@@ -90,7 +90,7 @@ HorizontalPODAutoscaler (using the abbreviation 'hpa' for
 HorizontalPODAutoscaler):
 
 ```shell
-watch kubectl get hpa sentences
+$ watch kubectl get hpa sentences
 ```
 
 This will initially show 100% measured load (relative to CPU requests), a target
@@ -119,7 +119,7 @@ sentences-66fb575cf8-xds6f        140m         26Mi
 Now delete the load generator:
 
 ```shell
-kubectl delete -f resources/load-generator.yaml
+$ kubectl delete -f resources/load-generator.yaml
 ```
 
 When stopping the load generator, the horizontal POD autoscaler will slowly
@@ -130,7 +130,7 @@ scale the deployment down to 1 POD again.
 Note that the load generator might have been deleted above.
 
 ```shell
-kubectl delete -f resources/load-generator.yaml
-kubectl delete -f sentences-app/deploy/kubernetes/hpa.yaml
-kubectl delete -f sentences-app/deploy/kubernetes/
+$ kubectl delete -f resources/load-generator.yaml
+$ kubectl delete -f sentences-app/deploy/kubernetes/hpa.yaml
+$ kubectl delete -f sentences-app/deploy/kubernetes/
 ```
