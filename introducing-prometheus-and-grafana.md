@@ -1,8 +1,9 @@
 # Introducing Prometheus and Grafana
 
-This exercise will demonstrate deploying the Prometheus and Grafana applications using Helm.
-
-... TODO
+This exercise will demonstrate deploying the Prometheus and Grafana applications
+using Helm. We will also deploy the sentences application and inspect how
+metrics are propagated from the application through Prometheus and displayed in
+Grafana.
 
 ## Deploying Prometheus and Grafana
 
@@ -231,7 +232,9 @@ $ kubectl apply -f resources/load-generator.yaml
 
 # Cleanup
 
-Delete the applications and additional services with the following commands:
+Delete the applications and additional services with the following commands. If
+you are going to proceed to the next Prometheus/Grafana exercise, you might want
+to leave everything running for now:
 
 ```shell
 $ kubectl delete -f sentences-app/deploy/kubernetes/
