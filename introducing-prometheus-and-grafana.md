@@ -124,7 +124,7 @@ $ kubectl expose deploy sentences --name sentences-metrics --port 8000 --target-
 ```
 
 This service use a NodePort, hence to query the metrics API we can look up the
-port and query if with curl. First, llook up a node IP address and the specific node
+port and query if with curl. First, lookup a node IP address and the specific node
 port using `kubectl`:
 
 ```shell

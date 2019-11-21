@@ -17,6 +17,7 @@ Introducing the example sentences application:
 # Application Monitoring
 
 - [introducing-prometheus-and-grafana](introducing-prometheus-and-grafana.md)
+- [prometheus-metrics-grafana-dashboards](prometheus-metrics-grafana-dashboards.md)
 
 # Application Auto-scaling
 
