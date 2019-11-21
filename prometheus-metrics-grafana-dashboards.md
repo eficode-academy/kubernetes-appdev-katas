@@ -80,6 +80,51 @@ This will be our second metric query for our dashboard.
 
 ## Create a Dashboard
 
+Go back to the main page of Grafana by selecting the *window* (four squares)
+icon above the *explore* icon and select the *New dashboard* icon in the middle
+of the window as shown below:
+
+![create-dashboard](images/create-dashboard.png)
+
+Next, select *Choose visualization* after which you should see options for the
+visualization. In this menu, select the *graph* visualization and next the
+*database query* (three disks above each other) as shown below:
+
+![select-graph](images/select-graph.png)
+
+Selecting the *database query* will allow us to enter Prometheus queries which
+will be displayed with a graph visualization. Queries are entered in the field
+starting with `Metrics` as shown below:
+
+![enter-query](images/enter-query.png)
+
+In this field enter our first Prometheus metric query:
+
+```
+rate(sentence_requests_total[2m])*60
+```
+
+After this, the metric will show up as a graph and very long legend names below
+the graph. Below the `Metrics` field in the `Legend` box enter the following to
+allow Grafana to generate lengends using the values of the `type` and
+`kubernetes_pod_name` labels.
+
+```
+{{type}}-{{kubernetes_pod_name}}
+```
+
+The graph title currently says "Panel Title". To change this, select the "gear
+and wrench" icon to the far left to enter the *general* setup of the
+visualization. In the field named "Title" enter "Requests/minute".
+
+To finalize the first part of the dashboard, select the *back arrow* in the
+top-left corner.  To add another graph, select the *Add panel* icon as shown
+below and repeat for our second metric.
+
+![add-panel](images/add-panel.png)
+
+## Re-arranging Visualizations and Saving Dashboards
+
 
 
 
