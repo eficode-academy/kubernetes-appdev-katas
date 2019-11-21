@@ -156,11 +156,11 @@ the SSH command you used to connect to the machine, i.e. something like to
 following assuming you saved the dashboard as ``my-dashboard.json::
 
 ```shell
-$ scp -i <key> my-dashboar.json ubuntu@<IP-address>:.
+$ scp -i <key> my-dashboard.json ubuntu@<IP-address>:.
 ```
 
 ```shell
-$ kubectl create configmap dashboard --from-file my-dashboar.json
+$ kubectl create configmap dashboard --from-file my-dashboard.json
 $ kubectl label configmap dashboard grafana_dashboard='1'
 ```
 
