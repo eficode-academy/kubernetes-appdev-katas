@@ -74,7 +74,7 @@ aggregation. Instead enter the following query which specifies the `sum()` to
 happen across the values of the `type` label.
 
 ```
-sum by (type) (rate(sentence_requests_total[2m]))
+sum(rate(sentence_requests_total[2m])) by (type)
 ```
 
 This will be our second metric query for our dashboard.
