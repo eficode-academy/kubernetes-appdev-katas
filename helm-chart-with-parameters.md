@@ -49,7 +49,7 @@ sentences:
 
 > Note that the Helm best practices suggests using a flat values file vs. a
 > nested one as shown above. Real-world charts however, very often use nested
-> values and this is probably the defacto standard.
+> values and this is probably the defacto standard. For more info look [here](https://helm.sh/docs/topics/chart_best_practices/values/)
 
 This values.yaml file shows:
 
