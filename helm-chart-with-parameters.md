@@ -83,7 +83,9 @@ spec:
 Verify the rendering as follows:
 
 ```shell
-$ helm template sentence-app/ -x templates/sentences-deployment.yaml
+$ helm2 template sentence-app/ -x templates/sentences-deployment.yaml
+$ helm3 template sentence-app/ --show-only templates/sentences-deployment.yaml
+
 ```
 
 Since values.yaml have a default replica count of 1, you will see no changes,
@@ -91,7 +93,8 @@ however, you can try changing the default, or explicitly override the value in
 the helm invocation as follows:
 
 ```shell
-$ helm template sentence-app/ -x templates/sentences-deployment.yaml --set sentences.replicas=3
+$ helm2 template sentence-app/ -x templates/sentences-deployment.yaml --set sentences.replicas=3
+$ helm2 template sentence-app/ --show-only templates/sentences-deployment.yaml --set sentences.replicas=3
 ```
 
 Similarly, change the container image specification as follows:
