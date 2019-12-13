@@ -85,7 +85,6 @@ Verify the rendering as follows:
 ```shell
 $ helm2 template sentence-app/ -x templates/sentences-deployment.yaml
 $ helm3 template sentence-app/ --show-only templates/sentences-deployment.yaml
-
 ```
 
 Since values.yaml have a default replica count of 1, you will see no changes,
@@ -164,7 +163,6 @@ OR
 $ helm3 template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.type=NodePort
 $ helm3 template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=NodePort
 $ helm3 template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=ClusterIP
-
 ```
 
 ## Values Files
@@ -186,9 +184,7 @@ and test template rendering with:
 
 ```shell
 $ helm2 template sentence-app/ --values values-resources.yaml -x templates/sentences-deployment.yaml
-
 $ helm3 template sentence-app/ --values values-resources.yaml --show-only templates/sentences-deployment.yaml
-
 ```
 
 Validate the chart and install the sentences application using the new chart:
@@ -212,7 +208,6 @@ Finally, inspect the chart status and actual values:
 $ helm list
 $ helm2 get sentences
 $ helm3 get all sentences
-
 ```
 
 Note that the `get` operation show the used values in the beginning.
