@@ -94,7 +94,7 @@ the helm invocation as follows:
 
 ```shell
 $ helm2 template sentence-app/ -x templates/sentences-deployment.yaml --set sentences.replicas=3
-$ helm2 template sentence-app/ --show-only templates/sentences-deployment.yaml --set sentences.replicas=3
+$ helm3 template sentence-app/ --show-only templates/sentences-deployment.yaml --set sentences.replicas=3
 ```
 
 Similarly, change the container image specification as follows:
