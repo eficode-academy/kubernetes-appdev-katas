@@ -210,7 +210,9 @@ Finally, inspect the chart status and actual values:
 
 ```shell
 $ helm list
-$ helm get sentences
+$ helm2 get sentences
+$ helm3 get all sentences
+
 ```
 
 Note that the `get` operation show the used values in the beginning.
