@@ -126,7 +126,8 @@ As before, validate the resource setting with the following command. Pay
 particularly attention to indentation on the rendered YAML.
 
 ```shell
-$ helm template sentence-app/ --set sentences.resources.requests.cpu=0.25 -x templates/sentences-deployment.yaml
+$ helm2 template sentence-app/ --set sentences.resources.requests.cpu=0.25 -x templates/sentences-deployment.yaml
+$ helm3 template sentence-app/ --set sentences.resources.requests.cpu=0.25 --show-only templates/sentences-deployment.yaml
 ```
 
 ## Adding Conditional Rendering of Template
@@ -154,9 +155,16 @@ Change this line and add nodeport specification as follows:
 Test the rendering of the service with:
 
 ```shell
-$ helm template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.type=NodePort
-$ helm template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=NodePort
-$ helm template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=ClusterIP
+$ helm2 template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.type=NodePort
+$ helm2 template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=NodePort
+$ helm2 template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=ClusterIP
+
+OR
+
+$ helm3 template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.type=NodePort
+$ helm3 template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=NodePort
+$ helm3 template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=ClusterIP
+
 ```
 
 ## Values Files
@@ -177,7 +185,10 @@ sentences:
 and test template rendering with:
 
 ```shell
-$ helm template sentence-app/ --values values-resources.yaml -x templates/sentences-deployment.yaml
+$ helm2 template sentence-app/ --values values-resources.yaml -x templates/sentences-deployment.yaml
+
+$ helm3 template sentence-app/ --values values-resources.yaml --show-only templates/sentences-deployment.yaml
+
 ```
 
 Validate the chart and install the sentences application using the new chart:
