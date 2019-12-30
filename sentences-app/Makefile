@@ -15,17 +15,17 @@ build-test:
 # Run stand-alone main service container
 .PHONY: run-service
 run-service:
-	docker run --rm -p8890:5000 sentences:$(VERSION) --mode sentence
+	docker run --rm -p8890:5000 -p8000:8000 sentences:$(VERSION) --mode sentence
 
 # Run stand-alone age service container
 .PHONY: run-age-service
 run-age-service:
-	docker run --rm -p8888:5000 sentences:$(VERSION) --mode age
+	docker run --rm -p8888:5000 -p8000:8000 sentences:$(VERSION) --mode age
 
 # Run stand-alone name service container
 .PHONY: run-name-service
 run-name-service:
-	docker run --rm -p8889:5000 sentences:$(VERSION) --mode name
+	docker run --rm -p8889:5000 -p8000:8000 sentences:$(VERSION) --mode name
 
 # Run all containers of the sentence app, access main service on port 8890 and metrics on 8891
 .PHONY: run-full-service
@@ -40,12 +40,12 @@ run-test:
 # Run age-service component test against services running locally on 127.0.0.1:8888
 .PHONY: run-age-service-test
 run-age-service-test:
-	docker run --rm --net host -e SERVICE_URL='http://127.0.0.1:8888' sentences-test:$(VERSION) /usr/src/app/tests/test_age_service.py
+	docker run --rm --net host -e SERVICE_URL='http://127.0.0.1:8888' -e METRICS_URL='http://127.0.0.1:8000' sentences-test:$(VERSION) /usr/src/app/tests/test_age_service.py
 
 # Run name-service component test against services running locally on 127.0.0.1:8889
 .PHONY: run-name-service-test
 run-name-service-test:
-	docker run --rm --net host -e SERVICE_URL='http://127.0.0.1:8889' sentences-test:$(VERSION) /usr/src/app/tests/test_name_service.py
+	docker run --rm --net host -e SERVICE_URL='http://127.0.0.1:8889' -e METRICS_URL='http://127.0.0.1:8000' sentences-test:$(VERSION) /usr/src/app/tests/test_name_service.py
 
 # Run unit test - mapping local folder with app code into container
 .PHONY: run-unit-test
