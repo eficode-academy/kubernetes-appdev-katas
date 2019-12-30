@@ -6,7 +6,7 @@ from prometheus_client.parser import text_string_to_metric_families
 
 class TestService(unittest.TestCase):
     url = os.getenv('SERVICE_URL', 'http://127.0.0.1:8890')
-    metrics_url = os.getenv('METRICS_URL', 'http://127.0.0.1:8000')
+    metrics_url = os.getenv('METRICS_URL', 'http://127.0.0.1:8891')
 
     def get_metric(self, metric_name):
         metrics = requests.get(self.metrics_url, timeout=1).content
@@ -25,13 +25,13 @@ class TestService(unittest.TestCase):
         m1 = self.get_metric('sentence_requests_total')
         self.assertTrue(len(m1)==1)
         self.assertTrue(set(m1[0][1].keys())==set(['type']))
-        self.assertTrue(m1[0][1]['type']=='age')
+        self.assertTrue(m1[0][1]['type']=='sentence')
         cnt1 = m1[0][0]
         response = requests.get(self.url, timeout=1)
         m2 = self.get_metric('sentence_requests_total')
         self.assertTrue(len(m2)==1)
         self.assertTrue(set(m2[0][1].keys())==set(['type']))
-        self.assertTrue(m1[0][1]['type']=='age')
+        self.assertTrue(m1[0][1]['type']=='sentence')
         self.assertTrue(m2[0][0]==cnt1+1)
 
 if __name__ == '__main__':
