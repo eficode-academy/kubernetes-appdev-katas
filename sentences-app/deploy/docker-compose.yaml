@@ -3,24 +3,20 @@ version: '2'
 services:
 
   age_service:
-    image: sentences
-    command: --mode age --server-address 0.0.0.0:8888
+    image: hoeghh/age:1.0
     ports:
       # The metrics port for the age service
-      - 8892:8000
+      - 8892:8080
 
   name_service:
-    image: sentences
-    command: --mode name --server-address 0.0.0.0:8889
+    image: hoeghh/name:1.0
     ports:
       # The metrics port for the name service
-      - 8893:8000
+      - 8893:8080
 
   sentence_service:
-    image: sentences
-    command: --mode sentence --age-service http://age_service:8888 --name-service http://name_service:8889
+    image: hoeghh/sentence:1.0
+    command: /sentence -age-service http://age_service:8080 -name-service http://name_service:8080
     ports:
-      # The main application port
-      - 8890:5000
-      # The metrics port for the main service
-      - 8891:8000
+      # The metrics and main application port
+      - 8890:8080
