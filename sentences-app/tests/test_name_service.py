@@ -11,13 +11,13 @@ class TestName(unittest.TestCase):
     metrics_url = os.getenv('METRICS_URL', 'http://127.0.0.1:8000')
 
     def get_metric(self, metric_name):
-        metrics = requests.get(self.metrics_url, timeout=1).content
+        metrics = requests.get(self.metrics_url, timeout=10).text
         for family in text_string_to_metric_families(metrics):
             if family.samples[0][0]==metric_name:
                 return [(sample[2], sample[1]) for sample in family.samples]
 
     def test_response_format(self):
-        response = requests.get(self.url, timeout=1)
+        response = requests.get(self.url, timeout=10)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.encoding, 'utf-8')
         self.assertTrue(re.match('^[A-Z]{1}[a-z]+$', response.text))
