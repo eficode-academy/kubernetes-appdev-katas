@@ -13,6 +13,7 @@ Introducing the example sentences application:
 
 - [create-a-helm-chart](create-a-helm-chart.md)
 - [helm-chart-with-parameters](helm-chart-with-parameters.md)
+- [helm-and-helmsman](helm-and-helmsman.md)
 
 # Application Monitoring
 
