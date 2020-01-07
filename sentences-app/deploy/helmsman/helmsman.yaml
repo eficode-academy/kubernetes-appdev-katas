@@ -20,7 +20,7 @@ apps:
     priority: -1
     version: 0.1.0
     set:
-      image.repository: "hoeghh/age"
+      image.repository: "releasepraqma/age"
       image.tag:        "1.0"
 
   name:
@@ -31,7 +31,7 @@ apps:
     priority: -1
     version: 0.1.0
     set:
-      image.repository: "hoeghh/name"
+      image.repository: "releasepraqma/name"
       image.tag:        "1.0"
 
   sentence:
@@ -43,5 +43,5 @@ apps:
     wait: true
     version: 0.1.0
     set:
-      image.repository: "hoeghh/sentence"
+      image.repository: "releasepraqma/sentence"
       image.tag:        "1.0"
