@@ -49,7 +49,7 @@ sentences:
 
 > Note that the Helm best practices suggests using a flat values file vs. a
 > nested one as shown above. Real-world charts however, very often use nested
-> values and this is probably the defacto standard.
+> values and this is probably the defacto standard. For more info look [here](https://helm.sh/docs/topics/chart_best_practices/values/)
 
 This values.yaml file shows:
 
@@ -83,7 +83,8 @@ spec:
 Verify the rendering as follows:
 
 ```shell
-$ helm template sentence-app/ -x templates/sentences-deployment.yaml
+$ helm2 template sentence-app/ -x templates/sentences-deployment.yaml
+$ helm3 template sentence-app/ --show-only templates/sentences-deployment.yaml
 ```
 
 Since values.yaml have a default replica count of 1, you will see no changes,
@@ -91,7 +92,8 @@ however, you can try changing the default, or explicitly override the value in
 the helm invocation as follows:
 
 ```shell
-$ helm template sentence-app/ -x templates/sentences-deployment.yaml --set sentences.replicas=3
+$ helm2 template sentence-app/ -x templates/sentences-deployment.yaml --set sentences.replicas=3
+$ helm3 template sentence-app/ --show-only templates/sentences-deployment.yaml --set sentences.replicas=3
 ```
 
 Similarly, change the container image specification as follows:
@@ -123,7 +125,8 @@ As before, validate the resource setting with the following command. Pay
 particularly attention to indentation on the rendered YAML.
 
 ```shell
-$ helm template sentence-app/ --set sentences.resources.requests.cpu=0.25 -x templates/sentences-deployment.yaml
+$ helm2 template sentence-app/ --set sentences.resources.requests.cpu=0.25 -x templates/sentences-deployment.yaml
+$ helm3 template sentence-app/ --set sentences.resources.requests.cpu=0.25 --show-only templates/sentences-deployment.yaml
 ```
 
 ## Adding Conditional Rendering of Template
@@ -151,9 +154,15 @@ Change this line and add nodeport specification as follows:
 Test the rendering of the service with:
 
 ```shell
-$ helm template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.type=NodePort
-$ helm template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=NodePort
-$ helm template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=ClusterIP
+$ helm2 template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.type=NodePort
+$ helm2 template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=NodePort
+$ helm2 template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=ClusterIP
+
+OR
+
+$ helm3 template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.type=NodePort
+$ helm3 template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=NodePort
+$ helm3 template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=ClusterIP
 ```
 
 ## Values Files
@@ -174,7 +183,8 @@ sentences:
 and test template rendering with:
 
 ```shell
-$ helm template sentence-app/ --values values-resources.yaml -x templates/sentences-deployment.yaml
+$ helm2 template sentence-app/ --values values-resources.yaml -x templates/sentences-deployment.yaml
+$ helm3 template sentence-app/ --values values-resources.yaml --show-only templates/sentences-deployment.yaml
 ```
 
 Validate the chart and install the sentences application using the new chart:
@@ -196,7 +206,8 @@ Finally, inspect the chart status and actual values:
 
 ```shell
 $ helm list
-$ helm get sentences
+$ helm2 get sentences
+$ helm3 get all sentences
 ```
 
 Note that the `get` operation show the used values in the beginning.

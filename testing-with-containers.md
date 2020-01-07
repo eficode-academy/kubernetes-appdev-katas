@@ -1,96 +1,72 @@
 # Testing with Containers
 
-This exercise will demonstrate unit and component testing of applications using
-containers.  It will use the application container built in the
-[hello-sentences-app](hello-sentences-app.md) exercise.
+This exercise will demonstrate unit and component testing of applications using containers.
 
-The following exercise assumes commands are being run from the sentences-app
-folder:
+Our application consists of three microservices:
 
-```shell
-$ cd sentences-app
+* [sentences-age](../k8s-sentences-age) To output a random number between 0-100.
+* [sentences-name](../k8s-sentences-name) To output a random name from the group Monty Python.
+* [sentences-sentences](../k8s-sentences-sentence) That is the frontend, displaying the result from both microservices.
+
+In this excercise we will build, spin up, use and test the docker images
+
+All three applications follows the same structure:
+
 ```
+.
+├── app
+├── build-app.sh
+├── component-test
+├── .git
+├── .github
+├── helm
+├── push-app.sh
+├── README.md
+├── test
+└── unit-test.sh
+
+```
+
+## Familiarizing with the setup
+
+In each of the repositories, we have created a pipeline for the individual applications, going through the steps listed below.
+
+`test-code -> build-docker-image -> component-test`
+
+* `test-code` runs the unit test through `unit-test.sh`
+* `build-docker-image` builds the image, and pushes it up to dockerhub via `build-app.sh` and `push-app.sh`
+* `component-test` takes the recently pushed image and runs `test/component-test.sh`
+
+In the section below, we are familiarizing ourselves with the build pipline by hand before enabling it in GitHub Actions.
 
 ## Running Unit Tests
 
-```shell
-$ python -m unittest discover unit_tests/
-```
-
-This will run the unit tests locally and produce the following output:
-
-```
-...
-----------------------------------------------------------------------
-Ran 3 tests in 0.001s
-
-OK
-```
-
-While this is quick and convenient, it has the problem that it requires all test
-requirements installed locally in the proper versions and with the proper
-configuration. With real-world applications and CI/CD systems that build
-software using different versions this becomes increasingly complex.
-
-Below we will run the tests using a container such that testing becomes
-independent of locally installed software (except for the ability to run
-containers).
-
-### Running Tests with a Container
-
-The unit test Python requirements are defined in the
-[test_requirements.txt](sentences-app/test_requirements.txt) file. When we build a container
-to run the tests, we can add these requirements with the following lines in the
-Dockerfile we use to build the container (`pip` is the python package
-installer).:
-
-```
-COPY test_requirements.txt /usr/src/app/
-RUN pip install --no-cache-dir -r /usr/src/app/test_requirements.txt
-```
-
-Next, we can also add the unit tests to the container with the following lines
-in the Dockerfile:
-
-```
-COPY tests/*.py /usr/src/app/tests/
-COPY unit_tests/*.py /usr/src/app/unit_tests/
-```
-
-Together with the application source code there is also a
-[Dockerfile_test](sentences-app/Dockerfile_test) which contain the lines mentioned above and
-which we can use to build a testing container. Use the following command to
-build the testing container:
+Open up each of the three repositories and run the unit test to make sure that everything works:
 
 ```shell
-$ docker build -t sentences-test:v1 -f Dockerfile_test .
+$ ./unit-test.sh
+=== RUN   TestAgeIntegerShouldBeBetween
+--- PASS: TestAgeIntegerShouldBeBetween (0.00s)
+    age_test.go:11: GetAge(0, 100) PASSED, expected 16 to be between 0 and 100
+PASS
+ok  	_/go	0.002s
+
 ```
 
-Since the current version of the testing container includes a fixed version of
-the unit tests, we can either run this specific version of the unit tests, or we
-can run unit tests which we have locally.
+The `unit-test.sh` script runs a (golang)[https://hub.docker.com/_/golang/] image, voluming in the code.
 
-Use the following command to point the unit test framework inside the container
-to the version of the unit tests that are also stored within the
-container. Running unit tests this way should ensure that can be executed in a
-reproducible manner.
+### Tasks
 
-```shell
-$ docker run --rm -v $PWD:/src:ro -w /src sentences-test:v1 -m unittest discover -s /usr/src/app/unit_tests
-```
+* try enabling the commented-out test in the file [age_test.go](../k8s-sentences-age/app/age_test.go). If you now try to run the command from above, you will see an error instead.
+* Comment out the failed test again, so the pipeline will run smooth when set-up.
 
-If we change any of the unit tests we need to build a new test container
-image. However, we can also point the test framework inside the container to the
-local version of the unit tests with the following command:
+## Building and pushing the image
 
-```shell
-$ docker run --rm -v $PWD:/src:ro -v $PWD/unit_tests:/unit_tests:ro -w /src sentences-test:v1 -m unittest discover -s /unit_tests
-```
+Next 
 
-> To see the effect of changing the unit tests try enabling the commented-out
-> test in the file [test_unit_tests.py](sentences-app/unit_tests/test_unit_tests.py). If you
-> now try the two commands from above, you will see a different number of unit
-> tests being executed.
+### Tasks
+
+Login to dockerhub with the `docker login` command on the server.
 
 ## Running Component Tests
 

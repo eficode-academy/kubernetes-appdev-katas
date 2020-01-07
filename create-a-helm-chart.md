@@ -86,25 +86,27 @@ NAME:   sentences
 LAST DEPLOYED: Thu Jul 11 14:26:22 2019
 NAMESPACE: default
 STATUS: DEPLOYED
+```
 
-RESOURCES:
-==> v1/Deployment
-NAME           READY  UP-TO-DATE  AVAILABLE  AGE
-sentence-age   0/1    1           0          0s
-sentence-name  0/1    1           0          0s
-sentences      0/1    1           0          0s
+> Note for Helm 3: If you want to see all the different objects that helm has created, use:
 
-==> v1/Pod(related)
-NAME                            READY  STATUS             RESTARTS  AGE
-sentence-age-7cfcb9755b-bjg44   0/1    ContainerCreating  0         0s
-sentence-name-757fdf5c56-mj9dz  0/1    ContainerCreating  0         0s
-sentences-76d8456745-qd7qb      0/1    ContainerCreating  0         0s
+```shell
+$ kubectl get pods,svc,deployments
+NAME                                READY   STATUS    RESTARTS   AGE
+pod/sentence-age-6969dc55b6-t6jfk   1/1     Running   0          116s
+pod/sentence-name-bb79ff496-pkdsx   1/1     Running   0          116s
+pod/sentences-b8c85b468-dr5fv       1/1     Running   0          116s
 
-==> v1/Service
-NAME           TYPE       CLUSTER-IP      EXTERNAL-IP  PORT(S)   AGE
-sentence-age   ClusterIP  10.96.119.239   <none>       5000/TCP  0s
-sentence-name  ClusterIP  10.110.60.80    <none>       5000/TCP  0s
-sentences      ClusterIP  10.103.227.249  <none>       5000/TCP  0s
+NAME                    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+service/sentence-age    ClusterIP   10.63.255.23    <none>        5000/TCP         117s
+service/sentence-name   ClusterIP   10.63.255.250   <none>        5000/TCP         117s
+service/sentences       NodePort    10.63.250.194   <none>        5000:31379/TCP   117s
+
+NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.extensions/sentence-age    1/1     1            1           117s
+deployment.extensions/sentence-name   1/1     1            1           117s
+deployment.extensions/sentences       1/1     1            1           117s
+
 ```
 
 To see the applications installed with Helm use the `helm ls` operation:
@@ -118,7 +120,8 @@ sentences    1          Wed Aug 14 08:44:55 2019   DEPLOYED   sentence-app-0.1.0
 To see the Kubernetes YAML which Helm used to install the application use the `helm get` operation:
 
 ```shell
-$ helm get sentences
+$ helm2 get sentences
+$ helm3 get all sentences
 ```
 
 In our case this will be identical to the YAML files we copied previously since
