@@ -4,7 +4,7 @@ metadata:
   labels:
     app: sentences
     component: name
-  name: sentence-name
+  name: name
 spec:
   ports:
   - port: 8080
