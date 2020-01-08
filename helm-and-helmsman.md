@@ -5,7 +5,8 @@ using [Helmsman](https://github.com/Praqma/helmsman).
 
 ## Prerequisites
 
-This exercise assumes that the following repositories have been cloned into a shared folder:
+This exercise assumes that the following repositories (or forks) have been
+cloned into a shared folder:
 
 ```
 https://github.com/praqma-training/kubernetes-appdev-katas
@@ -44,14 +45,16 @@ Helmsman can create Kubernetes namespaces. We will not use this features,
 however, Helmsman still need a list of namespaces which we will deploy
 applications into.
 
-In the `helmsman.yaml` file the namespace is found in four places, the overall list of namespaces:
+In the `helmsman.yaml` file the application destination namespace is found in
+four places. First in the overall list of namespaces (note the trailing ':'):
 
 ```
 namespaces:
   default:
 ```
 
-and a namespace target for each microservce - here an example for the age service:
+and a namespace destination for each microservce - here an example for the age
+service:
 
 ```
 apps:
@@ -78,6 +81,9 @@ Deploy the sentences microservices (the three Helm charts) to your namespace wit
 $ helmsman -apply -f helmsman.yaml
 ```
 
+Since Helmsman waits for resources to be deployed and ready, the command make
+take a little while to finish.
+
 When Helmsman have deployed the Helm charts, the main service is exposed with a
 Kubernetes service of type `LoadBalancer`. Use the following command to get the
 IP address of that service and test the deployed application.
@@ -103,6 +109,13 @@ application specification with the application deployed to Kubernetes:
 
 ```shell
 $ helmsman -apply -f helmsman.yaml
+```
+
+To see, that Helmsman actually installs Helm charts, use the following command
+to show installed Helm charts:
+
+```shell
+$ helm ls
 ```
 
 ### Optional Exercise
