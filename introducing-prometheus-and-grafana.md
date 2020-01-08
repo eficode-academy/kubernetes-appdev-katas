@@ -39,8 +39,8 @@ To install Prometheus and Grafana with settings suitable for the following
 exercises use the following commands:
 
 ```shell
-helm3 install prometheus stable/prometheus --version 9.2.0 -f resources/values-prometheus.yaml
-helm3 install grafana stable/grafana --version 4.0.1 -f resources/values-grafana.yaml
+$ helm3 install prometheus stable/prometheus --version 9.2.0 -f resources/values-prometheus.yaml
+$ helm3 install grafana stable/grafana --version 4.0.1 -f resources/values-grafana.yaml
 ```
 
 > This exercise assume a Kubernetes cluster with metrics support. Most managed
@@ -91,7 +91,10 @@ that chart for deploying the sentences application.
 $ kubectl apply -f sentences-app/deploy/kubernetes/
 ```
 
-After this, we should have 5 PODs running (Prometheus, Grafana and three PODs for the sentences application).
+After this, we should have 5 PODs running (Prometheus, Grafana and three PODs
+for the sentences application).  To verify that the application is running, look
+up the main service and node-port and fetch a result with curl as we did in the
+[hello-sentences](hello-sentences.md) exercise.
 
 ## Debugging Metrics
 
@@ -111,16 +114,16 @@ First, lets manually query the metrics from our sentences application. Remember
 that each microservice exports a metric called `sentence_requests_total` which
 is a counter that increments for each request the microservices processes.
 
-The sentences application exports metrics on port 8000. Any port can be used,
-and we will later see how Prometheus figures out which port to scrape for
-metrics.
+The sentences application exports metrics on port 8080 and path '/metrics'. Any
+port can generally be used, and we will later see how Prometheus figures out
+which port to scrape for metrics.
 
 To help us manually query metrics, we create a Kubernetes service that use port
-8000 of one of the deployments in our sentences application. The following
+8080 of one of the deployments in our sentences application. The following
 example use the main `sentences` deployment:
 
 ```shell
-$ kubectl expose deploy sentences --name sentences-metrics --port 8000 --target-port 8000 --type NodePort
+$ kubectl expose deploy sentences --name sentences-metrics --port 8080 --target-port 8080 --type NodePort
 ```
 
 This service use a NodePort, hence to query the metrics API we can look up the
@@ -139,6 +142,11 @@ $ curl -s <NODE-IP>:<PORT>/metrics | egrep '^sentence'
 ```
 
 We use `egrep` here to filter out the primary information, and we will see the following output:
+
+> If you get no results here, it could be because you skipped verifying the
+> initial deployment of the sentences application. Normally, metrics with a zero
+> value are not reported, i.e. until you fetch a sentence for the first time,
+> the curl above will return nothing.
 
 ```
 sentence_requests_total{type="sentence"} 6.0
