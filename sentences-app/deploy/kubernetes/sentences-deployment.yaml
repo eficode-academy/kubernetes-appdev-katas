@@ -6,7 +6,6 @@ metadata:
     component: main
   name: sentences
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: sentences
