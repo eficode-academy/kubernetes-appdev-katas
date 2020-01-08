@@ -26,8 +26,8 @@ spec:
         imagePullPolicy: Always
         name: sentences
         args: [
-          '--age-service', 'http://sentence-age:8080',
-          '--name-service', 'http://sentence-name:8080'
+          '--age-service', 'http://age:8080',
+          '--name-service', 'http://name:8080'
 	]
         resources:
           requests:
