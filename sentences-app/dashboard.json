@@ -226,21 +226,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate (container_cpu_usage_seconds_total{pod_name=~\"sentence-age.*\", image!=\"\"}[3m]))",
+          "expr": "sum(rate (container_cpu_usage_seconds_total{pod_name=~\"age.*\", image!=\"\"}[3m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "age",
           "refId": "B"
         },
         {
-          "expr": "sum(rate (container_cpu_usage_seconds_total{pod_name=~\"sentence-name.*\", image!=\"\"}[3m]))",
+          "expr": "sum(rate (container_cpu_usage_seconds_total{pod_name=~\"name.*\", image!=\"\"}[3m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "name",
           "refId": "A"
         },
         {
-          "expr": "sum(rate (container_cpu_usage_seconds_total{pod_name=~\"sentences.*\", image!=\"\"}[3m]))",
+          "expr": "sum(rate (container_cpu_usage_seconds_total{pod_name=~\"sentence.*\", image!=\"\"}[3m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "sentence",
