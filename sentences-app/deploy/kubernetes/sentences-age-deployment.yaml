@@ -21,10 +21,9 @@ spec:
     spec:
       #priorityClassName: medium-priority
       containers:
-      - image: praqma/sentences-app:latest
+      - image: releasepraqma/age:1.0
         imagePullPolicy: IfNotPresent
         name: sentences
-        args: ['--mode', 'age']
         resources:
           requests:
             cpu: 0.25

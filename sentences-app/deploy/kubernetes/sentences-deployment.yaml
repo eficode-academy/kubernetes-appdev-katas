@@ -21,10 +21,10 @@ spec:
     spec:
       #priorityClassName: medium-priority
       containers:
-      - image: praqma/sentences-app:latest
+      - image: releasepraqma/sentence:1.0
         imagePullPolicy: IfNotPresent
         name: sentences
-        args: ['--mode', 'sentence',
+        args: [
           '--age-service', 'http://sentence-age:5000',
           '--name-service', 'http://sentence-name:5000'
 	]
