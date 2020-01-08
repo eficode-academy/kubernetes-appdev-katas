@@ -22,8 +22,8 @@ spec:
     spec:
       #priorityClassName: medium-priority
       containers:
-      - image: releasepraqma/age:1.0
-        imagePullPolicy: IfNotPresent
+      - image: releasepraqma/age:latest
+        imagePullPolicy: Always
         name: sentences
         resources:
           requests:
