@@ -7,6 +7,13 @@ spec:
     apiVersion: "apps/v1"
     kind: Deployment
     name: sentences
+  resourcePolicy:
+    containerPolicies:
+      - name: "*"
+        minAllowed:
+          memory: 300Mi
+        maxAllowed:
+          memory: 1Gi
   updatePolicy:
     # "Auto" means both on POD creation and update of existing PODs
     updateMode: "Auto"

@@ -146,9 +146,10 @@ dashboard in JSON format.
 
 In the [Introducing Prometheus and
 Grafana](introducing-prometheus-and-grafana.md) exercise we loaded an existing
-dashboard. Now that we have created our own dashboard we can load into Grafana.
-First delete the current dashboard by selecting the *Dashboard settings* button
-to the right of the *Save dashboard* button in the top-right corner.
+dashboard. Now that we have created our own dashboard we can load it into
+Grafana.  First delete the current dashboard by selecting the *Dashboard
+settings* button to the right of the *Save dashboard* button in the top-right
+corner.
 
 Next, you will have to copy the dashboard from where you downloaded it and onto
 the VM instance where you are running kubectl commands.  This will similar to
