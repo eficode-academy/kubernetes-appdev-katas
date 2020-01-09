@@ -239,9 +239,10 @@ dashboards with *requests/s* and also the *POD cpu usage*.
 
 # Cleanup
 
-Delete the applications and additional services with the following commands. If
-you are going to proceed to the next Prometheus/Grafana exercise, you might want
-to leave everything running for now:
+Delete the applications and additional services with the following commands.
+
+*If you are going to proceed to the next Prometheus/Grafana exercise, you might
+want to leave everything running for now*
 
 ```shell
 $ kubectl delete -f sentences-app/deploy/kubernetes/
