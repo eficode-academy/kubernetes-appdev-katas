@@ -64,20 +64,27 @@ Now we need to update the chart template files such that values are inserted at
 the appropriate places. We do that using the `{{` and `}}` template language
 constructions.
 
-In the `sentences-deployment.yaml` file, locate the specification of the number of replicas:
+In the template file `sentence-app/templates/sentences-deployment.yaml` file,
+locate the POD spec in the deployment specification, i.e. the part that start
+with:
 
 ```
 ...
 spec:
-  replicas: 1
+  selector:
+    matchLabels:
+      ...
+```
+
+and add a line with a `replicas` specification as follows:
+
+```
 ...
-```
-
-and change it to:
-
-```
 spec:
   replicas: {{ .Values.sentences.replicas }}
+  selector:
+    matchLabels:
+      ...
 ```
 
 Verify the rendering as follows:
@@ -114,9 +121,23 @@ limits or requests for either CPU or memory since all this is related to the
 actual usage.
 
 Instead we simply insert the full YAML as given by the user. To do this we use a
-Helm function and pipeline as follows:
+Helm function and pipeline as follows.
+
+Change the hard-coded resource settings from:
 
 ```
+...
+        resources:
+          requests:
+            cpu: 0.25
+          limits:
+            cpu: 0.25
+```
+
+to:
+
+```
+...
         resources:
 {{ toYaml .Values.sentences.resources | indent 10 }}
 ```
@@ -134,7 +155,8 @@ $ helm3 template sentence-app/ --set sentences.resources.requests.cpu=0.25 --sho
 Kubernetes allows us to definee which port to use for services of type
 NodePort. I.e. we will customize the Kubernetes YAMl for this scenario.
 
-In the `sentences-svc.yaml` file, locate the specification of the service type:
+In the template file `sentence-app/templates/sentences-svc.yaml` file, locate
+the specification of the service type:
 
 ```
 ...
@@ -150,6 +172,8 @@ Change this line and add nodeport specification as follows:
   NodePort: {{ .Values.sentences.service.nodePort }}
   {{- end -}}
 ```
+
+Note the post-fix used by Helm notation in the above specification.
 
 Test the rendering of the service with:
 
