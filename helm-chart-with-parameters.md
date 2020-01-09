@@ -21,7 +21,7 @@ This exercise extends the Helm chart created in the
 
 We will add the following options for customization:
 
-- Configurable resource naming (using Helm built-in values)
+- Configurable Kubernetes resource naming (using Helm built-in values)
 - Configurable number of POD replicas in deployments (using single-value parameters with defaults)
 - Configurable resource settings (using list-type value parameters)
 - Optional definitions (using if/else constructs)
@@ -36,7 +36,7 @@ sentences:
   replicas: 1
   ## image contains the POD container image parameters
   image:
-    repository: praqma/sentences-app
+    repository: releasepraqma/sentence
     tag: latest
   ## resource requests and limits
   resources: {}
@@ -211,6 +211,14 @@ $ helm3 get all sentences
 ```
 
 Note that the `get` operation show the used values in the beginning.
+
+# Food for Thought
+
+When doing horisontal POD autoscaling using the HorisontalPODAutoscaler (HPA)
+Kubernetes resource, its best practise not to define the number of replicas in
+your resource YAML. If you want to create a Helm chart that supports both manual
+scaling through a replicas parameter and automatic scaling with HPA how would
+you do that?
 
 ## Cleanup
 
