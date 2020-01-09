@@ -187,10 +187,10 @@ The GUI Prometheus is mostly used for low-level debugging and metrics are
 typically visualized with Grafana since Grafana provides many more options for
 building dashboards.
 
-When logged-in to Grafana go to the *camera shutter* option in the left-side,
-which is the metrics *explore* feature. This feature provide access to a simple
-metrics query option, which often is used instead of directly accessing
-Prometheus when we are beyond basic debugging of the metrics feature.
+When logged-in to Grafana go to the *Explore* option in the left-side. This
+feature provide access to a simple metrics query option, which often is used
+instead of directly accessing Prometheus when we are beyond basic debugging of
+the metrics feature.
 
 In the query box type the metrics name `sentence_requests_total` as shown below:
 
@@ -214,9 +214,9 @@ $ kubectl create configmap dashboard --from-file sentences-app/dashboard.json
 $ kubectl label configmap dashboard grafana_dashboard='1'
 ```
 
-After this you will be able to use the dashboard in Grafana.  Go to the *Window*
-option above the *camera shutter* option and select `Home` and/or `Manage` to
-see newly loaded dashboards.
+After this you will be able to use the dashboard in Grafana.  Go to the
+*Dashboards* option above the *Explore* option and select `Home` and/or
+`Manage` to see newly loaded dashboards.
 
 To generate some load on the sentences application, use the following command
 and watch the effect in the dashboard:
