@@ -34,21 +34,22 @@ can change the query which Grafana sends to Prometheus to
 rate(sentence_requests_total[2m])*60
 ```
 
-With this query, Prometheus will return metrics with a per-second average
+With this query, Prometheus will return metrics with a per-minute average
 measured over the last 2 minutes. We can include general math in the query also,
-and we here convert the metric into a requests/minute metric.
+and we here convert the metric into a requests/minute metric (the `rate`
+function return per-second changes which we multiply by 60).
 
 We now have found the first metric query for our dashboard.
 
 ## Metric Labels
 
-The data returned with the above query results in five different curves and the
-table also show five results. The results differ in the labels, e.g. observe the
-value of the `type` label -- you should be able to find `sentence`, `age` and
-`name`.
+The data returned with the above query results in five different sets of data
+and the table also show five results. The results differ in the labels,
+e.g. observe the value of the `type` label -- you should be able to find
+`sentence`, `age` and `name`.
 
 In addition, we see that e.g. the `kubernetes_pod_name` label have different
-values matching the actual POD names of our deployed PODs. Compare the
+values matching the actual POD names of our Kubernetes PODs. Compare the
 `kubernetes_pod_name` label values with the following command to verify this:
 
 ```shell
@@ -77,7 +78,8 @@ happen across the values of the `type` label.
 sum(rate(sentence_requests_total[2m])) by (type)
 ```
 
-This will be our second metric query for our dashboard.
+This will result in a set of data for each of our microservice types and this
+will be our second metric query for our dashboard.
 
 There are many [Prometheus
 functions](https://prometheus.io/docs/prometheus/latest/querying/functions/) and
