@@ -166,7 +166,7 @@ PODs.
 
 ```shell
 kubectl delete -f resources/load-generator.yaml
-kubectl delete -f resources/nginx-deplyment.yaml
 kubectl delete -f sentences-app/deploy/hpa.yaml
 kubectl delete -f sentences-app/deploy/kubernetes/
+kubectl delete -f resources/nginx-deplyment.yaml
 ```
