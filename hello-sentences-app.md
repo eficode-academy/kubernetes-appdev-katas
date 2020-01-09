@@ -26,6 +26,16 @@ drwxr-xr-x  7 ubuntu ubuntu 4096 Jan  7 11:36 k8s-sentences-age
 drwxr-xr-x  7 ubuntu ubuntu 4096 Jan  7 11:36 k8s-sentences-name
 ```
 
+Use the following commands to clone Praqma repositories or replace with your
+own forks if possible:
+
+```shell
+$ cd ~
+$ git clone https://github.com/praqma-training/k8s-sentences-sentence.git
+$ git clone https://github.com/praqma-training/k8s-sentences-age.git
+$ git clone https://github.com/praqma-training/k8s-sentences-name.git
+```
+
 ## Running the Sentences Application with Docker Compose
 
 ### Building Local Images
