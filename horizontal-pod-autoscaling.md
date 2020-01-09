@@ -78,7 +78,7 @@ automatically to adjust the number of replicas based on e.g. the CPU load of the
 PODs in a deployment, we could use the HorizontalPODAutoscaler.
 
 Lets create a HorizontalPODAutoscaler resource that adjusts the number of PODs
-such that the average CPU load of the PODs are 80% of their requested CPU
+such that the average CPU load of the PODs are 65% of their requested CPU
 allocation:
 
 ```shell
@@ -98,7 +98,7 @@ of 80% and currently one replica:
 
 ```
 NAME        REFERENCE              TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
-sentences   Deployment/sentences   100%/80%   1         5         1          27s
+sentences   Deployment/sentences   100%/65%   1         5         1          27s
 ```
 
 After a short while, the horizontal POD autoscaler will have scaled the
