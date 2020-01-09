@@ -1,6 +1,6 @@
 # Helm and Helmsman
 
-This exercise will demonstrate declarative approach to Helm chart installation
+This exercise will demonstrate a declarative approach to Helm chart installation
 using [Helmsman](https://github.com/Praqma/helmsman).
 
 ## Prerequisites
@@ -23,6 +23,16 @@ drwxr-xr-x  6 ubuntu ubuntu 4096 Jan  7 11:36 kubernetes-appdev-katas
 drwxr-xr-x  7 ubuntu ubuntu 4096 Jan  7 11:36 k8s-sentences-sentence
 drwxr-xr-x  7 ubuntu ubuntu 4096 Jan  7 11:36 k8s-sentences-age
 drwxr-xr-x  7 ubuntu ubuntu 4096 Jan  7 11:36 k8s-sentences-name
+```
+
+Use the following commands to clone Praqma repositories or replace with your
+own forks if possible:
+
+```shell
+$ cd ~
+$ git clone https://github.com/praqma-training/k8s-sentences-sentence.git
+$ git clone https://github.com/praqma-training/k8s-sentences-age.git
+$ git clone https://github.com/praqma-training/k8s-sentences-name.git
 ```
 
 ## Deploying with Helmsman
@@ -81,8 +91,8 @@ Deploy the sentences microservices (the three Helm charts) to your namespace wit
 $ helmsman -apply -f helmsman.yaml
 ```
 
-Since Helmsman waits for resources to be deployed and ready, the command make
-take a little while to finish.
+Since Helmsman waits for resources to be deployed and ready, the command may
+take a little while to complete.
 
 When Helmsman have deployed the Helm charts, the main service is exposed with a
 Kubernetes service of type `LoadBalancer`. Use the following command to get the
@@ -122,7 +132,7 @@ $ helm ls
 
 The Sentences application was deployed with the frontend service exposed with a
 Kubernetes service of type `LoadBalancer`. Update the `helmsman.yaml` to expose
-the front-end service using a service of type `nodePort` instead, upgrade the
+the front-end service using a service of type `NodePort` instead, upgrade the
 deployment and test access to the sentences application using the nodeport
 service.
 
