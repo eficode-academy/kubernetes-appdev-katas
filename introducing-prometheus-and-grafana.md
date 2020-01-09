@@ -71,7 +71,7 @@ prometheus-server-868b8cdb59-d7gpq   2/2     Running   0          48s
 Note that Grafana is deployed **without TLS** and as such this is not a
 deployment that is suitable for production use.
 
-Grafana is exposed with a Kubernetes service of type `LoadBalancer`. Use the
+Grafana is exposed with a Kubernetes service of type `NodePort`. Use the
 following commands to get the external IP address/port and the Grafana `admin`
 user password:
 
@@ -83,9 +83,7 @@ $ kubectl get secret grafana -o jsonpath="{.data.admin-password}" | base64 --dec
 
 ## Deploying the Application
 
-The sentences application can be deployed with the following command. If you
-created a Helm chart for the application in a previous exercise feel free to use
-that chart for deploying the sentences application.
+The sentences application can be deployed with the following command.
 
 ```shell
 $ kubectl apply -f sentences-app/deploy/kubernetes/
@@ -94,7 +92,7 @@ $ kubectl apply -f sentences-app/deploy/kubernetes/
 After this, we should have 5 PODs running (Prometheus, Grafana and three PODs
 for the sentences application).  To verify that the application is running, look
 up the main service and node-port and fetch a result with curl as we did in the
-[hello-sentences](hello-sentences.md) exercise.
+[hello-sentences-app](hello-sentences-app.md) exercise.
 
 ## Debugging Metrics
 
@@ -118,39 +116,27 @@ The sentences application exports metrics on port 8080 and path '/metrics'. Any
 port can generally be used, and we will later see how Prometheus figures out
 which port to scrape for metrics.
 
-To help us manually query metrics, we create a Kubernetes service that use port
-8080 of one of the deployments in our sentences application. The following
-example use the main `sentences` deployment:
-
-```shell
-$ kubectl expose deploy sentences --name sentences-metrics --port 8080 --target-port 8080 --type NodePort
-```
-
-This service use a NodePort, hence to query the metrics API we can look up the
-port and query if with curl. First, lookup a node IP address and the specific node
-port using `kubectl`:
-
-```shell
-$ kubectl get nodes -o wide
-$ kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services sentences-metrics
-```
-
-Second, query the metrics API of the sentences deployment:
+Query metrics API of the sentences deployment similarly to how you fetched
+sentences. The difference is that we add the '/metrics' path to the query:
 
 ```shell
 $ curl -s <NODE-IP>:<PORT>/metrics | egrep '^sentence'
 ```
 
-We use `egrep` here to filter out the primary information, and we will see the following output:
+We use `egrep` here to filter out the essential information, and we will see the
+following output:
+
+```
+sentence_requests_total{type="sentence"} 6.0
+```
 
 > If you get no results here, it could be because you skipped verifying the
 > initial deployment of the sentences application. Normally, metrics with a zero
 > value are not reported, i.e. until you fetch a sentence for the first time,
 > the curl above will return nothing.
 
-```
-sentence_requests_total{type="sentence"} 6.0
-```
+Try fetching more sentences and metrics to see the `sentence_requests_total`
+metric increment.
 
 This show that we have a metric with name `sentence_requests_total` with a label
 `type` that have the value `sentence`. The other microservices `age` and `name`
@@ -174,7 +160,7 @@ $ kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services prometheus-server
 ```
 
 When you have the Prometheus GUI op, select the `Status` menu item and then the
-`Targets` option as shown below.
+`Targets` option as shown below. Scroll down to the section with the heading `kubernetes-pods (3/3 up)`
 
 This shows the list of targets that Prometheus has identified through the
 Kubernetes API. We see that three POD target show up with the labels matching
@@ -188,10 +174,10 @@ API.
 ![prometheus-scrape-targets](images/prometheus-scrape-targets.png)
 
 Next, select the `Graph` menu item and type in `sentence_requests_total` in the
-query box as shown below. This will show the number of requests handled by each
-of the microservices in the sentences application.  The fact that we see metrics
-here verifies that the metrics of the sentences application is available from
-Prometheus.
+query box as shown below and press return. This will show the number of requests
+handled by each of the microservices in the sentences application.  The fact
+that we see metrics here verifies that the metrics of the sentences application
+are available from Prometheus.
 
 ![prometheus-scrape-targets](images/prometheus-graph.png)
 
@@ -228,15 +214,28 @@ $ kubectl create configmap dashboard --from-file sentences-app/dashboard.json
 $ kubectl label configmap dashboard grafana_dashboard='1'
 ```
 
-After this you will be able to use the dashboard in Grafana. To generate some
-load on the sentences application, use the following command and watch the
-effect in the dashboard:
+After this you will be able to use the dashboard in Grafana.  Go to the *Window*
+option above the *camera shutter* option and select `Home` and/or `Manage` to
+see newly loaded dashboards.
+
+To generate some load on the sentences application, use the following command
+and watch the effect in the dashboard:
 
 
 ```shell
 $ kubectl apply -f resources/load-generator.yaml
 ```
 
+After a short while, you should see the effect of the generated load in the
+dashboards with *requests/s* and also the *POD cpu usage*.
+
+> If you are doing this exercise after having done the auto-scaling section, you
+> could deploy the HorisontalPODAutoscaler resource to see auto-scaling and the
+> dashboard with POD counts for the individial microservices to change.
+>
+> ```shell
+> kubectl apply -f sentences-app/deploy/hpa.yaml
+> ```
 
 # Cleanup
 
@@ -249,6 +248,6 @@ $ kubectl delete -f sentences-app/deploy/kubernetes/
 $ helm3 delete grafana
 $ helm3 delete prometheus
 $ kubectl delete configmap dashboard
-$ kubectl delete svc sentences-metrics
 $ kubectl delete -f resources/load-generator.yaml
+$ kubectl delete -f sentences-app/deploy/hpa.yaml
 ```
