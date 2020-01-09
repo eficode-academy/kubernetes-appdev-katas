@@ -32,11 +32,6 @@ deployment.extensions/sentence-name     1/1     1            1           7m
 deployment.extensions/sentences         1/1     1            1           7m
 ```
 
-With the deployment status, pay particular attantion to the various
-columns. Different version of Kubernetes and kubectl use slightly different
-formats, but generally you should be able to observe that not all the requested
-nginx PODs become 'AVAILABLE'.
-
 Next we apply some load to the sentence application, start a load generator as
 follows (ApacheBench - see YAML file for details):
 
@@ -115,7 +110,8 @@ the following command:
 kubectl get pods -o=jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.qosClass}{"\t"}{.spec.priority}{"\n"}{end}'
 ```
 
-This will show that all our PODs have a priority of zero.
+This will show that all our PODs are in the Burstable QoS class and have a
+priority of zero.
 
 To ensure that the sentence application is able to evict the PODs from the nginx
 deployment, we need to increase the POD priority of the sentence application.
