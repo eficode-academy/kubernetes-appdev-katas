@@ -55,9 +55,11 @@ the original Kubernetes YAML files to the template folder:
 $ cp -v ../sentences-app/deploy/kubernetes/*.yaml sentence-app/templates/
 ```
 
-Now we have a Helm chart for our sentences application - it is simple in the
-sense that it has no configurable values, but it is a complete installable chart
-and it will use the correct sentence application Kubernetes YAML definitions.
+Thats it - now we have a Helm chart for our sentences application.
+
+It is a simple Helm chart in the sense that it has no configurable values, but
+it is a complete installable chart and it will use the correct sentence
+application Kubernetes YAML definitions.
 
 Before deploying the chart, we run a static validation of the chart:
 
@@ -78,17 +80,19 @@ $ helm2 install --name sentences sentence-app/
 $ helm3 install sentences sentence-app/
 ```
 
-Running this command produce the following output, which specify which resources
-that where created:
+Running this command produce the following output for Helm3 and a more verbose
+output for Helm2.
 
 ```
 NAME:   sentences
 LAST DEPLOYED: Thu Jul 11 14:26:22 2019
 NAMESPACE: default
-STATUS: DEPLOYED
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
 ```
 
-> Note for Helm 3: If you want to see all the different objects that helm has created, use:
+To see all the different objects that helm has created, use:
 
 ```shell
 $ kubectl get pods,svc,deployments
