@@ -88,7 +88,7 @@ When all three PODs are in a running state, use the following commands to look
 up the actual NodePort used by the frontend microservice:
 
 ```shell
-$ kubectl get svc sentences
+$ kubectl get svc sentence
 NAME        TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
 sentences   NodePort   10.15.245.208   <none>        8080:30250/TCP   37s
 ```
