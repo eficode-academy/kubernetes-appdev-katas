@@ -38,13 +38,6 @@ $ git clone https://github.com/praqma-training/k8s-sentences-name.git
 
 ## Running the Sentences Application with Docker Compose
 
-### Building Local Images
-
-
-
-
-### Running Application with Local Images
-
 The sentences application consists of three microservices packaged in three
 different container images. The sentences application can be run on a Docker
 host using e.g. docker-compose.
