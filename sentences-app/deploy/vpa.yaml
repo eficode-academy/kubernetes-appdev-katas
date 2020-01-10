@@ -1,15 +1,15 @@
 apiVersion: "autoscaling.k8s.io/v1beta2"
 kind: VerticalPodAutoscaler
 metadata:
-  name: sentences
+  name: sentence
 spec:
   targetRef:
     apiVersion: "apps/v1"
     kind: Deployment
-    name: sentences
+    name: sentence
   resourcePolicy:
     containerPolicies:
-      - name: "*"
+      - containerName: "*"
         minAllowed:
           memory: 300Mi
         maxAllowed:
