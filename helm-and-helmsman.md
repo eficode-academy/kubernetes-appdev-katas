@@ -112,7 +112,7 @@ repositories/tags. E.g. change the image repository to your own repository or
 use different tags for Praqma images.  The following Praqma images have a
 special observable behavior:
 
-`releasepraqma/sentence:reverse`  (swaps age and name in the generated sentences)
+`releasepraqma/sentence:1.0-1fee`  (swaps age and name in the generated sentences)
 
 After modifying the `helmsman.yaml`, re-run Helmsman to reconcile the
 application specification with the application deployed to Kubernetes:
