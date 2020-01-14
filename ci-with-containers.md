@@ -57,7 +57,7 @@ ok  	_/go	0.002s
 
 ```
 
-The `unit-test.sh` script runs a (golang)[https://hub.docker.com/_/golang/] image, voluming in the code.
+The `unit-test.sh` script runs a [golang](https://hub.docker.com/_/golang/) image, voluming in the code.
 
 * try enabling the commented-out test in the file [age_test.go](../k8s-sentences-age/app/age_test.go). If you now try to run the command from above, you will see an error instead.
 * Comment out the failed test again, so the pipeline will run smooth when set-up.
@@ -84,13 +84,15 @@ golang              1.13.4              a2e245db8bd3        6 weeks ago         
 * Test one of the applications by running the docker image: `docker run -p 8080:8080 age:latest` and inspect the website by opening a browser on your IP:8080
 * Terminate your running container with Ctrl+c
 
+> Tip: If you get an error running the above, it could be that you are running something on port 8080. Try to see if you can identify it with a `docker ps`, or change the host port to something else, like `8081:8080`.
+
 ## Running Component Tests
 
 Running component tests means that we run a microservice and then test it by making requests to it and validate the responses.
 
-In the application repositories `test/component-test.sh` will run a docker-compose file, compile the python component test image and spinning up the application image and python test system.
+In the application repositories `test/component-test.sh` will run a docker-compose file that compiles the python component test image, spins up the application image and python test system, and runs the python test code.
 
-The docker containers will hold onto the terminal for output, and return a non 0 exit code if the test fails.
+The docker containers will be attatched to the terminal for output, and return a non 0 exit code if the test fails.
 
 Running tests against the main sentences service (which relies on the `name` and
 `age` services), the compose start all three microservices. It is the same command as the two other applications, the docker-compose just have 4 containers instead of 2.
@@ -113,8 +115,23 @@ ci_sut_1 exited with code 0
 
 ## Enabling GitHub Actions
 
-Adding secrets:  DOCKER_PW and DOCKER_USER
+> Prerequisite: You need a login to Docker Hub. If you do not already have that, head over to https://hub.docker.com/ and create one to use
 
-will be used in the pipeline script
+We want our code to be tested and a new docker image to be pushed every time we make a new commit.
+For that we need to enable GitHubs build in CI service called GitHub Actions.
+The only thing we need to do before enabling GitHub Actions is to add your username and password for dockerhub as secrets on the repository.
 
-trigger a build, see that you have the images on your docker-hub account.
+### Tasks
+
+
+* Adding secrets  
+    * Click on the settings tab
+    * Click on secrets in the left pane
+    * Click "add a secret" and make two secrets
+        * DOCKER_PW with your dockerhub password
+        * DOCKER_USER with your dockerhub username
+
+These two secrets will be used in the pipeline script, that you enable by doing the following
+
+* Click on the "actions" tab, and click "I understand my workflows, go ahead and run them"
+* trigger a build by making a commit, see that you have the images on your docker-hub account.
