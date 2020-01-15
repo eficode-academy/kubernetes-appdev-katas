@@ -7,7 +7,7 @@ Introducing the example sentences application:
 
 # CI/CD for Kubernetes
 
-- [testing-with-containers](testing-with-containers.md)
+- [ci-with-containers](ci-with-containers.md)
 
 # Application Packaging with Helm
 
