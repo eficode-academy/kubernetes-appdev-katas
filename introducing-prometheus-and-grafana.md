@@ -210,7 +210,7 @@ To install a dashboard for the sentences application create and annotate a
 ConfigMap as follows:
 
 ```shell
-$ kubectl create configmap dashboard --from-file sentences-app/dashboard.json
+$ kubectl create configmap dashboard --from-file sentences-app/dashboard-w-ns-selector.json
 $ kubectl label configmap dashboard grafana_dashboard='1'
 ```
 
