@@ -164,12 +164,13 @@ When you have the Prometheus GUI op, select the `Status` menu item and then the
 
 This shows the list of targets that Prometheus has identified through the
 Kubernetes API. We see that three POD target show up with the labels matching
-the three microservices of the sentences application. If our list of scrape
-targets do not match our expectation we should verify that 1) Our Kubernetes
-resources are correctly annotated to tell Prometheus to scrape then and that the
-port and path is correct and 2) that Prometheus is deployed with proper
-Kubernetes authorization to auto-discover scrape targets through the Kubernetes
-API.
+the three microservices of the sentences application (if you are running the
+exercises on a shared cluster you may see other users applications as well). If
+our list of scrape targets do not match our expectation we should verify that 1)
+Our Kubernetes resources are correctly annotated to tell Prometheus to scrape
+then and that the port and path is correct and 2) that Prometheus is deployed
+with proper Kubernetes authorization to auto-discover scrape targets through the
+Kubernetes API.
 
 ![prometheus-scrape-targets](images/prometheus-scrape-targets.png)
 
@@ -215,8 +216,10 @@ $ kubectl label configmap dashboard grafana_dashboard='1'
 ```
 
 After this you will be able to use the dashboard in Grafana.  Go to the
-*Dashboards* option above the *Explore* option and select `Home` and/or
-`Manage` to see newly loaded dashboards.
+*Dashboards* option above the *Explore* option and select `Home` and/or `Manage`
+to see newly loaded dashboards. Note that the dashboard have a namespace
+selector in the top and you will need to select your own namespace to monitor
+your sentences application.
 
 To generate some load on the sentences application, use the following command
 and watch the effect in the dashboard:
