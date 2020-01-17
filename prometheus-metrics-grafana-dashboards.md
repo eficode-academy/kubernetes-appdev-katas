@@ -23,6 +23,15 @@ The first thing to do before creating a dashboard is to chose a query that
 return a metric we want to display in a dashboard.  Go to the Grafana *explore*
 feature and in the query box type the metrics name `sentence_requests_total`.
 
+This query might show metrics from users in other namespaces and to limit
+results to your own namespace add a filter on the namespace label by using the
+following query where you replace `userXX` with the name of your own namespace
+(make this replacement in all the following examples).
+
+```
+sentence_requests_total{kubernetes_namespace="userXX"}
+```
+
 Since this metric is a counter which increases on each request, we will see a
 curve going towards the top-right part of the Grafana graph of the
 `sentence_requests_total` metric.
@@ -31,7 +40,7 @@ Number of requests are typically easier to understand when given over time. We
 can change the query which Grafana sends to Prometheus to 
 
 ```
-rate(sentence_requests_total[2m])*60
+rate(sentence_requests_total{kubernetes_namespace="userXX"}[2m])*60
 ```
 
 With this query, Prometheus will return metrics with a per-minute average
@@ -63,7 +72,7 @@ This can be done by using the Prometheus `sum()` aggregation operator. First,
 enter the following query into Grafana:
 
 ```
-sum(rate(sentence_requests_total[2m]))
+sum(rate(sentence_requests_total{kubernetes_namespace="userXX"}[2m]))
 ```
 
 this results in a single curve, hence all the `sentence_requests_total` metrics
@@ -75,7 +84,7 @@ aggregation. Instead enter the following query which specifies the `sum()` to
 happen across the values of the `type` label.
 
 ```
-sum(rate(sentence_requests_total[2m])) by (type)
+sum(rate(sentence_requests_total{kubernetes_namespace="userXX"}[2m])) by (type)
 ```
 
 This will result in a set of data for each of our microservice types and this
@@ -168,11 +177,38 @@ $ kubectl label configmap dashboard grafana_dashboard='1'
 ```
 
 Grafana should now automatically load the dashboard and you can select it by
-using the *Dasboards* button in the left-side of the window (possibly select the
+using the *Dashboards* button in the left-side of the window (possibly select the
 *Home* and *Manage* sub-options a few times)
 
 The dashboard can now be stored in e.g. git together with the remaining
 application artifacts.
+
+## Optional: Add a Drop-down Selector for Namespace
+
+Instead of hard-coding the namespace in the Prometheus queries, we can add a
+drop-down selector as shown in the example dashboard in the
+[introducing-prometheus-and-grafana](introducing-prometheus-and-grafana.md)
+exercise.
+
+Such a drop-down introduce a variable that we can use in your Prometheus queries
+instead of hard-coded names. To add a variable to a dashboard, select the
+`Dashboard Settings` gear icon in the top-right corner of the dashboard.  In the
+menu that shows up, select `Variables` and select `Add variable`.
+
+Enter `namespace` in the 'Name' input field, select `prometheus` in the `Data
+source` field and enter `label_values(kubernetes_namespace)` in the query input
+field. To filter out unnecessary choices, enter `user.*` in the `Regex` field.
+Through this we create a variable that dynamically updates and get the possible
+choices of the namespace variable from the values of the `kubernetes_namespace`
+label, however, only the values that match the regular expression we
+defined. See the `Refresh` setting for when the choices of the variable is
+refreshed.
+
+Press the `Back arrow` in the top-left corner to go back to the dashboard.
+
+Click the panel title of one of the dashboard panels and select `Edit`. In the
+metrics query field replace the hard-coded `userXX` by `$namespace` and press the
+`Back arrow` in the top-left corner. Do this for all panels.
 
 ## Cleanup
 
