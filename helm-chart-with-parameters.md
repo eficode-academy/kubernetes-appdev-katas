@@ -156,21 +156,27 @@ Kubernetes allows us to definee which port to use for services of type
 NodePort. I.e. we will customize the Kubernetes YAMl for this scenario.
 
 In the template file `sentence-app/templates/sentences-svc.yaml` file, locate
-the specification of the service type:
+the specification of the port mapping:
 
 ```
 ...
-  type: NodePort
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
 ...
 ```
 
-Change this line and add nodeport specification as follows:
+And add the conditional nodeport specification as follows:
 
 ```
-  type: {{ .Values.sentences.service.type }}
-  {{ if and (eq .Values.sentences.service.type "NodePort") .Values.sentences.service.nodePort -}}
-  NodePort: {{ .Values.sentences.service.nodePort }}
-  {{- end -}}
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+    {{ if and (eq .Values.sentences.service.type "NodePort") .Values.sentences.service.nodePort -}}
+    nodePort: {{ .Values.sentences.service.nodePort }}
+    {{- end }}
 ```
 
 Note the post-fix used by Helm notation in the above specification.
