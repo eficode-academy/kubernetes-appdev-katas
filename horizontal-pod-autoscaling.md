@@ -131,6 +131,6 @@ Note that the load generator might have been deleted above.
 
 ```shell
 $ kubectl delete -f resources/load-generator.yaml
-$ kubectl delete -f sentences-app/deploy/kubernetes/hpa.yaml
+$ kubectl delete -f sentences-app/deploy/hpa.yaml
 $ kubectl delete -f sentences-app/deploy/kubernetes/
 ```
