@@ -156,7 +156,24 @@ Kubernetes allows us to definee which port to use for services of type
 NodePort. I.e. we will customize the Kubernetes YAMl for this scenario.
 
 In the template file `sentence-app/templates/sentences-svc.yaml` file, locate
-the specification of the port mapping:
+
+the specification of the service type:
+
+```
+...
+  type: NodePort
+...
+```
+
+Change this line and add nodeport specification as follows:
+
+```
+...
+  type: {{ .Values.sentences.service.type }}
+...
+```
+
+and locate the specification of the port mapping:
 
 ```
 ...
