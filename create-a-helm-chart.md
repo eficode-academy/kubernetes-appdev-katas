@@ -31,10 +31,10 @@ sentences-name-svc.yaml
 sentences-svc.yaml
 ```
 
-To create a simple Helm chart we can use `helm create` to create a template chart:
-
+In the kubernets-appdev-katas folder, use `helm create` to create a simple Helm chart:
 
 ```shell
+$ cd kubernetes-appdev-katas
 $ mkdir helm-chart
 $ cd helm-chart
 $ helm create sentence-app
