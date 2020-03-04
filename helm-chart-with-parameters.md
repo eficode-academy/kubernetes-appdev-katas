@@ -174,7 +174,7 @@ And add the conditional nodeport specification as follows:
   - port: 8080
     protocol: TCP
     targetPort: 8080
-    {{ if and (eq .Values.sentences.service.type "NodePort") .Values.sentences.service.nodePort -}}
+    {{- if and (eq .Values.sentences.service.type "NodePort") .Values.sentences.service.nodePort }}
     nodePort: {{ .Values.sentences.service.nodePort }}
     {{- end }}
 ```
