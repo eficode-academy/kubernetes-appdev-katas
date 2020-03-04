@@ -15,8 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 4,
-  "iteration": 1579156233536,
+  "iteration": 1583329287433,
   "links": [],
   "panels": [
     {
@@ -311,9 +310,8 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
-          "text": "user13",
-          "value": "user13"
+          "text": "kube-system",
+          "value": "kube-system"
         },
         "datasource": "prometheus",
         "definition": "label_values(namespace)",
@@ -322,55 +320,9 @@
         "label": null,
         "multi": false,
         "name": "namespace",
-        "options": [
-          {
-            "selected": false,
-            "text": "kube-system",
-            "value": "kube-system"
-          },
-          {
-            "selected": false,
-            "text": "user10",
-            "value": "user10"
-          },
-          {
-            "selected": false,
-            "text": "user11",
-            "value": "user11"
-          },
-          {
-            "selected": false,
-            "text": "user12",
-            "value": "user12"
-          },
-          {
-            "selected": true,
-            "text": "user13",
-            "value": "user13"
-          },
-          {
-            "selected": false,
-            "text": "user15",
-            "value": "user15"
-          },
-          {
-            "selected": false,
-            "text": "user2",
-            "value": "user2"
-          },
-          {
-            "selected": false,
-            "text": "user3",
-            "value": "user3"
-          },
-          {
-            "selected": false,
-            "text": "user9",
-            "value": "user9"
-          }
-        ],
+        "options": [],
         "query": "label_values(namespace)",
-        "refresh": 0,
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
