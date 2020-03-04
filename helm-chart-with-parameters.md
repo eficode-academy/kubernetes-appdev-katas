@@ -129,9 +129,9 @@ Change the hard-coded resource settings from:
 ...
         resources:
           requests:
-            cpu: 0.25
+            cpu: "0.25"
           limits:
-            cpu: 0.25
+            cpu: "0.25"
 ```
 
 to:
@@ -222,9 +222,9 @@ with the following content:
 sentences:
   resources:
     requests:
-      cpu: 0.25
+      cpu: "0.25"
     limits:
-      cpu: 0.25
+      cpu: "0.25"
 ```
 
 and test template rendering with:

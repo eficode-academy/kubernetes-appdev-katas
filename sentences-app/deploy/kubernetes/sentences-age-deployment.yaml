@@ -27,6 +27,6 @@ spec:
         name: sentences
         resources:
           requests:
-            cpu: 0.25
+            cpu: "0.25"
           limits:
-            cpu: 0.25
+            cpu: "0.25"
