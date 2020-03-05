@@ -14,6 +14,7 @@ spec:
       labels:
         app: loadgen
     spec:
+      priorityClassName: high-priority
       containers:
       - image: praqma/network-multitool
         name: multitool
