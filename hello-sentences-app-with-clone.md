@@ -1,7 +1,40 @@
 # Say Hello to the Sentences Application
 
-This exercise introduces the example application, aka. the `sentences
+This exercise will introduce the example application, aka. the `sentences
 application and show how to run it both with docker-compose and on Kubernetes.
+
+## Clone Repositories
+
+This exercise assumes that the following repositories (or forks) have been
+cloned into a shared folder.  If you are planning to do the CI/CD exercises, the
+three latter repositories should be your own forks.
+
+```
+https://github.com/praqma-training/kubernetes-appdev-katas
+https://github.com/praqma-training/k8s-sentences-sentence
+https://github.com/praqma-training/k8s-sentences-age
+https://github.com/praqma-training/k8s-sentences-name
+```
+
+I.e. listing folders should produce output as follows:
+
+```shell
+$ ls -l
+drwxr-xr-x  6 ubuntu ubuntu 4096 Jan  7 11:36 kubernetes-appdev-katas
+drwxr-xr-x  7 ubuntu ubuntu 4096 Jan  7 11:36 k8s-sentences-sentence
+drwxr-xr-x  7 ubuntu ubuntu 4096 Jan  7 11:36 k8s-sentences-age
+drwxr-xr-x  7 ubuntu ubuntu 4096 Jan  7 11:36 k8s-sentences-name
+```
+
+Use the following commands to clone Praqma repositories or replace with your
+own forks if possible:
+
+```shell
+$ cd ~
+$ git clone https://github.com/praqma-training/k8s-sentences-sentence.git
+$ git clone https://github.com/praqma-training/k8s-sentences-age.git
+$ git clone https://github.com/praqma-training/k8s-sentences-name.git
+```
 
 ## Running the Sentences Application with Docker Compose
 
