@@ -28,18 +28,18 @@ To look for available Helm chart you can use the `helm search` feature, e.g.:
 ```shell
 $ helm2 search prometheus
 $ helm3 search repo prometheus
-stable/prometheus                       9.2.0           2.13.1          Prometheus is a monitoring system and time seri...
+stable/prometheus                       11.12.0         2.20.1          Prometheus is a monitoring system and time seri...
 ```
 
-This show that Prometheus chart version 9.2.0 is available and that the version
-of the Prometheus application in that chart is 2.13.1.  You most likely will see
+This show that Prometheus chart version 11.12.0 is available and that the version
+of the Prometheus application in that chart is 2.20.1.  You most likely will see
 newer versions when trying this out...
 
 To install Prometheus and Grafana with settings suitable for the following
 exercises use the following commands:
 
 ```shell
-$ helm3 install prometheus stable/prometheus --version 9.2.0 -f resources/values-prometheus.yaml
+$ helm3 install prometheus stable/prometheus --version 11.12.0 -f resources/values-prometheus.yaml
 $ helm3 install grafana stable/grafana --version 4.0.1 -f resources/values-grafana.yaml
 ```
 

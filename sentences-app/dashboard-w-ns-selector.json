@@ -239,21 +239,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate (container_cpu_usage_seconds_total{pod_name=~\"age.*\", image!=\"\", namespace=\"$namespace\"}[3m]))",
+          "expr": "sum(rate (container_cpu_usage_seconds_total{pod=~\"sentence-age.*\", image!=\"\", namespace=\"$namespace\"}[3m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "age",
           "refId": "B"
         },
         {
-          "expr": "sum(rate (container_cpu_usage_seconds_total{pod_name=~\"name.*\", image!=\"\", namespace=\"$namespace\"}[3m]))",
+          "expr": "sum(rate (container_cpu_usage_seconds_total{pod=~\"sentence-name.*\", image!=\"\", namespace=\"$namespace\"}[3m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "name",
           "refId": "A"
         },
         {
-          "expr": "sum(rate (container_cpu_usage_seconds_total{pod_name=~\"sentence.*\", image!=\"\", namespace=\"$namespace\"}[3m]))",
+          "expr": "sum(rate (container_cpu_usage_seconds_total{pod=~\"sentences.*\", image!=\"\", namespace=\"$namespace\"}[3m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "sentence",
@@ -316,7 +316,7 @@
           "value": "user13"
         },
         "datasource": "prometheus",
-        "definition": "label_values(namespace)",
+        "definition": "label_values(kubernetes_namespace)",
         "hide": 0,
         "includeAll": false,
         "label": null,
@@ -369,8 +369,8 @@
             "value": "user9"
           }
         ],
-        "query": "label_values(namespace)",
-        "refresh": 0,
+        "query": "label_values(kubernetes_namespace)",
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
