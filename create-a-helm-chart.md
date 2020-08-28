@@ -31,10 +31,9 @@ sentences-name-svc.yaml
 sentences-svc.yaml
 ```
 
-In the kubernets-appdev-katas folder, use `helm create` to create a simple Helm chart:
+Use `helm create` to create a simple Helm chart:
 
 ```shell
-$ cd kubernetes-appdev-katas
 $ mkdir helm-chart
 $ cd helm-chart
 $ helm create sentence-app

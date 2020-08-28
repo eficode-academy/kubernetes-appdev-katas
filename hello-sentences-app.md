@@ -13,7 +13,7 @@ Use the following command to start containers with the three microservices that
 make up the sentences application:
 
 ```shell
-$ docker-compose -f kubernetes-appdev-katas/sentences-app/deploy/docker-compose.yaml up
+$ docker-compose -f sentences-app/deploy/docker-compose.yaml up
 ```
 
 In another shell, use the following command to request sentences from the
@@ -31,7 +31,7 @@ Stop the docker-compose deployment with Ctrl-C.
 Use the following command to deploy the sentences application to Kubernetes:
 
 ```shell
-$ kubectl apply -f kubernetes-appdev-katas/sentences-app/deploy/kubernetes
+$ kubectl apply -f sentences-app/deploy/kubernetes
 ```
 
 This will create three microservice deployments with a single POD instance
@@ -73,5 +73,5 @@ John is 73 years
 ## Cleanup
 
 ```shell
-$ kubectl delete -f kubernetes-appdev-katas/sentences-app/deploy/kubernetes/
+$ kubectl delete -f sentences-app/deploy/kubernetes/
 ```
