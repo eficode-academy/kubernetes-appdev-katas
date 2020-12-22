@@ -10,37 +10,40 @@ Grafana.
 First we will install Prometheus and Grafana using Helm. We will install them
 from the `stable` repository. To see available repositories use:
 
-First add a repository to your Helm installation:
+First add repositories to your Helm installation:
 
 ```shell
-$ helm3 repo add stable https://kubernetes-charts.storage.googleapis.com/
+$ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+$ helm repo add grafana https://grafana.github.io/helm-charts
 ```
 
 Next, you can inspect your Helm repositories with `helm repo list`:
 
 ```shell
 $ helm repo list
-stable  https://kubernetes-charts.storage.googleapis.com
+NAME                    URL
+prometheus-community    https://prometheus-community.github.io/helm-charts
+grafana                 https://grafana.github.io/helm-charts
 ```
 
 To look for available Helm chart you can use the `helm search` feature, e.g.:
 
 ```shell
-$ helm2 search prometheus
-$ helm3 search repo prometheus
-stable/prometheus                       11.12.0         2.20.1          Prometheus is a monitoring system and time seri...
+$ helm search repo prometheus
+NAME                                                    CHART VERSION   APP VERSION     DESCRIPTION
+prometheus-community/prometheus                         13.0.1          2.22.1          Prometheus is a monitoring system...
 ```
 
-This show that Prometheus chart version 11.12.0 is available and that the version
-of the Prometheus application in that chart is 2.20.1.  You most likely will see
+This show that Prometheus chart version 13.0.1 is available and that the version
+of the Prometheus application in that chart is 2.22.1.  You most likely will see
 newer versions when trying this out...
 
 To install Prometheus and Grafana with settings suitable for the following
 exercises use the following commands:
 
 ```shell
-$ helm3 install prometheus stable/prometheus --version 11.12.0 -f resources/values-prometheus.yaml
-$ helm3 install grafana stable/grafana --version 4.0.1 -f resources/values-grafana.yaml
+$ helm install prometheus prometheus-community/prometheus --version 13.0.1 -f resources/values-prometheus.yaml
+$ helm install grafana grafana/grafana --version 6.1.16 -f resources/values-grafana.yaml
 ```
 
 > This exercise assume a Kubernetes cluster with metrics support. Most managed
@@ -48,7 +51,7 @@ $ helm3 install grafana stable/grafana --version 4.0.1 -f resources/values-grafa
 > one might need to deploy the metrics-server application:
 >
 > ```shell
-> $ helm3 install metrics-server stable/metrics-server --version 2.8.8 --set args[0]="--kubelet-insecure-tls"
+> $ helm install metrics-server stable/metrics-server --version 2.8.8 --set args[0]="--kubelet-insecure-tls"
 > ```
 
 After running these command you can inspect the installed Helm-based
@@ -56,8 +59,9 @@ applications with `helm ls`:
 
 ```shell
 $ helm ls
-grafana         user1           1               2019-11-04 09:23:52.163779429 +0000 UTC deployed        grafana-4.0.1
-prometheus      user1           1               2019-11-04 08:49:53.769610017 +0000 UTC deployed        prometheus-9.2.0
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
+grafana         user1           1               2020-12-22 07:35:22.209543882 +0000 UTC deployed        grafana-6.1.16          7.3.5
+prometheus      user1           1               2020-12-22 07:35:11.826098609 +0000 UTC deployed        prometheus-13.0.1       2.22.1
 ```
 
 Also, inspect the PODs that these applications are based upon:
@@ -130,10 +134,11 @@ following output:
 sentence_requests_total{type="sentence"} 6.0
 ```
 
-> If you get no results here, it could be because you skipped verifying the
-> initial deployment of the sentences application. Normally, metrics with a zero
-> value are not reported, i.e. until you fetch a sentence for the first time,
-> the curl above will return nothing.
+> If you get no results here, it could be because the sentences application has
+> recently been deployed and metrics with a value of zero are not exported,
+> i.e. until you fetch a sentence for the first time, the curl above will return
+> nothing. Try fetching a sentence as shown in prior exercises and fetch metrics
+> again.
 
 Try fetching more sentences and metrics to see the `sentence_requests_total`
 metric increment.
@@ -249,8 +254,8 @@ want to leave everything running for now*
 
 ```shell
 $ kubectl delete -f sentences-app/deploy/kubernetes/
-$ helm3 delete grafana
-$ helm3 delete prometheus
+$ helm delete grafana
+$ helm delete prometheus
 $ kubectl delete configmap dashboard
 $ kubectl delete -f resources/load-generator.yaml
 $ kubectl delete -f sentences-app/deploy/hpa.yaml
