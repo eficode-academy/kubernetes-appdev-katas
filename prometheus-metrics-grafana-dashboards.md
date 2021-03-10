@@ -99,20 +99,18 @@ that provide many options for querying metrics.
 ## Create a Dashboard
 
 Go back to the main page of Grafana by selecting the *Dashboards* (four squares)
-button above the *explore* button and select the *New dashboard* button in the
-middle of the window as shown below:
+button above the *explore* button and select the *Create your first dashboard*
+button in the right of the window as shown below:
 
 ![create-dashboard](images/create-dashboard.png)
 
-Next, select *Choose visualization* after which you should see options for the
-visualization. In this menu, select the *graph* visualization and next the
-*database query* (three disks above each other) as shown below:
+Next, click the blue *Add new panel* button.
 
-![select-graph](images/select-graph.png)
+We will use the default visualization which is *Graph*, however, you can change
+the visualization type by selecting *Visualization* in the right-hand size (see
+below).
 
-Selecting the *database query* will allow us to enter Prometheus queries which
-will be displayed with a graph visualization. Queries are entered in the field
-starting with `Metrics` as shown below:
+Queries are entered in the field starting with `Metrics` as shown below:
 
 ![enter-query](images/enter-query.png)
 
@@ -131,13 +129,12 @@ allow Grafana to generate legends using the values of the `type` and
 {{type}}-{{kubernetes_pod_name}}
 ```
 
-The graph title currently says "Panel Title". To change this, select the "gear
-and wrench" button to the far left to enter the *general* setup of the
-visualization. In the field named "Title" enter "Requests/minute".
+The graph title currently says "Panel Title". To change this, go to the panel in
+the right-hand side and change the *Panel title* setting to "Requests/minute".
 
 To finalize the first part of the dashboard, select the *back arrow* in the
 top-left corner.  To add another graph, select the *Add panel* button as shown
-below and repeat for our second metric.
+below and repeat for our second metric we found above	.
 
 ![add-panel](images/add-panel.png)
 
@@ -147,20 +144,20 @@ When you have added the second metric and used the *back arrow* to go back to
 the main dashboard page, you can re-arrange and re-size the panels using the
 mouse.
 
-The dashboard can be saved by using the *Save dashboard* button in th top-right
+The dashboard can be saved by using the *Save dashboard* button in the top-right
 corner next to the *Add panel* button.  After the dashboard has been saved, a
-*Share dashboard* button will show up.  Press the *Share dashboard* button,
-select the *Export* tab and *Save to file*. This will start a download of the
-dashboard in JSON format.
+*Share dashboard* button will show up in the top-left corner after the dashboard
+title.  Press the *Share dashboard* button, select the *Export* tab and *Save to
+file*. This will start a download of the dashboard in JSON format.
 
 ## Importing the Saved Dashboard
 
 In the [Introducing Prometheus and
 Grafana](introducing-prometheus-and-grafana.md) exercise we loaded an existing
-dashboard. Now that we have created our own dashboard we can load it into
-Grafana.  First delete the current dashboard by selecting the *Dashboard
-settings* button to the right of the *Save dashboard* button in the top-right
-corner.
+dashboard from a JSON file. Now that we have created our own dashboard we can
+load it into Grafana.  First delete the current dashboard by selecting the
+*Dashboard settings* button to the right of the *Save dashboard* button in the
+top-right corner.
 
 Next, you will have to copy the dashboard from where you downloaded it and onto
 the VM instance where you are running kubectl commands.  This will similar to
@@ -176,9 +173,11 @@ $ kubectl create configmap dashboard --from-file my-dashboard.json
 $ kubectl label configmap dashboard grafana_dashboard='1'
 ```
 
+> If you created a dashboard in the [Introducing Prometheus and Grafana](introducing-prometheus-and-grafana.md) exercise you might already have a ConfigMap with name `dashboard`. If this is the case, just use any other name in the commands above.
+
 Grafana should now automatically load the dashboard and you can select it by
 using the *Dashboards* button in the left-side of the window (possibly select the
-*Home* and *Manage* sub-options a few times)
+*Home* and *Manage* sub-options a few times since it might take some seconds before Grafana loads the dashboard)
 
 The dashboard can now be stored in e.g. git together with the remaining
 application artifacts.

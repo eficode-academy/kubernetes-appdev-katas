@@ -8,7 +8,7 @@ Grafana.
 ## Deploying Prometheus and Grafana
 
 First we will install Prometheus and Grafana using Helm. We will install them
-from the `stable` repository. To see available repositories use:
+from their community repositories. To see available repositories use:
 
 First add repositories to your Helm installation:
 
@@ -116,9 +116,10 @@ First, lets manually query the metrics from our sentences application. Remember
 that each microservice exports a metric called `sentence_requests_total` which
 is a counter that increments for each request the microservices processes.
 
-The sentences application exports metrics on port 8080 and path '/metrics'. Any
-port can generally be used, and we will later see how Prometheus figures out
-which port to scrape for metrics.
+The sentences application exports metrics on port 8080 and path
+'/metrics'. Prometheus can be configured to fetch metrics from any port and
+path, and we will later see how Prometheus figures out which port to scrape for
+metrics.
 
 Query metrics API of the sentences deployment similarly to how you fetched
 sentences. The difference is that we add the '/metrics' path to the query:
@@ -157,8 +158,8 @@ itself.
 ### Debugging Prometheus Metrics Scraping
 
 Next, we look into Prometheus. The Prometheus GUI is exposed using a
-NodePort-type service. Look up the node port as above and open the GUI in a web
-browser.
+NodePort-type service. Look up the node port as we did above with Grafana and
+open the GUI in a web browser:
 
 ```shell
 $ kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services prometheus-server
@@ -193,12 +194,13 @@ The GUI Prometheus is mostly used for low-level debugging and metrics are
 typically visualized with Grafana since Grafana provides many more options for
 building dashboards.
 
-When logged-in to Grafana go to the *Explore* option in the left-side. This
-feature provide access to a simple metrics query option, which often is used
-instead of directly accessing Prometheus when we are beyond basic debugging of
-the metrics feature.
+When logged-in to Grafana go to the *Explore* option in the left-side (see
+picture below). This feature provide access to a simple metrics query option,
+which often is used instead of directly accessing Prometheus when we are beyond
+basic debugging of the metrics feature.
 
-In the query box type the metrics name `sentence_requests_total` as shown below:
+In the query box type the metrics name `sentence_requests_total` and press the
+*Run Query* button in the top-right corner as shown below:
 
 ![prometheus-scrape-targets](images/grafana-explore.png)
 
