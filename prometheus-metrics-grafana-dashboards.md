@@ -114,10 +114,10 @@ Queries are entered in the field starting with `Metrics` as shown below:
 
 ![enter-query](images/enter-query.png)
 
-In this field enter our first Prometheus metric query:
+In this field enter our first Prometheus metric query (replace `userXX` with your user namespace):
 
 ```
-rate(sentence_requests_total[2m])*60
+rate(sentence_requests_total{kubernetes_namespace="userXX"}[2m])*60
 ```
 
 After this, the metric will show up as a graph and very long legend names below
@@ -134,7 +134,17 @@ the right-hand side and change the *Panel title* setting to "Requests/minute".
 
 To finalize the first part of the dashboard, select the *back arrow* in the
 top-left corner.  To add another graph, select the *Add panel* button as shown
-below and repeat for our second metric we found above	.
+below and repeat for our second metric, which was:
+
+```
+sum(rate(sentence_requests_total{kubernetes_namespace="userXX"}[2m])) by (type)
+```
+
+and use the following legend:
+
+```
+{{type}}
+```
 
 ![add-panel](images/add-panel.png)
 
