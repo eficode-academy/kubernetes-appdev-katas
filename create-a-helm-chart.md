@@ -4,19 +4,6 @@ This exercise will create a simple Helm chart for the sentence application.  The
 chart will be 'simple' in the sense that it will not provide support for
 customizing application parameters.
 
-> Helm comes in two different major version - 2 and 3. In the following we will
-> provide command-lines for both and indicate with the command name which
-> version of Helm the command refers to, e.g. for Helm v2 we will use:
-> ```shell
-> $ helm2 ...
->```
-> and for Helm v3 we will use:
-> ```shell
-> $ helm3 ...
->```
-> The numbers should obviously be removed before running the command since the
-> Helm command will be `helm` irrespective of the Helm version installed.
-
 In the `sentences-app/deploy/kubernetes/` folder we have Kubernetes YAML
 definitions for the three microservices that make up the sentence application
 (tree Deployments and tree Services):
@@ -75,12 +62,10 @@ however, a chart stored locally can also be deployed with Helm. To deploy the
 chart from the newly created chart run the following:
 
 ```shell
-$ helm2 install --name sentences sentence-app/
-$ helm3 install sentences sentence-app/
+$ helm install sentences sentence-app/
 ```
 
-Running this command produce the following output for Helm3 and a more verbose
-output for Helm2.
+Running this command produce the following output:
 
 ```
 NAME:   sentences
@@ -116,15 +101,14 @@ To see the applications installed with Helm use the `helm ls` operation:
 
 ```shell
 $ helm ls
-NAME         REVISION   UPDATED                    STATUS     CHART                APP VERSION   NAMESPACE   
-sentences    1          Wed Aug 14 08:44:55 2019   DEPLOYED   sentence-app-0.1.0   1.0           default
+NAME         NAMESPACE  REVISION   UPDATED                    STATUS     CHART                APP VERSION
+sentences    default    1          Wed Aug 14 08:44:55 2019   DEPLOYED   sentence-app-0.1.0   1.16.0
 ```
 
 To see the Kubernetes YAML which Helm used to install the application use the `helm get` operation:
 
 ```shell
-$ helm2 get sentences
-$ helm3 get all sentences
+$ helm get all sentences
 ```
 
 In our case this will be identical to the YAML files we copied previously since
@@ -141,6 +125,5 @@ Helm chart for each microservice?
 Delete the application installed with Helm:
 
 ```shell
-$ helm2 delete sentences --purge
-$ helm3 delete sentences
+$ helm delete sentences
 ```
