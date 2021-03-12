@@ -6,19 +6,6 @@ customization of the installed application.
 This exercise extends the Helm chart created in the
 [create-a-helm-chart](create-a-helm-chart.md) exercise.
 
-> Helm comes in two different major version - 2 and 3. In the following we will
-> provide command-lines for both and indicate with the command name which
-> version of Helm the command refers to, e.g. for Helm v2 we will use:
-> ```shell
-> $ helm2 ...
->```
-> and for Helm v3 we will use:
-> ```shell
-> $ helm3 ...
->```
-> The numbers should obviously be removed before running the command since the
-> Helm command will be `helm` irrespective of the Helm version installed.
-
 We will add the following options for customization:
 
 - Configurable Kubernetes resource naming (using Helm built-in values)
@@ -27,7 +14,7 @@ We will add the following options for customization:
 - Optional definitions (using if/else constructs)
 
 when we initially created the Helm chart we did it with an empty values.yaml
-file.  Now replace the values.yaml with the following content:
+file.  Now replace the `values.yaml` with the following content:
 
 ```
 ## sentence configured the main sentences micro-service
@@ -51,12 +38,12 @@ sentences:
 > nested one as shown above. Real-world charts however, very often use nested
 > values and this is probably the defacto standard. For more info look [here](https://helm.sh/docs/topics/chart_best_practices/values/)
 
-This values.yaml file shows:
+This `values.yaml` file shows:
 
 - Using double `##` for documentation comments and single `#` for commented-out fields. This is not an official Helm standard but a very common approach.
 - Image name and tag are separately configurable. This is a common pattern because the tag typically is configured independently from the image name.
-- POD resource settings are not defaulted in values.yaml. We cannot know the proper settings and instead we provide an empty map and allows users to set appropriate resource requests.
-- The `nodePort` parameter (which is only relevant in case the Kubernetes service is of type `NodePort`) has no default. Again, we cannot know the proper default but instead indicate in the values.yaml file that there is a parameter that can be configured. Another typically used alternative for string-type values with no good default is to leave them as empty strings.
+- POD resource settings are not defaulted in `values.yaml`. We cannot know the proper settings and instead we provide an empty map and allows users to set appropriate resource requests.
+- The `nodePort` parameter (which is only relevant in case the Kubernetes service is of type `NodePort`) has no default. Again, we cannot know the proper default but instead indicate in the `values.yaml` file that there is a parameter that can be configured. Another typically used alternative for string-type values with no good default is to leave them as empty strings.
 
 ## Adding Parameters to the Chart
 
@@ -90,17 +77,17 @@ spec:
 Verify the rendering as follows:
 
 ```shell
-$ helm2 template sentence-app/ -x templates/sentences-deployment.yaml
-$ helm3 template sentence-app/ --show-only templates/sentences-deployment.yaml
+$ helm template sentence-app/ --show-only templates/sentences-deployment.yaml
 ```
 
-Since values.yaml have a default replica count of 1, you will see no changes,
-however, you can try changing the default, or explicitly override the value in
-the helm invocation as follows:
+Since `values.yaml` have a default replica count of 1 that is what we see in the
+rendered `sentences-deployment.yaml` template.
+
+You can try changing the default, or explicitly override the value in the helm
+invocation as follows:
 
 ```shell
-$ helm2 template sentence-app/ -x templates/sentences-deployment.yaml --set sentences.replicas=3
-$ helm3 template sentence-app/ --show-only templates/sentences-deployment.yaml --set sentences.replicas=3
+$ helm template sentence-app/ --show-only templates/sentences-deployment.yaml --set sentences.replicas=3
 ```
 
 Similarly, change the container image specification as follows:
@@ -146,8 +133,7 @@ As before, validate the resource setting with the following command. Pay
 particularly attention to indentation on the rendered YAML.
 
 ```shell
-$ helm2 template sentence-app/ --set sentences.resources.requests.cpu=0.25 -x templates/sentences-deployment.yaml
-$ helm3 template sentence-app/ --set sentences.resources.requests.cpu=0.25 --show-only templates/sentences-deployment.yaml
+$ helm template sentence-app/ --set sentences.resources.requests.cpu=0.25 --show-only templates/sentences-deployment.yaml
 ```
 
 ## Adding Conditional Rendering of Template
@@ -198,18 +184,12 @@ And add the conditional nodeport specification as follows:
 
 Note the post-fix used by Helm notation in the above specification.
 
-Test the rendering of the service with:
+Test the rendering of the service with the following commands and observe the difference depending on the settings of `nodePort`:
 
 ```shell
-$ helm2 template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.type=NodePort
-$ helm2 template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=NodePort
-$ helm2 template sentence-app/ -x templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=ClusterIP
-
-OR
-
-$ helm3 template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.type=NodePort
-$ helm3 template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=NodePort
-$ helm3 template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=ClusterIP
+$ helm template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.type=NodePort
+$ helm template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=NodePort
+$ helm template sentence-app/ --show-only templates/sentences-svc.yaml --set sentences.service.nodePort=30000,sentences.service.type=ClusterIP
 ```
 
 ## Values Files
@@ -230,16 +210,14 @@ sentences:
 and test template rendering with:
 
 ```shell
-$ helm2 template sentence-app/ --values values-resources.yaml -x templates/sentences-deployment.yaml
-$ helm3 template sentence-app/ --values values-resources.yaml --show-only templates/sentences-deployment.yaml
+$ helm template sentence-app/ --values values-resources.yaml --show-only templates/sentences-deployment.yaml
 ```
 
 Validate the chart and install the sentences application using the new chart:
 
 ```shell
 $ helm lint sentence-app/
-$ helm2 install --name sentences sentence-app/
-$ helm3 install sentences sentence-app/
+$ helm install sentences sentence-app/
 ```
 
 This will install the chart with the default values. Try upgrading the chart
@@ -253,8 +231,8 @@ Finally, inspect the chart status and actual values:
 
 ```shell
 $ helm list
-$ helm2 get sentences
-$ helm3 get all sentences
+$ helm get all sentences
+$ helm get values sentences
 ```
 
 Note that the `get` operation show the used values in the beginning.
@@ -263,15 +241,14 @@ Note that the `get` operation show the used values in the beginning.
 
 When doing horisontal POD autoscaling using the HorisontalPODAutoscaler (HPA)
 Kubernetes resource, its best practise not to define the number of replicas in
-your resource YAML. If you want to create a Helm chart that supports both manual
-scaling through a replicas parameter and automatic scaling with HPA how would
-you do that?
+your `Deployment` YAML resource definitions. If you want to create a Helm chart
+that supports both manual scaling through a replicas parameter and automatic
+scaling with HPA how would you do that?
 
 ## Cleanup
 
 Delete the application installed with Helm:
 
 ```shell
-$ helm2 delete sentences --purge
-$ helm3 delete sentences
+$ helm delete sentences
 ```
