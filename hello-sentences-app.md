@@ -53,17 +53,17 @@ NAME        TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
 sentences   NodePort   10.15.245.208   <none>        8080:30250/TCP   37s
 ```
 
-In the example above, the relevant NodePort is 30250. Use the following command
+In the example above, the relevant NodePort is `30250`. Use the following command
 to look up an external accessible IP address that can be used to access the
 front-end microservice.
 
 ```shell
 $ kubectl get nodes -o wide
 ```
-Any of the IP addresses from the 'EXTERNAL-IP' column can be used.
+Any of the IP addresses from the `EXTERNAL-IP`-column can be used.
 
 To request a sentence from the sentences application, use curl with the external
-IP address and NodePort found above:
+IP address and `NodePort` found above:
 
 ```shell
 $ curl <EXTERNAL-IP>:30250
