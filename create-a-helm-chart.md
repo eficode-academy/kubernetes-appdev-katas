@@ -6,10 +6,10 @@ customizing application parameters.
 
 In the `sentences-app/deploy/kubernetes/` folder we have Kubernetes YAML
 definitions for the three microservices that make up the sentence application
-(tree Deployments and tree Services):
+(three Deployments and three Services):
 
 ```shell
-$ ls -la sentences-app/deploy/kubernetes/
+$ ls -1 sentences-app/deploy/kubernetes/
 sentences-age-deployment.yaml
 sentences-age-svc.yaml
 sentences-deployment.yaml
@@ -18,7 +18,7 @@ sentences-name-svc.yaml
 sentences-svc.yaml
 ```
 
-Use `helm create` to create a simple Helm chart:
+In the `kubernetes-appdev-katas`-folder. Use `helm create` to create a simple Helm chart:
 
 ```shell
 $ mkdir helm-chart
@@ -47,7 +47,7 @@ It is a simple Helm chart in the sense that it has no configurable values, but
 it is a complete installable chart and it will use the correct sentence
 application Kubernetes YAML definitions.
 
-Before deploying the chart, we run a static validation of the chart:
+Before deploying the chart, we run a static validation of it:
 
 ```shell
 $ helm lint sentence-app/
@@ -79,7 +79,7 @@ TEST SUITE: None
 To see all the different objects that helm has created, use:
 
 ```shell
-$ kubectl get pods,svc,deployments
+$ kubectl get pods,services,deployments
 NAME                                READY   STATUS    RESTARTS   AGE
 pod/sentence-age-6969dc55b6-t6jfk   1/1     Running   0          116s
 pod/sentence-name-bb79ff496-pkdsx   1/1     Running   0          116s
