@@ -52,7 +52,7 @@ the appropriate places. We do that using the `{{` and `}}` template language
 constructions.
 
 In the template file `sentence-app/templates/sentences-deployment.yaml` file,
-locate the POD spec in the deployment specification, i.e. the part that start
+locate the first `spec` of the deployment manifest, i.e. the part that starts
 with:
 
 ```
@@ -220,7 +220,9 @@ $ helm lint sentence-app/
 $ helm install sentences sentence-app/
 ```
 
-This will install the chart with the default values. Try upgrading the chart
+This will install the chart with the default values. (Hint: use `kubectl get pods` to see the running pods.) 
+
+Try upgrading the chart
 using an increased replica count:
 
 ```shell
@@ -235,12 +237,12 @@ $ helm get all sentences
 $ helm get values sentences
 ```
 
-Note that the `get` operation show the used values in the beginning.
+Note that the `get` operation show the used values in the beginning as `USER-SUPPLIED VALUES` and `COMPUTED VALUES`.
 
 # Food for Thought
 
 When doing horisontal POD autoscaling using the HorisontalPODAutoscaler (HPA)
-Kubernetes resource, its best practise not to define the number of replicas in
+Kubernetes resource, its best practice not to define the number of replicas in
 your `Deployment` YAML resource definitions. If you want to create a Helm chart
 that supports both manual scaling through a replicas parameter and automatic
 scaling with HPA how would you do that?
