@@ -257,7 +257,7 @@ $ kubectl apply -f sentences-app/deploy/hpa.yaml
 
 Delete the applications and additional services with the following commands.
 
-*If you are going to proceed to the next Prometheus/Grafana exercise, you might
+*If you are going to proceed to the next Prometheus/Grafana exercise, you will
 want to leave everything running for now*
 
 ```shell
