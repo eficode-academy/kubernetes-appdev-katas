@@ -132,7 +132,7 @@ We use `egrep` here to filter out the essential information, and we will see the
 following output:
 
 ```
-sentence_requests_total{type="sentence"} 6.0
+sentence_requests_total{type="sentence"} 6
 ```
 
 > If you get no results here, it could be because the sentences application has
@@ -239,15 +239,21 @@ $ kubectl apply -f resources/load-generator.yaml
 After a short while, you should see the effect of the generated load in the
 dashboards with *requests/s* and also the *POD cpu usage*.
 
-> If you are doing this exercise after having done the auto-scaling section, you
-> could deploy the HorisontalPODAutoscaler resource to see auto-scaling and the
-> dashboard with POD counts for the individial microservices to change.
->
-> ```shell
-> kubectl apply -f sentences-app/deploy/hpa.yaml
-> ```
+> The time it takes for the data to arrive in Grafana, is dependent on the
+> `scrape_interval` configured for Prometheus. This can be located in the 
+> Prometheus UI under `Status -> Configuration`.
 
-# Cleanup
+## Autoscaling
+
+if you are doing this exercise after having done the auto-scaling section, you
+could deploy the HorisontalPODAutoscaler resource to see auto-scaling and the
+dashboard with POD counts for the individial microservices to change.
+
+```shell
+$ kubectl apply -f sentences-app/deploy/hpa.yaml
+```
+
+## Cleanup
 
 Delete the applications and additional services with the following commands.
 
