@@ -169,21 +169,21 @@ load it into Grafana.  First delete the current dashboard by selecting the
 *Dashboard settings* button to the right of the *Save dashboard* button in the
 top-right corner.
 
-Next, you will have to copy the dashboard from where you downloaded it and onto
-the VM instance where you are running kubectl commands.  This will similar to
-the SSH command you used to connect to the machine, i.e. something like to
-following assuming you saved the dashboard as ``my-dashboard.json::
+Next, you will have to copy the dashboard from where you downloaded it, onto
+the VM instance where you are running kubectl commands.
+The following command will "secure copy" a file `my-dashboard.json` from your
+local machine, into the home folder of your instance:
 
 ```shell
 $ scp -i <key> my-dashboard.json ubuntu@<IP-address>:.
 ```
 
-```shell
-$ kubectl create configmap dashboard --from-file my-dashboard.json
-$ kubectl label configmap dashboard grafana_dashboard='1'
-```
+Connect to your instance with `ssh` again, and run:
 
-> If you created a dashboard in the [Introducing Prometheus and Grafana](introducing-prometheus-and-grafana.md) exercise you might already have a ConfigMap with name `dashboard`. If this is the case, just use any other name in the commands above.
+```shell
+$ kubectl create configmap my-dashboard --from-file my-dashboard.json
+$ kubectl label configmap my-dashboard grafana_dashboard='1'
+```
 
 Grafana should now automatically load the dashboard and you can select it by
 using the *Dashboards* button in the left-side of the window (possibly select the
