@@ -19,6 +19,6 @@ spec:
         name: nginx
         resources:
           limits:
-            cpu: 0.25
+            cpu: "0.25"
           requests:
-            cpu: 0.25
+            cpu: "0.25"
