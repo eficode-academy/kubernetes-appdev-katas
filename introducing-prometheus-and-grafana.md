@@ -64,8 +64,8 @@ applications with `helm ls`:
 ```shell
 $ helm ls
 NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
-grafana         user1           1               2020-12-22 07:35:22.209543882 +0000 UTC deployed        grafana-6.1.16          7.3.5
-prometheus      user1           1               2020-12-22 07:35:11.826098609 +0000 UTC deployed        prometheus-13.0.1       2.22.1
+grafana         student1        1               2020-12-22 07:35:22.209543882 +0000 UTC deployed        grafana-6.1.16          7.3.5
+prometheus      student1        1               2020-12-22 07:35:11.826098609 +0000 UTC deployed        prometheus-13.0.1       2.22.1
 ```
 
 Also, inspect the PODs that these applications are based upon:
