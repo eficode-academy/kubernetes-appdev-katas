@@ -139,8 +139,8 @@ $ helm template sentence-app/ --set sentences.resources.requests.cpu=0.25 --show
 
 ## Adding Conditional Rendering of Template
 
-Kubernetes allows us to definee which port to use for services of type
-NodePort. I.e. we will customize the Kubernetes YAMl for this scenario.
+Kubernetes allows us to define which port to use for services of type
+NodePort. I.e. we will customize the Kubernetes YAML for this scenario.
 
 In the template file `sentence-app/templates/sentences-svc.yaml` file, locate
 
