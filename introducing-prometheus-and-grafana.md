@@ -8,7 +8,7 @@ Grafana.
 ## Deploying Prometheus and Grafana
 
 First we will install Prometheus and Grafana using Helm. We will install them
-from their community repositories. To see available repositories use:
+from their community repositories.
 
 First add repositories to your Helm installation:
 
