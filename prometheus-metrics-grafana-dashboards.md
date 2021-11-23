@@ -37,7 +37,7 @@ curve going towards the top-right part of the Grafana graph of the
 `sentence_requests_total` metric.
 
 Number of requests are typically easier to understand when given over time. We
-can change the query which Grafana sends to Prometheus to 
+can change the query which Grafana sends to Prometheus to
 
 ```
 rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])*60
@@ -159,7 +159,11 @@ mouse.
 The dashboard can be saved by using the *Save dashboard* button in the top-right
 corner next to the *Add panel* button.  After the dashboard has been saved, a
 *Share dashboard* button will show up in the top-left corner after the dashboard
-title.  Press the *Share dashboard* button, select the *Export* tab and *Save to
+title, like below:
+
+![share-dashboard](images/share-dashboard.png)
+
+Press the *Share dashboard* button, select the *Export* tab and *Save to
 file*. This will start a download of the dashboard in JSON format.
 
 ## Importing the Saved Dashboard
