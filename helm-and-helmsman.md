@@ -25,7 +25,7 @@ drwxr-xr-x  7 ubuntu ubuntu 4096 Jan  7 11:36 k8s-sentences-age
 drwxr-xr-x  7 ubuntu ubuntu 4096 Jan  7 11:36 k8s-sentences-name
 ```
 
-Use the following commands to clone Praqma repositories or replace with your
+Use the following commands to clone Eficode repositories or replace with your
 own forks if possible:
 
 ```shell
@@ -109,10 +109,10 @@ microservice and values that set both container image repository and tag.
 
 Edit the `helmsman.yaml` file and change some of the image
 repositories/tags. E.g. change the image repository to your own repository or
-use different tags for Praqma images.  The following Praqma images have a
+use different tags for Eficode images.  The following Eficode images have a
 special observable behavior:
 
-`releasepraqma/sentence:1.0-1fee`  (swaps age and name in the generated sentences)
+`eficodeacademy/sentence:1.0-1fee`  (swaps age and name in the generated sentences)
 
 After modifying the `helmsman.yaml`, re-run Helmsman to reconcile the
 application specification with the application deployed to Kubernetes:

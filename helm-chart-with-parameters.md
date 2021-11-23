@@ -23,7 +23,7 @@ sentences:
   replicas: 1
   ## image contains the POD container image parameters
   image:
-    repository: releasepraqma/sentence
+    repository: eficodeacademy/sentence
     tag: latest
   ## resource requests and limits
   resources: {}
@@ -220,7 +220,7 @@ $ helm lint sentence-app/
 $ helm install sentences sentence-app/
 ```
 
-This will install the chart with the default values. (Hint: use `kubectl get pods` to see the running pods.) 
+This will install the chart with the default values. (Hint: use `kubectl get pods` to see the running pods.)
 
 Try upgrading the chart
 using an increased replica count:

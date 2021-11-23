@@ -26,7 +26,7 @@ drwxr-xr-x  7 ubuntu ubuntu 4096 Jan  7 11:36 k8s-sentences-age
 drwxr-xr-x  7 ubuntu ubuntu 4096 Jan  7 11:36 k8s-sentences-name
 ```
 
-Use the following commands to clone Praqma repositories or replace with your
+Use the following commands to clone Eficode repositories or replace with your
 own forks if possible:
 
 ```shell

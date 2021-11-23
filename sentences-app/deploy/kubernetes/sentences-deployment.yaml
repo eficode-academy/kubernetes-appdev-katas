@@ -22,7 +22,7 @@ spec:
     spec:
       #priorityClassName: medium-priority
       containers:
-      - image: releasepraqma/sentence:latest
+      - image: eficodeacademy/sentence:latest
         imagePullPolicy: Always
         name: sentences
         args: [

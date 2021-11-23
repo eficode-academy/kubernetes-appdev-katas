@@ -1,8 +1,8 @@
 # For use with Helmsman
 
 metadata:
-  org: "Praqma.com"
-  maintainer: "Name Somename (example@praqma.net)"
+  org: "Eficode.com"
+  maintainer: "Name Somename (example@eficode.net)"
   description: "Example Desired State File for Sentences demo app."
 
 helmRepos:
@@ -20,7 +20,7 @@ apps:
     priority: -1
     version: 0.1.0
     set:
-      image.repository: "releasepraqma/age"
+      image.repository: "eficodeacademy/age"
       image.tag:        "latest"
 
   name:
@@ -31,7 +31,7 @@ apps:
     priority: -1
     version: 0.1.0
     set:
-      image.repository: "releasepraqma/name"
+      image.repository: "eficodeacademy/name"
       image.tag:        "latest"
 
   sentence:
@@ -43,5 +43,5 @@ apps:
     wait: true
     version: 0.1.0
     set:
-      image.repository: "releasepraqma/sentence"
+      image.repository: "eficodeacademy/sentence"
       image.tag:        "latest"
