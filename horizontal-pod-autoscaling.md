@@ -1,6 +1,6 @@
-# Horizontal POD Autoscaling
+# Horizontal Pod Autoscaling
 
-This exercise will demonstrate horizontal POD autoscaling using the sentences
+This exercise will demonstrate horizontal pod autoscaling using the sentences
 application.
 
 The sentences application have three microservices; A main service that builds a
@@ -16,13 +16,13 @@ from the last exercise, scale the `sentences` deployment down to
 > [hello-sentences-app](hello-sentences-app.md#running-the-sentences-application-on-kubernetes)
 > exercise or using Helm, if you did the [create-a-helm-chart](create-a-helm-chart.md) exercise.
 
-Next, in a separate shell, run the following to monitor the running PODs:
+Next, in a separate shell, run the following to monitor the running pods:
 
 ```shell
 $ watch kubectl get pods
 ```
 
-You should see one POD of each of the microservices:
+You should see one pod of each of the microservices:
 
 ```
 sentence-age-f747b9d95-tw4ff       1/1     Running   0          101m
@@ -31,7 +31,7 @@ sentences-66fb575cf8-2sdw2         1/1     Running   0          21m
 ```
 
 In another shell run the following command to monitor the resource consumption
-of each of the running PODs:
+of each of the running pods:
 
 ```shell
 $ watch kubectl top pods
@@ -59,7 +59,7 @@ $ kubectl apply -f resources/load-generator.yaml
 > additional load generators can be created by scaling the load generator
 > deployment.
 
-All three of the microservices PODs have CPU `requests` and `limits` set to 0.25
+All three of the microservices pods have CPU `requests` and `limits` set to 0.25
 CPUs, i.e. we now see the main microservice max-out around 0.25 CPU while the
 other two microservices use much less:
 
@@ -78,10 +78,10 @@ $ kubectl scale --replicas 4 deployment sentences
 
 However, this would obviously be a manual process. If we want Kubernetes
 automatically to adjust the number of replicas based on e.g. the CPU load of the
-PODs in a deployment, we could use the HorizontalPODAutoscaler.
+pods in a deployment, we could use the HorizontalPodAutoscaler.
 
-Lets create a HorizontalPODAutoscaler resource that adjusts the number of PODs
-such that the average CPU load of the PODs are 65% of their requested CPU
+Lets create a HorizontalPodAutoscaler resource that adjusts the number of pods
+such that the average CPU load of the pods are 65% of their requested CPU
 allocation:
 
 ```shell
@@ -89,23 +89,23 @@ $ kubectl apply -f sentences-app/deploy/hpa.yaml
 ```
 
 Next, in a separate shell, run the following to monitor the status of the
-HorizontalPODAutoscaler (using the abbreviation 'hpa' for
-HorizontalPODAutoscaler):
+HorizontalPodAutoscaler (using the abbreviation 'hpa' for
+HorizontalPodAutoscaler):
 
 ```shell
 $ watch kubectl get hpa sentences
 ```
 
 This will initially show 100% measured load (relative to CPU requests), a target
-of 80% and currently one replica:
+of 65% and currently one replica:
 
 ```
 NAME        REFERENCE              TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
 sentences   Deployment/sentences   100%/65%   1         5         1          27s
 ```
 
-After a short while, the horizontal POD autoscaler will have scaled the
-`sentences` deployment to five pods (or at least more then one):
+After a short while, the HorizontalPodAutoscaler will have scaled the
+`sentences` deployment up w.r.t. the load:
 
 ```
 NAME                              CPU(cores)   MEMORY(bytes)
@@ -114,9 +114,6 @@ sentence-age-f747b9d95-tw4ff      142m         27Mi
 sentence-name-8448ccfd89-vsv7v    145m         25Mi
 sentences-66fb575cf8-4kkcl        209m         28Mi
 sentences-66fb575cf8-6w2lr        161m         27Mi
-sentences-66fb575cf8-cgcxl        167m         26Mi
-sentences-66fb575cf8-wtqcc        121m         27Mi
-sentences-66fb575cf8-xds6f        140m         26Mi
 ```
 
 Now delete the load generator:
@@ -125,8 +122,8 @@ Now delete the load generator:
 $ kubectl delete -f resources/load-generator.yaml
 ```
 
-When stopping the load generator, the horizontal POD autoscaler will slowly
-scale the deployment down to 1 POD again.
+When stopping the load generator, the HorizontalPodAutoscaler will slowly
+scale the deployment down to `1` pod again.
 
 # Cleanup
 
