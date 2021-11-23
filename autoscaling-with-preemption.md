@@ -32,6 +32,9 @@ deployment.extensions/sentence-name     1/1     1            1           7m
 deployment.extensions/sentences         1/1     1            1           7m
 ```
 
+> NB: Make sure you've deleted the `hpa` from the last exercise,
+> so the application isn't scaled when you apply load.
+
 Next we apply some load to the sentence application, start a load generator as
 follows (ApacheBench - see YAML file for details):
 
