@@ -36,12 +36,14 @@ prometheus-community/prometheus                         14.11.1         2.26.0  
 ...
 ```
 
-This show that Prometheus chart version 13.0.1 is available and that the version
-of the Prometheus application in that chart is 2.22.1.  You most likely will see
+This show that Prometheus chart version 14.11.1 is available and that the version
+of the Prometheus application in that chart is 2.26.1.  You most likely will see
 newer versions when trying this out...
 
 To install Prometheus and Grafana with settings suitable for the following
-exercises use the following commands:
+exercises use the following commands: (note the versions on the commands,
+this exercise might work with never versions, but for the sake of the exercise,
+try with these first.)
 
 ```shell
 $ helm install prometheus prometheus-community/prometheus --version 13.0.1 -f resources/values-prometheus.yaml
