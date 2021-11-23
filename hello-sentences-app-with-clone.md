@@ -10,10 +10,10 @@ cloned into a shared folder.  If you are planning to do the CI/CD exercises, the
 three latter repositories should be your own forks.
 
 ```
-https://github.com/praqma-training/kubernetes-appdev-katas
-https://github.com/praqma-training/k8s-sentences-sentence
-https://github.com/praqma-training/k8s-sentences-age
-https://github.com/praqma-training/k8s-sentences-name
+https://github.com/eficode-academy/kubernetes-appdev-katas
+https://github.com/eficode-academy/k8s-sentences-sentence
+https://github.com/eficode-academy/k8s-sentences-age
+https://github.com/eficode-academy/k8s-sentences-name
 ```
 
 I.e. listing folders should produce output as follows:
@@ -31,9 +31,9 @@ own forks if possible:
 
 ```shell
 $ cd ~
-$ git clone https://github.com/praqma-training/k8s-sentences-sentence.git
-$ git clone https://github.com/praqma-training/k8s-sentences-age.git
-$ git clone https://github.com/praqma-training/k8s-sentences-name.git
+$ git clone https://github.com/eficode-academy/k8s-sentences-sentence.git
+$ git clone https://github.com/eficode-academy/k8s-sentences-age.git
+$ git clone https://github.com/eficode-academy/k8s-sentences-name.git
 ```
 
 ## Running the Sentences Application with Docker Compose
