@@ -232,6 +232,15 @@ Click the panel title of one of the dashboard panels and select `Edit`. In the
 metrics query field replace the hard-coded `studentXX` by `$namespace` and press the
 `Back arrow` in the top-left corner. Do this for all panels.
 
+Notice that when you try to save it, Grafana will tell you that 
+it can't save a provisioned dashboard, but let you export the dashboard as JSON.
+
+Update `my-dashboard.json` on your instance, delete the `configmap` you created before,
+recreate it with the updated JSON file, and label it so Grafana picks it up.
+
+After a short while your dashboard should show up again, using the `$namespace`-variable
+on the graphs.
+
 ## Cleanup
 
 See cleanup in the [Introducing Prometheus and
