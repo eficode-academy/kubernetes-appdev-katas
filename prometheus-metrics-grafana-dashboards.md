@@ -134,19 +134,21 @@ the right-hand side and change the *Panel title* setting to `Requests/minute`.
 
 To finalize the first part of the dashboard, select the *back arrow* in the
 top-left corner.  To add another graph, select the *Add panel* button as shown
-below and repeat for our second metric, which was:
+below:
+
+![add-panel](images/add-panel.png)
+
+Repeat the process for adding a panel with our second metric, which was:
 
 ```
 sum(rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])) by (type)
 ```
 
-and use the following legend:
+Using the following legend:
 
 ```
 {{type}}
 ```
-
-![add-panel](images/add-panel.png)
 
 ## Re-arranging Visualizations and Saving Dashboards
 
