@@ -224,6 +224,8 @@ label, however, only the values that match the regular expression we
 defined. See the `Refresh` setting for when the choices of the variable is
 refreshed.
 
+Select `Add` to save the variable to your dashboard.
+
 Press the `Back arrow` in the top-left corner to go back to the dashboard.
 
 Click the panel title of one of the dashboard panels and select `Edit`. In the
