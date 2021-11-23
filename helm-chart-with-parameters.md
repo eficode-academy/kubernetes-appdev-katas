@@ -242,7 +242,7 @@ Note that the `get` operation show the used values in the beginning as `USER-SUP
 
 # Food for Thought
 
-When doing horisontal POD autoscaling using the HorisontalPODAutoscaler (HPA)
+When doing horizontal POD autoscaling using the HorizontalPODAutoscaler (HPA)
 Kubernetes resource, its best practice not to define the number of replicas in
 your `Deployment` YAML resource definitions. If you want to create a Helm chart
 that supports both manual scaling through a replicas parameter and automatic
