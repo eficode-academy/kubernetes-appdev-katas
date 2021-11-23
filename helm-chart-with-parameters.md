@@ -183,7 +183,7 @@ And add the conditional nodeport specification as follows:
     {{- end }}
 ```
 
-Note the post-fix used by Helm notation in the above specification.
+Note the "prefix notation" used with `and` and `eq` in the above specification.
 
 Test the rendering of the service with the following commands and observe the difference depending on the settings of `nodePort`:
 
