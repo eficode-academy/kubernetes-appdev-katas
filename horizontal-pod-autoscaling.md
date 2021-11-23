@@ -7,11 +7,14 @@ The sentences application have three microservices; A main service that builds a
 sentence from the output from the two other services. With this application, the
 main service will be the initial bottleneck, which we will see shortly.
 
-First, ensure that the sentences application is deployed:
+If you already have the sentences application deployed, 
+from the last exercise, scale the `sentences` deployment down to
+`1` replica and delete the `load-generator` deployment.
 
-```shell
-$ kubectl apply -f sentences-app/deploy/kubernetes/
-```
+> If you don't have the sentences application deployed,
+> deploy it with either `apply` like in the 
+> [hello-sentences-app](hello-sentences-app.md#running-the-sentences-application-on-kubernetes)
+> exercise or using Helm, if you did the [create-a-helm-chart](create-a-helm-chart.md) exercise.
 
 Next, in a separate shell, run the following to monitor the running PODs:
 
@@ -28,7 +31,7 @@ sentences-66fb575cf8-2sdw2         1/1     Running   0          21m
 ```
 
 In another shell run the following command to monitor the resource consumption
-of each of the runnung PODs:
+of each of the running PODs:
 
 ```shell
 $ watch kubectl top pods
