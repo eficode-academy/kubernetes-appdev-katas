@@ -77,6 +77,7 @@ spec:
 Verify the rendering as follows:
 
 ```shell
+# inside helm-chart/
 $ helm template sentence-app/ --show-only templates/sentences-deployment.yaml
 ```
 
