@@ -177,14 +177,18 @@ top-right corner.
 
 Next, you will have to copy the dashboard from where you downloaded it, onto
 the VM instance where you are running kubectl commands.
-The following command will "secure copy" a file `my-dashboard.json` from your
-local machine, into the home folder of your instance:
+
+If you're at a facilitated training, you might just be able to use VSCode 
+in the browser to copy over the contents of the JSON file.
+
+Otherwise the following command will "secure copy" a file `my-dashboard.json` 
+from your local machine, into the home folder of your instance:
 
 ```shell
 $ scp -i <key> my-dashboard.json ubuntu@<IP-address>:.
 ```
 
-Connect to your instance with `ssh` again, and run:
+With the file (named `my-dashboard.json`) on your instance, you can now run:
 
 ```shell
 $ kubectl create configmap my-dashboard --from-file my-dashboard.json
@@ -192,8 +196,9 @@ $ kubectl label configmap my-dashboard grafana_dashboard='1'
 ```
 
 Grafana should now automatically load the dashboard and you can select it by
-using the *Dashboards* button in the left-side of the window (possibly select the
-*Home* and *Manage* sub-options a few times since it might take some seconds before Grafana loads the dashboard)
+using the *Dashboards* button in the left-side of the window 
+(possibly select the *Home* and *Manage* sub-options a few times 
+since it might take some seconds before Grafana loads the dashboard)
 
 The dashboard can now be stored in e.g. git together with the remaining
 application artifacts.
