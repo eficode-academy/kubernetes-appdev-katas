@@ -25,11 +25,11 @@ feature and in the query box type the metrics name `sentence_requests_total`.
 
 This query might show metrics from users in other namespaces and to limit
 results to your own namespace add a filter on the namespace label by using the
-following query where you replace `userXX` with the name of your own namespace
+following query where you replace `studentXX` with the name of your own namespace
 (make this replacement in all the following examples).
 
 ```
-sentence_requests_total{kubernetes_namespace="userXX"}
+sentence_requests_total{kubernetes_namespace="studentXX"}
 ```
 
 Since this metric is a counter which increases on each request, we will see a
@@ -40,7 +40,7 @@ Number of requests are typically easier to understand when given over time. We
 can change the query which Grafana sends to Prometheus to 
 
 ```
-rate(sentence_requests_total{kubernetes_namespace="userXX"}[2m])*60
+rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])*60
 ```
 
 With this query, Prometheus will return metrics with a per-minute average
@@ -72,7 +72,7 @@ This can be done by using the Prometheus `sum()` aggregation operator. First,
 enter the following query into Grafana:
 
 ```
-sum(rate(sentence_requests_total{kubernetes_namespace="userXX"}[2m]))
+sum(rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m]))
 ```
 
 this results in a single curve, hence all the `sentence_requests_total` metrics
@@ -84,7 +84,7 @@ aggregation. Instead enter the following query which specifies the `sum()` to
 happen across the values of the `type` label.
 
 ```
-sum(rate(sentence_requests_total{kubernetes_namespace="userXX"}[2m])) by (type)
+sum(rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])) by (type)
 ```
 
 This will result in a set of data for each of our microservice types and this
@@ -114,10 +114,10 @@ Queries are entered in the field starting with `Metrics` as shown below:
 
 ![enter-query](images/enter-query.png)
 
-In this field enter our first Prometheus metric query (replace `userXX` with your user namespace):
+In this field enter our first Prometheus metric query (replace `studentXX` with your user namespace):
 
 ```
-rate(sentence_requests_total{kubernetes_namespace="userXX"}[2m])*60
+rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])*60
 ```
 
 After this, the metric will show up as a graph and very long legend names below
@@ -130,14 +130,14 @@ allow Grafana to generate legends using the values of the `type` and
 ```
 
 The graph title currently says "Panel Title". To change this, go to the panel in
-the right-hand side and change the *Panel title* setting to "Requests/minute".
+the right-hand side and change the *Panel title* setting to `Requests/minute`.
 
 To finalize the first part of the dashboard, select the *back arrow* in the
 top-left corner.  To add another graph, select the *Add panel* button as shown
 below and repeat for our second metric, which was:
 
 ```
-sum(rate(sentence_requests_total{kubernetes_namespace="userXX"}[2m])) by (type)
+sum(rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])) by (type)
 ```
 
 and use the following legend:
@@ -206,7 +206,7 @@ menu that shows up, select `Variables` and select `Add variable`.
 
 Enter `namespace` in the 'Name' input field, select `prometheus` in the `Data
 source` field and enter `label_values(kubernetes_namespace)` in the query input
-field. To filter out unnecessary choices, enter `user.*` in the `Regex` field.
+field. To filter out unnecessary choices, enter `student.*` in the `Regex` field.
 Through this we create a variable that dynamically updates and get the possible
 choices of the namespace variable from the values of the `kubernetes_namespace`
 label, however, only the values that match the regular expression we
@@ -216,7 +216,7 @@ refreshed.
 Press the `Back arrow` in the top-left corner to go back to the dashboard.
 
 Click the panel title of one of the dashboard panels and select `Edit`. In the
-metrics query field replace the hard-coded `userXX` by `$namespace` and press the
+metrics query field replace the hard-coded `studentXX` by `$namespace` and press the
 `Back arrow` in the top-left corner. Do this for all panels.
 
 ## Cleanup
