@@ -16,6 +16,9 @@ make up the sentences application:
 $ docker-compose -f sentences-app/deploy/docker-compose.yaml up
 ```
 
+> NB: if `docker-compose` is missing, you can install it with
+> `sudo apt install docker-compose`
+
 In another shell, use the following command to request sentences from the
 sentences application:
 
