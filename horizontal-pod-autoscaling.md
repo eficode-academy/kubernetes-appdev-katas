@@ -14,7 +14,7 @@ from the last exercise, scale the `sentences` deployment down to
 > If you don't have the sentences application deployed,
 > deploy it with either `apply` like in the 
 > [hello-sentences-app](hello-sentences-app.md#running-the-sentences-application-on-kubernetes)
-> exercise or using Helm, if you did the [create-a-helm-chart](create-a-helm-chart.md) exercise.
+> exercise.
 
 Next, in a separate shell, run the following to monitor the running pods:
 
