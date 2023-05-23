@@ -1,5 +1,12 @@
 # Kubernetes health checks
 
+## Learning goal
+
+- Creating healthchecks
+- Examine how the two probes work.
+
+## Overview
+
 Health checks in Kubernetes are a mechanism to
 check if a pod is able to handle load. This status
 can be used by Kubernetes to avoid routing traffic
@@ -34,7 +41,7 @@ unavailable - and in this state Kubernetes will
 choose not to route traffic to the container if it
 deems it unhealthy.
 
-## Tasks
+## Exercise
 
 Apply the deployment and service found in the
 `health-checks` folder:
