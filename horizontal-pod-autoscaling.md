@@ -3,18 +3,21 @@
 This exercise will demonstrate horizontal pod autoscaling using the sentences
 application.
 
-The sentences application have three microservices; A main service that builds a
-sentence from the output from the two other services. With this application, the
-main service will be the initial bottleneck, which we will see shortly.
+With this application, the main service will be the initial bottleneck, which we will see shortly.
 
-If you already have the sentences application deployed, 
-from the last exercise, scale the `sentences` deployment down to
-`1` replica and delete the `load-generator` deployment.
+- Scale the sentences application to 1 replica: `kubectl scale --replicas 1 deployment sentences`
+- Delete the load generator: `kubectl delete -f resources/load-generator.yaml`
 
-> If you don't have the sentences application deployed,
-> deploy it with either `apply` like in the 
-> [hello-sentences-app](hello-sentences-app.md#running-the-sentences-application-on-kubernetes)
-> exercise.
+<details>
+<summary>:bulb: > If you don't have the sentences application deployed</summary>
+
+The sentences application can be deployed with the following command.
+
+```shell
+$ kubectl apply -f sentences-app/deploy/kubernetes/
+```
+</details> 
+
 
 Next, in a separate shell, run the following to monitor the running pods:
 
@@ -80,7 +83,7 @@ However, this would obviously be a manual process. If we want Kubernetes
 automatically to adjust the number of replicas based on e.g. the CPU load of the
 pods in a deployment, we could use the HorizontalPodAutoscaler.
 
-Lets create a HorizontalPodAutoscaler resource that adjusts the number of pods
+Lets create a HorizontalPodAutoscaler (v1) resource that adjusts the number of pods
 such that the average CPU load of the pods are 65% of their requested CPU
 allocation:
 
@@ -104,7 +107,7 @@ NAME        REFERENCE              TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
 sentences   Deployment/sentences   100%/65%   1         5         1          27s
 ```
 
-After a short while, the HorizontalPodAutoscaler will have scaled the
+After a couple of minutes, the HorizontalPodAutoscaler will have scaled the
 `sentences` deployment up w.r.t. the load:
 
 ```
@@ -124,6 +127,14 @@ $ kubectl delete -f resources/load-generator.yaml
 
 When stopping the load generator, the HorizontalPodAutoscaler will slowly
 scale the deployment down to `1` pod again.
+
+<details>
+<summary>:bulb: > Why does it not scale down/up instantly? </summary>
+When the load decreases, the HPA intentionally waits a certain amount of time before scaling the app down. This is known as the cooldown delay and helps that the app is scaled up and down too frequently. The result of this is that for a certain time the app runs at the previous high replica count even though the metric value is way below the target. This may look like the HPA doesn't respond to the decreased load, but it eventually will.
+
+For more information read this brilliant blogpost by Expedia: https://medium.com/expedia-group-tech/autoscaling-in-kubernetes-why-doesnt-the-horizontal-pod-autoscaler-work-for-me-5f0094694054
+
+</details>
 
 # Cleanup
 
