@@ -1,17 +1,47 @@
 # Prometheus Metrics and Grafana Dashboards
 
-In this exercise we will build upon the knowledge from the [Introducing
-Prometheus and Grafana](introducing-prometheus-and-grafana.md) exercise.
+## Learning goals
 
-We will learn about Prometheus query functions and operators and we will build a
-dashboard for the sentences application.
+- Learn how to query Prometheus metrics
+- Learn how to create Grafana dashboards
+- (optional) Learn how to use Grafana variables
 
-This exercise assumes you have Prometheus, Grafana and the sentences application
-and load generator running. If not, see the [Introducing Prometheus and
-Grafana](introducing-prometheus-and-grafana.md) exercise.
 
-In addition, ensure that the load generator is running (see previous exercise),
-and that the front-end sentences microservice is scaled to three replicas:
+## Introduction
+
+> :bulb: This exercise assumes you have Prometheus, Grafana and the sentences application
+> and load generator running. If not, see the [Introducing Prometheus and
+> Grafana](introducing-prometheus-and-grafana.md) exercise.
+
+In this exercise we will create a Grafana dashboard that shows the number of requests per minute for each microservice type.
+
+The promQL language used to query Prometheus metrics is very powerful and can be used to create very complex queries.  In this exercise we will only use a few examples.
+
+There are many [Prometheus
+functions](https://prometheus.io/docs/prometheus/latest/querying/functions/) and
+[Prometheus
+operators](https://prometheus.io/docs/prometheus/latest/querying/operators/)
+that provide many options for querying metrics.
+
+We will both look at aggregated metrics like the number of requests a particular pod have recieved overall.
+
+We will also use the time series nature of Prometheus to look at the number of requests per minute for each microservice type.
+
+At the end of the exercise you will have a dashboard that displays two graphs:
+
+- Number of requests per minute for each microservice type
+- Number of requests per minute for each microservice POD
+## Exercise
+
+The exercise is divided into the following steps:
+
+- [Scale the Front-end](#scale-the-front-end)
+- [Choose Metric Queries](#choose-metric-queries)
+- [Metric Labels](#metric-labels)
+
+## Scale the Front-end
+
+front-end sentences microservice is scaled to three replicas:
 
 ```shell
 $ kubectl scale --replicas 3 deployment sentences
@@ -20,108 +50,106 @@ $ kubectl scale --replicas 3 deployment sentences
 ## Choose Metric Queries
 
 The first thing to do before creating a dashboard is to chose a query that
-return a metric we want to display in a dashboard.  Go to the Grafana *explore*
-feature and in the query box type the metrics name `sentence_requests_total`.
+return a metric we want to display in a dashboard. 
 
-This query might show metrics from users in other namespaces and to limit
-results to your own namespace add a filter on the namespace label by using the
-following query where you replace `studentXX` with the name of your own namespace
-(make this replacement in all the following examples).
+- Go to the Grafana *explore* feature 
+- in the query box type the metrics name `sentence_requests_total`.
 
-```
-sentence_requests_total{kubernetes_namespace="studentXX"}
-```
+> :bulb: This query might show metrics from users in other namespaces and to limit results to your own namespace add a filter on the namespace label by using the following query where you replace `studentXX` with the name of your own namespace (make this replacement in all the following examples).
 
-Since this metric is a counter which increases on each request, we will see a
-curve going towards the top-right part of the Grafana graph of the
-`sentence_requests_total` metric.
+- change the metric to `sentence_requests_total{kubernetes_namespace="studentXX"}` and observe the results.
 
-Number of requests are typically easier to understand when given over time. We
-can change the query which Grafana sends to Prometheus to
+Number of requests are typically easier to understand when given over time.
+We can change the query which Grafana sends to Prometheus to include a time range in the following way:
 
-```
-rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])*60
-```
+- Change the metric to `rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])*60` and observe the results.
 
 With this query, Prometheus will return metrics with a per-minute average
-measured over the last 2 minutes. We can include general math in the query also,
-and we here convert the metric into a requests/minute metric (the `rate`
-function return per-second changes which we multiply by 60).
+measured over the last 2 minutes. 
+We convert the metric into a requests/minute metric (the `rate` function return per-second changes which we multiply by 60).
 
-We now have found the first metric query for our dashboard.
+The data returned with the above query results in five different sets of data and the table also show five results. 
+
+The five results in their labels. 
+
+An example of that is the value of the `type` label.
+
+- Identify `sentence`, `age` and `name` as the three different values of the `type` label.
+
+- Observe that the `kubernetes_pod_name` label have different values matching the actual POD names of our Kubernetes PODs. 
+
+- Compare the `kubernetes_pod_name` label values with `kubectl get pods` to verify this
+
+```shell
+kubectl get pods
+NAME                                 READY   STATUS    RESTARTS   AGE
+grafana-6859599fc4-frlw4             2/2     Running   0          3h26m
+loadgen-69fb994f88-8gg4s             1/1     Running   0          127m
+prometheus-server-75667d4974-rc9jp   2/2     Running   0          3h27m
+sentence-age-58cb74bdd-9v468         1/1     Running   0          3h23m
+sentence-name-f9b7684b4-x297j        1/1     Running   0          3h23m
+sentences-5b8cb547b9-2vppc           1/1     Running   0          3h23m
+sentences-5b8cb547b9-5dt4c           1/1     Running   0          114m
+sentences-5b8cb547b9-cml4p           1/1     Running   0          114m
+```
+
+Congrats, this is the first metric query for our dashboard.
 
 ## Metric Labels
 
-The data returned with the above query results in five different sets of data
-and the table also show five results. The results differ in the labels,
-e.g. observe the value of the `type` label -- you should be able to find
-`sentence`, `age` and `name`.
+For our second metric query in our dashboard we want request/minute for each microservice type `sentence`, `age` and `name`.
 
-In addition, we see that e.g. the `kubernetes_pod_name` label have different
-values matching the actual POD names of our Kubernetes PODs. Compare the
-`kubernetes_pod_name` label values with the following command to verify this:
+This can be done by using the Prometheus `sum()` aggregation operator. 
 
-```shell
-$ kubectl get pods
-```
+- Enter the following query into Grafana: `sum(rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m]))`
 
-Thus we have a `sentence_request_total` from each POD, however, for our second
-metric query in our dashboard we want request/minute for each microservice type.
-
-This can be done by using the Prometheus `sum()` aggregation operator. First,
-enter the following query into Grafana:
-
-```
-sum(rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m]))
-```
-
-this results in a single curve, hence all the `sentence_requests_total` metrics
-from all microservices have been aggregated into a single metric which is not
-what we wanted.
+This results in a single curve, hence all the `sentence_requests_total` metrics
+from all microservices have been aggregated into a single metric.
+It is not quite what we wanted.
 
 We need to specify to the `sum()` operator across which labels we want
-aggregation. Instead enter the following query which specifies the `sum()` to
-happen across the values of the `type` label.
+aggregation. 
 
-```
-sum(rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])) by (type)
-```
+- Append `by (type)` at the end of the query to group the metrics by the `type` label.
+
+<details>
+<summary>:bulb: full query</summary>
+
+`sum(rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])) by (type)`
+
+</details>
 
 This will result in a set of data for each of our microservice types and this
 will be our second metric query for our dashboard.
 
-There are many [Prometheus
-functions](https://prometheus.io/docs/prometheus/latest/querying/functions/) and
-[Prometheus
-operators](https://prometheus.io/docs/prometheus/latest/querying/operators/)
-that provide many options for querying metrics.
-
 ## Create a Dashboard
 
-Go back to the main page of Grafana by selecting the *Dashboards* (four squares)
+- Go back to the main page of Grafana by selecting the *Dashboards* (four squares)
 button above the *explore* button and select the *Create your first dashboard*
 button in the right of the window as shown below:
 
 ![create-dashboard](images/create-dashboard.png)
 
-Next, click the blue *Add new panel* button.
+- Click the blue *Add new panel* button.
 
-We will use the default visualization which is *Graph*, however, you can change
-the visualization type by selecting *Visualization* in the right-hand size (see
+We will use the default visualization which is *Graph*.
+
+:bulb: You can change the visualization type by selecting *Visualization* in the right-hand size (see
 below).
 
 Queries are entered in the field starting with `Metrics` as shown below:
 
 ![enter-query](images/enter-query.png)
 
-In this field enter our first Prometheus metric query (replace `studentXX` with your user namespace):
+- Enter our first Prometheus metric query (replace `studentXX` with your user namespace):
 
 ```
 rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])*60
 ```
 
-After this, the metric will show up as a graph and very long legend names below
-the graph. Below the `Metrics` field in the `Legend` box enter the following to
+You should see the metric as a graph and very long legend names below the graph.
+
+- Below the `Metrics` field in the `Legend` box enter the following to
 allow Grafana to generate legends using the values of the `type` and
 `kubernetes_pod_name` labels.
 
@@ -129,81 +157,74 @@ allow Grafana to generate legends using the values of the `type` and
 {{type}}-{{kubernetes_pod_name}}
 ```
 
-The graph title currently says "Panel Title". To change this, go to the panel in
-the right-hand side and change the *Panel title* setting to `Requests/minute`.
+The graph title currently says "Panel Title". 
 
-To finalize the first part of the dashboard, select the *back arrow* in the
-top-left corner.  To add another graph, select the *Add panel* button as shown
-below:
+- Go to the panel in the right-hand side and change the *Panel title* to `Requests/minute`.
+
+- Select the *back arrow* in the top-left corner to exit this graph. 
+- Select the *Add panel* button as shown below:
 
 ![add-panel](images/add-panel.png)
 
-Repeat the process for adding a panel with our second metric, which was:
+- Repeat the process for adding a panel with our second metric, which was:
 
 ```
 sum(rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])) by (type)
 ```
 
-Using the following legend:
+- Using the following legend:
 
 ```
 {{type}}
 ```
 
+- Use the *back arrow* to go back to the main dashboard page
+
+You have now gotten two graphs in your dashboard :tada:
+
 ## Re-arranging Visualizations and Saving Dashboards
 
-When you have added the second metric and used the *back arrow* to go back to
-the main dashboard page, you can re-arrange and re-size the panels using the
+In the main dashboard page, you can re-arrange and re-size the panels using the
 mouse.
 
-The dashboard can be saved by using the *Save dashboard* button in the top-right
-corner next to the *Add panel* button.  After the dashboard has been saved, a
-*Share dashboard* button will show up in the top-left corner after the dashboard
+- Save the dashboard by using the *Save dashboard* button in the top-right corner next to the *Add panel* button. 
+
+After the dashboard has been saved, a *Share dashboard* button will show up in the top-left corner after the dashboard
 title, like below:
 
 ![share-dashboard](images/share-dashboard.png)
 
-Press the *Share dashboard* button, select the *Export* tab and *Save to
-file*. This will start a download of the dashboard in JSON format.
+- Press the *Share dashboard* button, select the *Export* tab and *Save to file*.
+
+This will start a download of the dashboard in JSON format.
 
 ## Importing the Saved Dashboard
 
 In the [Introducing Prometheus and
 Grafana](introducing-prometheus-and-grafana.md) exercise we loaded an existing
-dashboard from a JSON file. Now that we have created our own dashboard we can
-load it into Grafana.  First delete the current dashboard by selecting the
-*Dashboard settings* button to the right of the *Save dashboard* button in the
-top-right corner.
+dashboard from a JSON file. 
+Now that we have created our own dashboard we can load it into Grafana.  
 
-Next, you will have to copy the dashboard from where you downloaded it, onto
-the VM instance where you are running kubectl commands.
+- First delete the current dashboard by selecting the *Dashboard settings* button to the right of the *Save dashboard* button in the top-right corner.
 
-If you're at a facilitated training, you might just be able to use VSCode 
-in the browser to copy over the contents of the JSON file.
-
-Otherwise the following command will "secure copy" a file `my-dashboard.json` 
-from your local machine, into the home folder of your instance:
-
-```shell
-$ scp -i <key> my-dashboard.json ubuntu@<IP-address>:.
-```
+- Copy the dashboard from where you downloaded it, onto the VM instance where you are running kubectl commands. The filename should be `my-dashboard.json`.
 
 With the file (named `my-dashboard.json`) on your instance, you can now run:
 
-```shell
-$ kubectl create configmap my-dashboard --from-file my-dashboard.json
-$ kubectl label configmap my-dashboard grafana_dashboard='1'
-```
+- Transform it into a configmap `kubectl create configmap my-dashboard --from-file my-dashboard.json`
+- Label it so Grafana picks it up `kubectl label configmap my-dashboard grafana_dashboard='1'`
+
 
 Grafana should now automatically load the dashboard and you can select it by
 using the *Dashboards* button in the left-side of the window 
 (possibly select the *Home* and *Manage* sub-options a few times 
 since it might take some seconds before Grafana loads the dashboard)
 
-The dashboard can now be stored in e.g. git together with the remaining
-application artifacts.
+You have now created your first Grafana dashboard _as code_ :tada:
+## Extra: Add a Drop-down Selector for Namespace
 
-## Optional: Add a Drop-down Selector for Namespace
+<details>
+<summary> Steps if you have time</summary>
 
 Instead of hard-coding the namespace in the Prometheus queries, we can add a
 drop-down selector as shown in the example dashboard in the
@@ -241,7 +262,22 @@ recreate it with the updated JSON file, and label it so Grafana picks it up.
 After a short while your dashboard should show up again, using the `$namespace`-variable
 on the graphs.
 
+</details>
+
 ## Cleanup
 
-See cleanup in the [Introducing Prometheus and
-Grafana](introducing-prometheus-and-grafana.md) exercise
+*NB: If you are in a instructor led course, do not clean anything.*
+
+<details>
+<summary>:bulb: Cleanup for stand-alone use of the exercise</summary>
+
+Delete the applications and additional services with the following commands.
+
+```shell
+kubectl delete -f sentences-app/deploy/kubernetes/
+helm delete grafana
+helm delete prometheus
+kubectl delete configmap dashboard
+kubectl delete -f resources/load-generator.yaml
+```
+</details>
