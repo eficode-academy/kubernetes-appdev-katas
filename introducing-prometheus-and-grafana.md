@@ -50,6 +50,9 @@ $ helm install prometheus prometheus-community/prometheus --version 13.0.1 -f re
 $ helm install grafana grafana/grafana --version 6.1.16 -f resources/values-grafana.yaml
 ```
 
+<details>
+<summary>:bulb: If you are running on this outside of class:</summary>
+
 > This exercise assume a Kubernetes cluster with metrics support. Most managed
 > Kubernetes solutions will have support for metrics. On self-deployed clusters
 > one might need to deploy the metrics-server application:
@@ -57,6 +60,8 @@ $ helm install grafana grafana/grafana --version 6.1.16 -f resources/values-graf
 > ```shell
 > $ helm install metrics-server stable/metrics-server --version 2.8.8 --set args[0]="--kubelet-insecure-tls"
 > ```
+
+</details>
 
 After running these command you can inspect the installed Helm-based
 applications with `helm ls`:
@@ -125,8 +130,20 @@ The sentences application exports metrics on port 8080 and path
 path, and we will later see how Prometheus figures out which port to scrape for
 metrics.
 
-Query metrics API of the sentences deployment similarly to how you fetched
-sentences. The difference is that we add the '/metrics' path to the query:
+## Tasks
+
+- find the nodeport the service is running at
+
+```shell
+kubectl get svc sentence -o jsonpath="{.spec.ports[0].nodePort}" # Get the node port for the sentence service
+```
+- query the sentences service a couple of times to make sure you have some metrics to show
+
+```shell
+curl -s <NODE-IP>:<PORT> # Get a sentence
+```
+
+- query the metrics endpoint to see the metrics
 
 ```shell
 $ curl -s <NODE-IP>:<PORT>/metrics | egrep '^sentence'
@@ -139,6 +156,9 @@ following output:
 sentence_requests_total{type="sentence"} 6
 ```
 
+<details>
+<summary>:bulb: I get no results!</summary>
+
 > If you get no results here, it could be because the sentences application has
 > recently been deployed and metrics with a value of zero are not exported,
 > i.e. until you fetch a sentence for the first time, the curl above will return
@@ -147,6 +167,7 @@ sentence_requests_total{type="sentence"} 6
 
 Try fetching more sentences and metrics to see the `sentence_requests_total`
 metric increment.
+</details>
 
 This show that we have a metric with name `sentence_requests_total` with a label
 `type` that have the value `sentence`. The other microservices `age` and `name`
@@ -175,12 +196,19 @@ When you have the Prometheus GUI op, select the `Status` menu item and then the
 This shows the list of targets that Prometheus has identified through the
 Kubernetes API. We see that three POD target show up with the labels matching
 the three microservices of the sentences application (if you are running the
-exercises on a shared cluster you may see other users applications as well). If
-our list of scrape targets do not match our expectation we should verify that 1)
+exercises on a shared cluster you may see other users applications as well).
+
+
+<details>
+<summary>:bulb: I get no results!</summary>
+
+If our list of scrape targets do not match our expectation we should verify that 1)
 Our Kubernetes resources are correctly annotated to tell Prometheus to scrape
 then and that the port and path is correct and 2) that Prometheus is deployed
 with proper Kubernetes authorization to auto-discover scrape targets through the
 Kubernetes API.
+
+</details>
 
 ![prometheus-scrape-targets](images/prometheus-scrape-targets.png)
 
@@ -259,10 +287,13 @@ $ kubectl apply -f sentences-app/deploy/hpa.yaml
 
 ## Cleanup
 
-Delete the applications and additional services with the following commands.
-
 *NB: If you are going to proceed to the next Prometheus/Grafana exercise, you will
 want to leave everything running for now.*
+
+<details>
+<summary>:bulb: Cleanup for stand-alone use of the exercise</summary>
+
+Delete the applications and additional services with the following commands.
 
 ```shell
 $ kubectl delete -f sentences-app/deploy/kubernetes/
@@ -272,3 +303,4 @@ $ kubectl delete configmap dashboard
 $ kubectl delete -f resources/load-generator.yaml
 $ kubectl delete -f sentences-app/deploy/hpa.yaml
 ```
+</details>
