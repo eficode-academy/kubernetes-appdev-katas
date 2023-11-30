@@ -13,14 +13,14 @@ from their community repositories.
 First add repositories to your Helm installation:
 
 ```shell
-$ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-$ helm repo add grafana https://grafana.github.io/helm-charts
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add grafana https://grafana.github.io/helm-charts
 ```
 
 Next, you can inspect your Helm repositories with `helm repo list`:
 
 ```shell
-$ helm repo list
+helm repo list
 NAME                    URL
 prometheus-community    https://prometheus-community.github.io/helm-charts
 grafana                 https://grafana.github.io/helm-charts
@@ -29,7 +29,7 @@ grafana                 https://grafana.github.io/helm-charts
 To look for available Helm chart you can use the `helm search` feature, e.g.:
 
 ```shell
-$ helm search repo prometheus
+helm search repo prometheus
 NAME                                                    CHART VERSION   APP VERSION     DESCRIPTION
 prometheus-community/kube-prometheus-stack              20.0.1          0.52.0          kube-prometheus-stack ...
 prometheus-community/prometheus                         14.11.1         2.26.0          Prometheus is a monito...
@@ -46,8 +46,8 @@ this exercise might work with never versions, but for the sake of the exercise,
 try with these first.)
 
 ```shell
-$ helm install prometheus prometheus-community/prometheus --version 13.0.1 -f resources/values-prometheus.yaml
-$ helm install grafana grafana/grafana --version 6.1.16 -f resources/values-grafana.yaml
+helm install prometheus prometheus-community/prometheus --version 13.0.1 -f resources/values-prometheus.yaml
+helm install grafana grafana/grafana --version 6.1.16 -f resources/values-grafana.yaml
 ```
 
 <details>
@@ -58,7 +58,7 @@ $ helm install grafana grafana/grafana --version 6.1.16 -f resources/values-graf
 > one might need to deploy the metrics-server application:
 >
 > ```shell
-> $ helm install metrics-server stable/metrics-server --version 2.8.8 --set args[0]="--kubelet-insecure-tls"
+> helm install metrics-server stable/metrics-server --version 2.8.8 --set args[0]="--kubelet-insecure-tls"
 > ```
 
 </details>
@@ -67,7 +67,7 @@ After running these command you can inspect the installed Helm-based
 applications with `helm ls`:
 
 ```shell
-$ helm ls
+helm ls
 NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
 grafana         student1        1               2020-12-22 07:35:22.209543882 +0000 UTC deployed        grafana-6.1.16          7.3.5
 prometheus      student1        1               2020-12-22 07:35:11.826098609 +0000 UTC deployed        prometheus-13.0.1       2.22.1
@@ -76,7 +76,7 @@ prometheus      student1        1               2020-12-22 07:35:11.826098609 +0
 Also, inspect the PODs that these applications are based upon:
 
 ```shell
-$ kubectl get pods
+kubectl get pods
 grafana-5c7b9b967f-pnkd2             2/2     Running   0          71s
 prometheus-server-868b8cdb59-d7gpq   2/2     Running   0          48s
 ```
@@ -89,9 +89,9 @@ following commands to get the external IP address/port and the Grafana `admin`
 user password:
 
 ```shell
-$ kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services grafana
-$ kubectl get nodes -o wide
-$ kubectl get secret grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services grafana
+kubectl get nodes -o wide
+kubectl get secret grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
 ## Deploying the Application
@@ -99,7 +99,7 @@ $ kubectl get secret grafana -o jsonpath="{.data.admin-password}" | base64 --dec
 The sentences application can be deployed with the following command.
 
 ```shell
-$ kubectl apply -f sentences-app/deploy/kubernetes/
+kubectl apply -f sentences-app/deploy/kubernetes/
 ```
 
 After this, we should have 5 PODs running (Prometheus, Grafana and three PODs
@@ -146,7 +146,7 @@ curl -s <NODE-IP>:<PORT> # Get a sentence
 - query the metrics endpoint to see the metrics
 
 ```shell
-$ curl -s <NODE-IP>:<PORT>/metrics | egrep '^sentence'
+curl -s <NODE-IP>:<PORT>/metrics | egrep '^sentence'
 ```
 
 We use `egrep` here to filter out the essential information, and we will see the
@@ -187,7 +187,7 @@ NodePort-type service. Look up the node port as we did above with Grafana and
 open the GUI in a web browser:
 
 ```shell
-$ kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services prometheus-server
+kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services prometheus-server
 ```
 
 When you have the Prometheus GUI op, select the `Status` menu item and then the
@@ -250,8 +250,8 @@ To install a dashboard for the sentences application create and annotate a
 ConfigMap as follows:
 
 ```shell
-$ kubectl create configmap dashboard --from-file sentences-app/dashboard-w-ns-selector.json
-$ kubectl label configmap dashboard grafana_dashboard='1'
+kubectl create configmap dashboard --from-file sentences-app/dashboard-w-ns-selector.json
+kubectl label configmap dashboard grafana_dashboard='1'
 ```
 
 After this you will be able to use the dashboard in Grafana.  Go to the
@@ -265,7 +265,7 @@ and watch the effect in the dashboard:
 
 
 ```shell
-$ kubectl apply -f resources/load-generator.yaml
+kubectl apply -f resources/load-generator.yaml
 ```
 
 After a short while, you should see the effect of the generated load in the
@@ -282,7 +282,7 @@ could deploy the HorisontalPODAutoscaler resource to see auto-scaling and the
 dashboard with POD counts for the individial microservices to change.
 
 ```shell
-$ kubectl apply -f sentences-app/deploy/hpa.yaml
+kubectl apply -f sentences-app/deploy/hpa.yaml
 ```
 
 ## Cleanup
@@ -296,11 +296,11 @@ want to leave everything running for now.*
 Delete the applications and additional services with the following commands.
 
 ```shell
-$ kubectl delete -f sentences-app/deploy/kubernetes/
-$ helm delete grafana
-$ helm delete prometheus
-$ kubectl delete configmap dashboard
-$ kubectl delete -f resources/load-generator.yaml
-$ kubectl delete -f sentences-app/deploy/hpa.yaml
+kubectl delete -f sentences-app/deploy/kubernetes/
+helm delete grafana
+helm delete prometheus
+kubectl delete configmap dashboard
+kubectl delete -f resources/load-generator.yaml
+kubectl delete -f sentences-app/deploy/hpa.yaml
 ```
 </details>
