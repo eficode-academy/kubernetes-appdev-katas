@@ -73,18 +73,22 @@ Copy the port from your frontend service that looks something like `31941` and p
   that you hit both of the instances
 - Execute a bash session in one of the instances
   `kubectl exec -ti probe-59cf4f5578-vwllc -- bash`
-- First, remove the file `/tmp/ready`, and monitor
-  that the browser will eventually not route
-  traffic to that pod.
-- Remove the file `/tmp/alive`, and observe that
-  within a short while you will get kicked out of
-  the container, as the pod is restarting.
-- Observe that the pod has now been restarted when
-  you list the pods with `kubectl get pods`
-- Look at the logs:
-  `kubectl describe pod probe-59cf4f5578-vwllc`
-  and see the events that you have triggered
-  through this exercise.
+- First, remove the file `/tmp/ready`, and monitor that the browser will eventually not route traffic to that pod.
+- Run `kubectl get pods` to see that the pod you executed into are not ready anymore.
+- Run `kubectl describe pod probe-59cf4f5578-vwllc` and see that the conditions for the pod are describing it as not ready:
+
+```bash
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+```
+
+- Remove the file `/tmp/alive`, and observe that within a short while you will get kicked out of the container, as the pod is restarting.
+- Observe that the pod has now been restarted when you list the pods with `kubectl get pods`
+- Look at the events:  `kubectl describe pod probe-59cf4f5578-vwllc` and see the events that you have triggered through this exercise.
 
 Congratulations!
 
