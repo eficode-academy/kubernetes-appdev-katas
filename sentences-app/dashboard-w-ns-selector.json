@@ -60,7 +60,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(sentence_requests_total{kubernetes_namespace=\"$namespace\"}[3m])) by (type)",
+          "expr": "sum(rate(sentence_requests_total{namespace=\"$namespace\"}[3m])) by (type)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{type}}",
@@ -149,7 +149,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "count(sentence_requests_total{kubernetes_namespace=\"$namespace\"}) by (type)",
+          "expr": "count(sentence_requests_total{namespace=\"$namespace\"}) by (type)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{type}}",
@@ -316,7 +316,7 @@
           "value": "user13"
         },
         "datasource": "prometheus",
-        "definition": "label_values(kubernetes_namespace)",
+        "definition": "label_values(namespace)",
         "hide": 0,
         "includeAll": false,
         "label": null,
@@ -369,7 +369,7 @@
             "value": "user9"
           }
         ],
-        "query": "label_values(kubernetes_namespace)",
+        "query": "label_values(namespace)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,

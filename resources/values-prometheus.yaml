@@ -1,16 +1,15 @@
 rbac:
-  create: false
+  create: true
 serviceAccounts:
   server:
-    create: false
-    name: user-x-sa
+    create: true
 alertmanager:
   enabled: false
-pushgateway:
+prometheus-pushgateway:
   enabled: false
 networkPolicy:
   enabled: false
-nodeExporter:
+prometheus-node-exporter:
   enabled: false
 kubeStateMetrics:
   enabled: false

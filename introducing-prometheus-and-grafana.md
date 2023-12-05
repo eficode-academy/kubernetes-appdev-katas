@@ -46,8 +46,8 @@ this exercise might work with never versions, but for the sake of the exercise,
 try with these first.)
 
 ```shell
-helm install prometheus prometheus-community/prometheus --version 13.0.1 -f resources/values-prometheus.yaml
-helm install grafana grafana/grafana --version 6.1.16 -f resources/values-grafana.yaml
+helm upgrade -i prometheus prometheus-community/prometheus --version 25.8.0 -f resources/values-prometheus.yaml
+helm upgrade -i grafana grafana/grafana --version 6.1.16 -f resources/values-grafana.yaml
 ```
 
 <details>

@@ -57,12 +57,12 @@ return a metric we want to display in a dashboard.
 
 > :bulb: This query might show metrics from users in other namespaces and to limit results to your own namespace add a filter on the namespace label by using the following query where you replace `studentXX` with the name of your own namespace (make this replacement in all the following examples).
 
-- change the metric to `sentence_requests_total{kubernetes_namespace="studentXX"}` and observe the results.
+- change the metric to `sentence_requests_total{namespace="studentXX"}` and observe the results.
 
 Number of requests are typically easier to understand when given over time.
 We can change the query which Grafana sends to Prometheus to include a time range in the following way:
 
-- Change the metric to `rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])*60` and observe the results.
+- Change the metric to `rate(sentence_requests_total{namespace="studentXX"}[2m])*60` and observe the results.
 
 With this query, Prometheus will return metrics with a per-minute average
 measured over the last 2 minutes. 
@@ -101,7 +101,7 @@ For our second metric query in our dashboard we want request/minute for each mic
 
 This can be done by using the Prometheus `sum()` aggregation operator. 
 
-- Enter the following query into Grafana: `sum(rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m]))`
+- Enter the following query into Grafana: `sum(rate(sentence_requests_total{namespace="studentXX"}[2m]))`
 
 This results in a single curve, hence all the `sentence_requests_total` metrics
 from all microservices have been aggregated into a single metric.
@@ -115,7 +115,7 @@ aggregation.
 <details>
 <summary>:bulb: full query</summary>
 
-`sum(rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])) by (type)`
+`sum(rate(sentence_requests_total{namespace="studentXX"}[2m])) by (type)`
 
 </details>
 
@@ -144,7 +144,7 @@ Queries are entered in the field starting with `Metrics` as shown below:
 - Enter our first Prometheus metric query (replace `studentXX` with your user namespace):
 
 ```
-rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])*60
+rate(sentence_requests_total{namespace="studentXX"}[2m])*60
 ```
 
 You should see the metric as a graph and very long legend names below the graph.
@@ -169,7 +169,7 @@ The graph title currently says "Panel Title".
 - Repeat the process for adding a panel with our second metric, which was:
 
 ```
-sum(rate(sentence_requests_total{kubernetes_namespace="studentXX"}[2m])) by (type)
+sum(rate(sentence_requests_total{namespace="studentXX"}[2m])) by (type)
 ```
 
 - Using the following legend:
@@ -237,10 +237,10 @@ instead of hard-coded names. To add a variable to a dashboard, select the
 menu that shows up, select `Variables` and select `Add variable`.
 
 Enter `namespace` in the 'Name' input field, select `prometheus` in the `Data
-source` field and enter `label_values(kubernetes_namespace)` in the query input
+source` field and enter `label_values(namespace)` in the query input
 field. To filter out unnecessary choices, enter `student.*` in the `Regex` field.
 Through this we create a variable that dynamically updates and get the possible
-choices of the namespace variable from the values of the `kubernetes_namespace`
+choices of the namespace variable from the values of the `namespace`
 label, however, only the values that match the regular expression we
 defined. See the `Refresh` setting for when the choices of the variable is
 refreshed.
