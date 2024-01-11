@@ -191,7 +191,10 @@ kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services prometheus-server
 ```
 
 When you have the Prometheus GUI op, select the `Status` menu item and then the
-`Targets` option as shown below. Scroll down to the section with the heading `kubernetes-pods (3/3 up)`
+`Targets` option as shown below. 
+Apply the filter `studentX` where `X` is your student number, to show only things from your namespace.
+
+Scroll down to the section with the heading `kubernetes-pods (3/3 up)`
 
 This shows the list of targets that Prometheus has identified through the
 Kubernetes API. We see that three POD target show up with the labels matching
