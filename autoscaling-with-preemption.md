@@ -61,7 +61,7 @@ watch kubectl top pods
 > remaining compute resources (CPU resources in this case)
 >
 > ```shell
-> kubectl apply -f resources/nginx-deplyment.yaml
+> kubectl apply -f resources/nginx-deployment.yaml
 > ```
 >
 > Generally, both the nginx workload and the three microservices in the sentence
@@ -171,5 +171,5 @@ PODs.
 kubectl delete -f resources/load-generator.yaml
 kubectl delete -f sentences-app/deploy/hpa.yaml
 kubectl delete -f sentences-app/deploy/kubernetes/
-kubectl delete -f resources/nginx-deplyment.yaml
+kubectl delete -f resources/nginx-deployment.yaml
 ```

@@ -31,13 +31,13 @@ To look for available Helm chart you can use the `helm search` feature, e.g.:
 ```shell
 helm search repo prometheus
 NAME                                                    CHART VERSION   APP VERSION     DESCRIPTION
-prometheus-community/kube-prometheus-stack              20.0.1          0.52.0          kube-prometheus-stack ...
-prometheus-community/prometheus                         14.11.1         2.26.0          Prometheus is a monito...
+prometheus-community/kube-prometheus-stack              55.8.1          v0.70.0         kube-prometheus-stack ...
+prometheus-community/prometheus                         25.8.2          v2.48.1         Prometheus is a monito...
 ...
 ```
 
-This show that Prometheus chart version 14.11.1 is available and that the version
-of the Prometheus application in that chart is 2.26.1.  You most likely will see
+This show that Prometheus chart version 55.8.1 is available and that the version
+of the Prometheus application in that chart is 2.48.1. You most likely will see
 newer versions when trying this out...
 
 To install Prometheus and Grafana with settings suitable for the following
@@ -46,8 +46,8 @@ this exercise might work with never versions, but for the sake of the exercise,
 try with these first.)
 
 ```shell
-helm upgrade -i prometheus prometheus-community/prometheus --version 25.8.0 -f resources/values-prometheus.yaml
-helm upgrade -i grafana grafana/grafana --version 6.1.16 -f resources/values-grafana.yaml
+helm upgrade -i prometheus prometheus-community/prometheus --version 25.8.2 -f resources/values-prometheus.yaml
+helm upgrade -i grafana grafana/grafana --version 7.2.1 -f resources/values-grafana.yaml
 ```
 
 <details>
@@ -58,7 +58,8 @@ helm upgrade -i grafana grafana/grafana --version 6.1.16 -f resources/values-gra
 > one might need to deploy the metrics-server application:
 >
 > ```shell
-> helm install metrics-server stable/metrics-server --version 2.8.8 --set args[0]="--kubelet-insecure-tls"
+> helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server
+> helm install metrics-server metrics-server/metrics-server --version 3.11.0 --set args[0]="--kubelet-insecure-tls"
 > ```
 
 </details>
@@ -68,9 +69,9 @@ applications with `helm ls`:
 
 ```shell
 helm ls
-NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
-grafana         student1        1               2020-12-22 07:35:22.209543882 +0000 UTC deployed        grafana-6.1.16          7.3.5
-prometheus      student1        1               2020-12-22 07:35:11.826098609 +0000 UTC deployed        prometheus-13.0.1       2.22.1
+NAME            NAMESPACE        REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
+grafana         student-1        1               2024-01-15 15:28:12.704540469 +0100 CET deployed        grafana-7.2.1           10.2.3
+prometheus      student-1        1               2024-01-15 15:23:16.442377833 +0100 CET deployed        prometheus-25.8.0       v2.48.0
 ```
 
 Also, inspect the PODs that these applications are based upon:
@@ -192,7 +193,7 @@ kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services prometheus-server
 
 When you have the Prometheus GUI op, select the `Status` menu item and then the
 `Targets` option as shown below. 
-Apply the filter `studentX` where `X` is your student number, to show only things from your namespace.
+Apply the filter `student-XX` where `X` is your student number, to show only things from your namespace.
 
 Scroll down to the section with the heading `kubernetes-pods (3/3 up)`
 
@@ -217,7 +218,7 @@ Kubernetes API.
 
 Next, select the `Graph` menu item and type in `sentence_requests_total` in the
 query box as shown below and press return. This will show the number of requests
-handled by each of the microservices in the sentences application.  The fact
+handled by each of the microservices in the sentences application. The fact
 that we see metrics here verifies that the metrics of the sentences application
 are available from Prometheus.
 
@@ -237,7 +238,7 @@ basic debugging of the metrics feature.
 In the query box type the metrics name `sentence_requests_total` and press the
 *Run Query* button in the top-right corner as shown below:
 
-![prometheus-scrape-targets](images/grafana-explore.png)
+![grafana-explore](images/grafana-explore.png)
 
 This shows that Grafana can access metrics from Prometheus.
 
