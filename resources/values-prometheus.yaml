@@ -3,7 +3,7 @@ rbac:
 serviceAccounts:
   server:
     create: false
-    name: user-x-sa
+    name: prometheus-server
 alertmanager:
   enabled: false
 prometheus-pushgateway:
