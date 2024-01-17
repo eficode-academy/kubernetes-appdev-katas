@@ -193,7 +193,7 @@ kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services prometheus-server
 
 When you have the Prometheus GUI op, select the `Status` menu item and then the
 `Targets` option as shown below. 
-Apply the filter `student-XX` where `X` is your student number, to show only things from your namespace.
+Apply the filter `student-X` where `X` is your student number, to show only things from your namespace.
 
 Scroll down to the section with the heading `kubernetes-pods (3/3 up)`
 
@@ -245,7 +245,7 @@ This shows that Grafana can access metrics from Prometheus.
 ## Deploying a Dashboard
 
 Dashboards can be created manually but often an existing dashboard should be
-used.  Grafana supports dynamically loading of dashboards through Kubernetes
+used. Grafana supports dynamically loading of dashboards through Kubernetes
 ConfigMaps. If we have an existing dashboard in JSON format, we can simply
 create a ConfigMap containing the JSON file and annotate the ConfigMap to let
 Grafana know it should use the content as a dashboard.
@@ -258,11 +258,11 @@ kubectl create configmap dashboard --from-file sentences-app/dashboard-w-ns-sele
 kubectl label configmap dashboard grafana_dashboard='1'
 ```
 
-After this you will be able to use the dashboard in Grafana.  Go to the
-*Dashboards* option above the *Explore* option and select `Home` and/or `Manage`
-to see newly loaded dashboards. Note that the dashboard have a namespace
-selector in the top and you will need to select your own namespace to monitor
-your sentences application.
+After this you will be able to use the dashboard in Grafana. Go to the
+*Dashboards* option and select `Home` and/or `Manage` to see newly loaded 
+dashboards (You might need to reload the Grafana tab first). Note that the dashboard 
+have a namespace selector in the top and you will need to select your own namespace 
+to monitor your sentences application.
 
 To generate some load on the sentences application, use the following command
 and watch the effect in the dashboard:

@@ -56,14 +56,14 @@ return a metric we want to display in a dashboard.
 - Go to the Grafana *explore* feature 
 - in the query box type the metrics name `sentence_requests_total`.
 
-> :bulb: This query might show metrics from users in other namespaces and to limit results to your own namespace add a filter on the namespace label by using the following query where you replace `student-XX` with the name of your own namespace (make this replacement in all the following examples).
+> :bulb: This query might show metrics from users in other namespaces and to limit results to your own namespace add a filter on the namespace label by using the following query where you replace `student-X` with the name of your own namespace (make this replacement in all the following examples).
 
-- change the metric to `sentence_requests_total{namespace="student-XX"}` and observe the results.
+- change the metric to `sentence_requests_total{namespace="student-X"}` and observe the results.
 
 Number of requests are typically easier to understand when given over time.
 We can change the query which Grafana sends to Prometheus to include a time range in the following way:
 
-- Change the metric to `rate(sentence_requests_total{namespace="student-XX"}[2m])*60` and observe the results.
+- Change the metric to `rate(sentence_requests_total{namespace="student-X"}[2m])*60` and observe the results.
 
 With this query, Prometheus will return metrics with a per-minute average
 measured over the last 2 minutes. 
@@ -102,7 +102,7 @@ For our second metric query in our dashboard we want request/minute for each mic
 
 This can be done by using the Prometheus `sum()` aggregation operator. 
 
-- Enter the following query into Grafana: `sum(rate(sentence_requests_total{namespace="student-XX"}[2m]))`
+- Enter the following query into Grafana: `sum(rate(sentence_requests_total{namespace="student-X"}[2m]))`
 
 This results in a single curve, hence all the `sentence_requests_total` metrics
 from all microservices have been aggregated into a single metric.
@@ -116,7 +116,7 @@ aggregation.
 <details>
 <summary>:bulb: full query</summary>
 
-`sum(rate(sentence_requests_total{namespace="student-XX"}[2m])) by (type)`
+`sum(rate(sentence_requests_total{namespace="student-X"}[2m])) by (type)`
 
 </details>
 
@@ -142,10 +142,10 @@ Queries are entered in the block `Metric` as shown below:
 
 ![enter-query](images/grafana-dashboard-query.png)
 
-- Enter our first Prometheus metric query (replace `student-XX` with your user namespace):
+- Enter our first Prometheus metric query (replace `student-X` with your user namespace):
 
 ```
-rate(sentence_requests_total{namespace="student-XX"}[2m])*60
+rate(sentence_requests_total{namespace="student-X"}[2m])*60
 ```
 
 You should see the metric as a graph and very long legend names below the graph.
@@ -170,7 +170,7 @@ The graph title currently says "Panel Title".
 - Repeat the process for adding a panel with our second metric, which was:
 
 ```
-sum(rate(sentence_requests_total{namespace="student-XX"}[2m])) by (type)
+sum(rate(sentence_requests_total{namespace="student-X"}[2m])) by (type)
 ```
 
 - Using the following legend:
@@ -251,7 +251,7 @@ Select `Add` to save the variable to your dashboard.
 Press the `Back arrow` in the top-left corner to go back to the dashboard.
 
 Click the panel title of one of the dashboard panels and select `Edit`. In the
-metrics query field replace the hard-coded `student-XX` by `$namespace` and press the
+metrics query field replace the hard-coded `student-X` by `$namespace` and press the
 `Back arrow` in the top-left corner. Do this for all panels.
 
 Notice that when you try to save it, Grafana will tell you that 
