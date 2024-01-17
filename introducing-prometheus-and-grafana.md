@@ -71,7 +71,7 @@ applications with `helm ls`:
 helm ls
 NAME            NAMESPACE        REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
 grafana         student-1        1               2024-01-15 15:28:12.704540469 +0100 CET deployed        grafana-7.2.1           10.2.3
-prometheus      student-1        1               2024-01-15 15:23:16.442377833 +0100 CET deployed        prometheus-25.8.0       v2.48.0
+prometheus      student-1        1               2024-01-15 15:23:16.442377833 +0100 CET deployed        prometheus-25.8.2       v2.48.1
 ```
 
 Also, inspect the PODs that these applications are based upon:
